@@ -685,7 +685,7 @@ button { font: inherit; }
   margin: 0;
   padding: 0;
   transform: translate3d(0, 0, 0);
-  transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+  transition: transform .4s cubic-bezier(.4, 0, .2, 1);
   will-change: transform;
 }
 .trainer__select.is-no-transition { transition: none; }

@@ -288,7 +288,7 @@
     });
 
     // Auto-advance
-    const INTERVAL_MS = 2400;
+    const INTERVAL_MS = 1500;
     let timer = null;
     const start = () => { if (timer) return; timer = setInterval(next, INTERVAL_MS); };
     const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
