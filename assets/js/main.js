@@ -227,15 +227,74 @@
     });
   }
 
-  /* ---------- Trainer slider: arrow nav + auto-advance (no swipe) ---------
-     Desktop only. On mobile (≤768px) we use pure CSS scroll-snap so that
-     transform-based JS animation does not fight native touch scrolling
-     (which previously made the cards drift off-center and broke tap-through). */
+  /* ---------- Trainer slider ----------
+     Two execution paths to avoid past mobile breakage:
+       Desktop (≥769px): JS-driven cloned-card slider with transform.
+       Mobile  (≤768px): native scroll-snap + JS-driven scrollTo for
+                         arrow nav and auto-advance, so it coexists with
+                         touch swipes instead of fighting them. */
   const trainerViewport = document.querySelector('.trainer__viewport');
   const trainerList     = document.querySelector('.trainer__select');
   const trainerPrev     = document.getElementById('trainerPrev');
   const trainerNext     = document.getElementById('trainerNext');
   const isDesktopSlider = window.matchMedia('(min-width: 769px)').matches;
+
+  /* ----- MOBILE PATH ----- */
+  if (trainerViewport && trainerList && !isDesktopSlider) {
+    const cards = [...trainerList.children];
+    const stepX = () => {
+      if (cards.length < 2) return cards[0]?.getBoundingClientRect().width || 0;
+      return cards[1].getBoundingClientRect().left - cards[0].getBoundingClientRect().left;
+    };
+    const maxLeft = () => trainerList.scrollWidth - trainerList.clientWidth - 1;
+
+    const goNext = () => {
+      const cur = trainerList.scrollLeft;
+      const next = cur + stepX();
+      if (next >= maxLeft()) {
+        trainerList.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        trainerList.scrollTo({ left: next, behavior: 'smooth' });
+      }
+    };
+    const goPrev = () => {
+      const cur = trainerList.scrollLeft;
+      if (cur <= 1) {
+        trainerList.scrollTo({ left: maxLeft(), behavior: 'smooth' });
+      } else {
+        trainerList.scrollTo({ left: cur - stepX(), behavior: 'smooth' });
+      }
+    };
+
+    const INTERVAL_MS = 1800;
+    let timer = null;
+    const start = () => { if (timer) return; timer = setInterval(goNext, INTERVAL_MS); };
+    const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+
+    if (trainerPrev) trainerPrev.addEventListener('click', () => { stop(); goPrev(); setTimeout(start, INTERVAL_MS * 2); });
+    if (trainerNext) trainerNext.addEventListener('click', () => { stop(); goNext(); setTimeout(start, INTERVAL_MS * 2); });
+
+    // Pause auto while user is swiping; resume after they're done
+    let touchPauseT = null;
+    const userPause = () => {
+      stop();
+      clearTimeout(touchPauseT);
+      touchPauseT = setTimeout(start, INTERVAL_MS * 2);
+    };
+    trainerList.addEventListener('touchstart', userPause, { passive: true });
+    trainerList.addEventListener('touchend',   userPause, { passive: true });
+    trainerList.addEventListener('scroll',     userPause, { passive: true });
+
+    // Pause when off-screen
+    const tio = new IntersectionObserver((entries) => {
+      entries.forEach(en => en.isIntersecting ? start() : stop());
+    }, { threshold: 0.2 });
+    tio.observe(trainerViewport);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+  }
+
+  /* ----- DESKTOP PATH ----- */
   if (trainerViewport && trainerList && isDesktopSlider) {
     const originals = [...trainerList.children];
     const N = originals.length;

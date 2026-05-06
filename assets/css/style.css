@@ -717,8 +717,13 @@ button { font: inherit; }
 .trainer__arrow--prev:hover { transform: translateY(-50%) translateX(-2px); }
 .trainer__arrow--next:hover { transform: translateY(-50%) translateX(2px); }
 @media (max-width: 768px) {
-  /* Arrows hidden on mobile — native scroll-snap handles navigation */
-  .trainer__arrow { display: none !important; }
+  .trainer__arrow {
+    width: 36px; height: 36px;
+    background: rgba(5,6,8,0.78);
+  }
+  .trainer__arrow svg { width: 16px; height: 16px; }
+  .trainer__arrow--prev { left: 8px; }
+  .trainer__arrow--next { right: 8px; }
 }
 .trainer-card {
   position: relative;
