@@ -1,0 +1,53 @@
+# Cloudflare Workers Assets — exclude these from upload
+
+# Git internals (cause "Asset too large" error)
+.git
+.git/**
+.gitignore
+.gitattributes
+
+# Build / config
+wrangler.jsonc
+wrangler.toml
+package.json
+package-lock.json
+yarn.lock
+node_modules
+node_modules/**
+
+# Documentation
+README.md
+*.md
+
+# OS junk
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db
+
+# Editor
+.vscode
+.vscode/**
+.idea
+.idea/**
+*.swp
+*.swo
+
+# Local env
+.env
+.env.local
+.env.*
+
+# Build / QA artifacts
+_qa/**
+assets/img/gym/_backup/**
+assets/img/gym/_pre_compress/**
+assets/movies/_backup_original/**
+
+# Wikipedia drafts (not for public site)
+wikipedia_drafts/**
+
+# Source photos archive (large originals)
+source-photos/**
