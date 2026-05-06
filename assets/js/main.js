@@ -227,12 +227,16 @@
     });
   }
 
-  /* ---------- Trainer slider: arrow nav + auto-advance (no swipe) --------- */
+  /* ---------- Trainer slider: arrow nav + auto-advance (no swipe) ---------
+     Desktop only. On mobile (≤768px) we use pure CSS scroll-snap so that
+     transform-based JS animation does not fight native touch scrolling
+     (which previously made the cards drift off-center and broke tap-through). */
   const trainerViewport = document.querySelector('.trainer__viewport');
   const trainerList     = document.querySelector('.trainer__select');
   const trainerPrev     = document.getElementById('trainerPrev');
   const trainerNext     = document.getElementById('trainerNext');
-  if (trainerViewport && trainerList) {
+  const isDesktopSlider = window.matchMedia('(min-width: 769px)').matches;
+  if (trainerViewport && trainerList && isDesktopSlider) {
     const originals = [...trainerList.children];
     const N = originals.length;
 

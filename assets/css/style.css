@@ -717,10 +717,8 @@ button { font: inherit; }
 .trainer__arrow--prev:hover { transform: translateY(-50%) translateX(-2px); }
 .trainer__arrow--next:hover { transform: translateY(-50%) translateX(2px); }
 @media (max-width: 768px) {
-  .trainer__arrow { width: 40px; height: 40px; }
-  .trainer__arrow svg { width: 18px; height: 18px; }
-  .trainer__arrow--prev { left: 10px; }
-  .trainer__arrow--next { right: 10px; }
+  /* Arrows hidden on mobile — native scroll-snap handles navigation */
+  .trainer__arrow { display: none !important; }
 }
 .trainer-card {
   position: relative;
@@ -814,26 +812,39 @@ button { font: inherit; }
 
 /* ---- SP: full-width horizontal slider (fighting-game character select) ---- */
 @media (max-width: 768px) {
+  .trainer__viewport {
+    /* edge fade off on mobile so first/last cards center cleanly */
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
   .trainer__select {
     display: flex;
+    width: auto !important;          /* override desktop max-content */
+    transform: none !important;      /* override JS-set transform if any */
     grid-template-columns: none;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scroll-snap-stop: always;
     scroll-padding-inline: 0;
-    padding: 0 24px 0;
-    gap: 16px;
+    /* centering padding: each card is 70vw wide, so leading/trailing
+       padding of (50vw - 35vw)=15vw centers any card in the viewport */
+    padding: 0 15vw 0;
+    gap: 14px;
     border-top: 0;
     border-bottom: 0;
     scrollbar-width: none;
+    transition: none !important;
   }
   .trainer__select::-webkit-scrollbar { display: none; }
-  /* ~1.8 cards visible at once on SP */
   .trainer-card {
-    flex: 0 0 55vw;
-    max-width: 280px;
-    border-right: 1px solid var(--line);
+    flex: 0 0 70vw;
+    max-width: 320px;
+    min-width: 240px;
+    border-right: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
   .trainer-card__link {
     height: 56vh;
@@ -2981,15 +2992,42 @@ select.cm-form__input {
     cursor: pointer;
   }
 
-  /* NUCLEAR: neutralise ALL :hover-driven motion / filter / shadow
-     transforms so first tap goes straight through to click */
+  /* Reset hover-driven filter/shadow universally.
+     transform is NOT reset universally because some elements (e.g. the
+     trainer slider .trainer__select) use transform for layout/animation —
+     resetting it would break the slider when iOS sticky-hover briefly
+     applies :hover to ancestors during a tap. */
   *:hover,
   *:hover::before,
   *:hover::after {
-    transform: none !important;
     filter: none !important;
     box-shadow: none !important;
     text-shadow: none !important;
+  }
+
+  /* Per-selector transform reset — only on elements where :hover-only
+     transforms exist for visual flair (NOT on layout-critical containers). */
+  .btn:hover, .btn--primary:hover, .btn--ghost:hover,
+  .btn-neon:hover, .cm-btn:hover, .cm-form__btn:hover, .cm-copybox__btn:hover,
+  .trainer-card__link:hover, .trainer-card__link:hover .trainer-card__photo img,
+  .trainer-card__link:hover::before, .trainer-card__link:hover::after,
+  .trainers-page__link:hover, .trainers-page__link:hover .trainers-page__photo img,
+  .t-list__item:hover, .t-list__item:hover img,
+  .facility-card:hover, .facility-card:hover .facility-card__media img,
+  .master-credit__link:hover,
+  .movie__play:hover, .movie__play:hover svg, .movie__play:hover circle:nth-of-type(2),
+  .movie__thumb:hover, .movie__thumb:hover img,
+  .movie-grid__item:hover,
+  .gym__cell:hover, .gym__cell:hover img, .gym__cell:hover .gym__cell-num,
+  .lesson__list li:hover, .lesson__list li:hover::after,
+  .concept__pillar:hover, .concept__pillar:hover::before,
+  .plan:hover, .pricing-mini__rows li:hover,
+  .gnav__list a:hover, .gnav__list a:hover::after,
+  .trainer__arrow:hover,
+  .trainer__arrow--prev:hover, .trainer__arrow--next:hover,
+  .floating-cta__btn:hover, .chatbot__toggle:hover, .chatbot__reset:hover,
+  .faq-item summary:hover {
+    transform: none !important;
     transition-duration: 0s !important;
     transition-delay: 0s !important;
   }
