@@ -734,9 +734,10 @@ button { font: inherit; }
 .trainer-card__link {
   display: block; position: relative;
   height: clamp(360px, 38vw, 520px);
+  min-height: 360px;
   overflow: hidden;
   color: #fff;
-  filter: grayscale(0.85) brightness(0.55);
+  filter: grayscale(0.25) brightness(0.92);
   transition: filter .55s cubic-bezier(.2,.7,.2,1);
 }
 .trainer-card.is-active .trainer-card__link,
