@@ -3135,3 +3135,31 @@ select.cm-form__input {
   .movie-lightbox { padding: 16px; }
   .movie-lightbox__close { top: -52px; right: 0; }
 }
+
+/* ============================================================
+   GYM page — facility walkthrough video (vertical 9:16)
+   ============================================================ */
+.facility-video {
+  max-width: 380px;
+  margin: 0 auto 64px;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+.facility-video video {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border: 1px solid var(--line);
+  display: block;
+}
+.facility-video__caption {
+  margin: 14px 0 0;
+  font-family: var(--ff-display);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--text-mute);
+  text-transform: uppercase;
+}
+@media (max-width: 540px) {
+  .facility-video { max-width: 100%; }
+}
