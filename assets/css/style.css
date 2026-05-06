@@ -689,7 +689,7 @@ button { font: inherit; }
 }
 /* Continuous marquee: translate from 0 → -50% (= width of originals) and loop */
 .trainer__select.is-marquee {
-  animation: trainerMarquee 60s linear infinite;
+  animation: trainerMarquee 54s linear infinite;
 }
 .trainer__select.is-marquee.is-paused,
 .trainer__select.is-marquee.is-offscreen {
@@ -836,7 +836,7 @@ button { font: inherit; }
   }
   .trainer__select::-webkit-scrollbar { display: none; }
   /* Slightly faster on mobile so motion is visible without endless waiting */
-  .trainer__select.is-marquee { animation-duration: 45s; }
+  .trainer__select.is-marquee { animation-duration: 40s; }
   .trainer-card {
     flex: 0 0 70vw;
     max-width: 320px;
