@@ -1,0 +1,29 @@
+# macOS junk
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Icon
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup folders inside img/gym
+assets/img/gym/_backup/
+assets/img/gym/_pre_compress/
+
+# Logs / temp
+*.log
+npm-debug.log*
+node_modules/
+*.tmp
+
+# QA artifacts
+_qa/
+
+# Local env files
+.env
+.env.local

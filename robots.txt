@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /assets/img/gym/_backup/
+Disallow: /assets/img/gym/_pre_compress/
+
+Sitemap: https://dojo-japan.jp/sitemap.xml
