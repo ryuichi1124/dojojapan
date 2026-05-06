@@ -685,10 +685,20 @@ button { font: inherit; }
   margin: 0;
   padding: 0;
   transform: translate3d(0, 0, 0);
-  transition: transform .32s cubic-bezier(.4, 0, .2, 1);
   will-change: transform;
 }
-.trainer__select.is-no-transition { transition: none; }
+/* Continuous marquee: translate from 0 → -50% (= width of originals) and loop */
+.trainer__select.is-marquee {
+  animation: trainerMarquee 60s linear infinite;
+}
+.trainer__select.is-marquee.is-paused,
+.trainer__select.is-marquee.is-offscreen {
+  animation-play-state: paused;
+}
+@keyframes trainerMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
 
 /* Arrow buttons */
 .trainer__arrow {
@@ -717,13 +727,7 @@ button { font: inherit; }
 .trainer__arrow--prev:hover { transform: translateY(-50%) translateX(-2px); }
 .trainer__arrow--next:hover { transform: translateY(-50%) translateX(2px); }
 @media (max-width: 768px) {
-  .trainer__arrow {
-    width: 36px; height: 36px;
-    background: rgba(5,6,8,0.78);
-  }
-  .trainer__arrow svg { width: 16px; height: 16px; }
-  .trainer__arrow--prev { left: 8px; }
-  .trainer__arrow--next { right: 8px; }
+  .trainer__arrow { display: none !important; }
 }
 .trainer-card {
   position: relative;
@@ -818,38 +822,26 @@ button { font: inherit; }
 /* ---- SP: full-width horizontal slider (fighting-game character select) ---- */
 @media (max-width: 768px) {
   .trainer__viewport {
-    /* edge fade off on mobile so first/last cards center cleanly */
-    -webkit-mask-image: none;
-            mask-image: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
   }
+  /* Marquee on mobile too — no native scroll, no snap */
   .trainer__select {
-    display: flex;
-    width: auto !important;          /* override desktop max-content */
-    transform: none !important;      /* override JS-set transform if any */
-    grid-template-columns: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-stop: always;
-    scroll-padding-inline: 0;
-    /* centering padding: each card is 70vw wide, so leading/trailing
-       padding of (50vw - 35vw)=15vw centers any card in the viewport */
-    padding: 0 15vw 0;
-    gap: 14px;
+    overflow: hidden;
+    gap: 12px;
     border-top: 0;
     border-bottom: 0;
+    padding: 0;
     scrollbar-width: none;
-    transition: none !important;
   }
   .trainer__select::-webkit-scrollbar { display: none; }
+  /* Slightly faster on mobile so motion is visible without endless waiting */
+  .trainer__select.is-marquee { animation-duration: 45s; }
   .trainer-card {
     flex: 0 0 70vw;
     max-width: 320px;
     min-width: 240px;
     border-right: 0;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
   }
   .trainer-card__link {
     height: 56vh;
