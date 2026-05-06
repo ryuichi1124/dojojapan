@@ -6,7 +6,7 @@
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_hero.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Hero</video:title>
-      <video:description>DŌJŌ JAPAN（ドージョージャパン）公式ヒーロー映像。福岡市中央区春吉の総合武道ジム・道場。各種武道の現役王者が直接指導する道場のスピリットを描く。</video:description>
+      <video:description>DŌJŌ JAPAN（ドージョージャパン）公式ヒーロー映像。福岡市中央区春吉の格闘技&トレーニングジム。各種武道の現役王者が直接指導する道場のスピリットを描く。</video:description>
       <video:content_loc>https://dojo-japan.jp/assets/movies/dojo_hero.mp4</video:content_loc>
       <video:duration>63</video:duration>
       <video:publication_date>2026-04-26T00:00:00+09:00</video:publication_date>
@@ -81,7 +81,7 @@
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_master.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Official PV</video:title>
-      <video:description>DŌJŌ JAPAN 公式プロモーション映像。館長 三輪 愛生（Manabu Miwa）が率いる総合武道ジム。</video:description>
+      <video:description>DŌJŌ JAPAN 公式プロモーション映像。館長 三輪 愛生（Manabu Miwa）が率いる格闘技&トレーニングジム。</video:description>
       <video:content_loc>https://dojo-japan.jp/assets/movies/dojo_master.mp4</video:content_loc>
       <video:duration>63</video:duration>
       <video:publication_date>2026-04-26T00:00:00+09:00</video:publication_date>
@@ -96,7 +96,7 @@
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_30s.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — 30sec Cut</video:title>
-      <video:description>DŌJŌ JAPAN 30 秒スポット。福岡・春吉の総合武道ジム・道場。</video:description>
+      <video:description>DŌJŌ JAPAN 30 秒スポット。福岡・春吉の格闘技&トレーニングジム。</video:description>
       <video:content_loc>https://dojo-japan.jp/assets/movies/dojo_30s.mp4</video:content_loc>
       <video:duration>30</video:duration>
       <video:publication_date>2026-04-26T00:00:00+09:00</video:publication_date>
