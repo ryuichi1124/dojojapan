@@ -20,9 +20,9 @@
   --gold:      #c8a062;       /* 渋金 / secondary accent */
 
   /* type */
-  --ff-display: "Oswald", "Bebas Neue", "Helvetica Neue", sans-serif;
+  --ff-display: "Oswald", "Noto Sans JP", "Bebas Neue", "Helvetica Neue", sans-serif;
   --ff-body:    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  --ff-name:    "Cinzel", "Trajan Pro", "Times New Roman", serif;
+  --ff-name:    "Cinzel", "Noto Sans JP", "Trajan Pro", "Times New Roman", serif;
 
   /* shape — radii are deliberately tiny */
   --r-1: 1px;
