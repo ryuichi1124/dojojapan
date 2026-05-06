@@ -2712,7 +2712,7 @@ select.cm-form__input {
   .chatbot__panel { width: calc(100vw - 32px); height: 480px; bottom: 72px; }
   .chatbot__toggle { width: 56px; height: 56px; }
   .cm-copybox__text { font-size: 10.5px; max-height: 180px; }
-  .cm-form__input { font-size: 14px; }
+  .cm-form__input { font-size: 16px; }
 }
 
 /* ============================================================
@@ -3529,4 +3529,29 @@ select.cm-form__input {
   letter-spacing: 0.06em;
   color: #fff;
   font-feature-settings: "palt";
+}
+
+/* ============================================================
+   iOS Safari: prevent automatic page zoom on input focus
+   The trigger is font-size < 16px on form fields. Forcing 16px
+   on every input element on touch devices keeps the layout stable.
+   ============================================================ */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="url"],
+  input[type="password"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="week"],
+  input:not([type]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }

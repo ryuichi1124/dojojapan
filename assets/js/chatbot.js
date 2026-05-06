@@ -24,8 +24,7 @@
        - bookQ + showBookingOptions
 
      showBookingOptions:
-       - ja:        Phone (tel:) / Instagram DM
-       - en/ko/zh:  Instagram DM only  (no phone — JP-only staff)
+       - All locales:  Instagram DM only (smoothest — text + media + history)
 
      stepInstagramCopy:
        - Bilingual copy box (own locale + Japanese for staff)
@@ -104,9 +103,9 @@
       lineWear:    'スポーツウェアレンタル',
       total: '合計',
       payNotice: 'お支払いは当日、施設にて現金でお願いいたします。',
-      bookQ: 'ご予約方法をお選びください。',
+      bookQ: 'ご連絡は Instagram DM がスムーズです。下記よりお進みくださいませ。',
       memberInfo: 'ありがとうございます。\nDŌJŌ JAPAN では、ビジター・準会員・正会員の 3 プランをご用意しております。\nスタッフより詳細をご案内し、ご来館の日程もあわせて調整いたします。',
-      memberBookQ: '下記よりご連絡くださいませ。日程はスタッフが個別にご相談いたします。',
+      memberBookQ: 'ご連絡は Instagram DM がスムーズです。下記よりお進みください。スタッフが日程を個別にご相談いたします。',
       phone: 'お電話',
       instagram: 'Instagram DM',
       copyInstruction: '以下のテキストをコピーして、Instagram DM に貼り付けて送信してください。スタッフよりご返信いたします。',
@@ -177,7 +176,7 @@
       lineWear:    'Sportswear rental',
       total: 'Total',
       payNotice: 'Payment in cash at the facility on the day of your visit.',
-      bookQ: 'How would you like to contact us?',
+      bookQ: 'Instagram DM is the smoothest way to reach us. Please proceed below.',
       memberInfo: 'Thank you.\nDŌJŌ JAPAN offers three plans — Visitor, Member, and Prime. Our staff will walk you through the details and arrange a visit date with you.',
       memberBookQ: 'Please reach out via one of the channels below. We\'ll set the date together.',
       phone: 'Phone',
@@ -250,7 +249,7 @@
       lineWear:    '스포츠웨어 대여',
       total: '합계',
       payNotice: '결제는 당일 시설에서 현금으로 부탁드립니다.',
-      bookQ: '예약 방법을 선택해 주세요.',
+      bookQ: 'Instagram DM이 가장 원활합니다. 아래에서 진행해 주세요.',
       memberInfo: '감사합니다.\nDŌJŌ JAPAN 에서는 비지터·준회원·정회원 3 가지 플랜을 제공하고 있습니다. 자세한 내용과 방문 일정은 담당자가 안내해 드립니다.',
       memberBookQ: '아래에서 편하신 방법으로 연락 주세요. 일정은 담당자가 안내해 드립니다.',
       phone: '전화',
@@ -323,7 +322,7 @@
       lineWear:    '运动服租借',
       total: '合计',
       payNotice: '请于当日在场馆现金支付。',
-      bookQ: '请选择预约方式。',
+      bookQ: 'Instagram DM 是最方便的联系方式。请从下方进行。',
       memberInfo: '感谢您的咨询。\nDŌJŌ JAPAN 提供访客、准会员、正式会员三种方案。详细内容和到访日期，由工作人员为您逐一安排。',
       memberBookQ: '请通过以下任一方式与我们联系。具体日期由工作人员协助安排。',
       phone: '电话',
@@ -850,17 +849,12 @@
     await sleep(220);
   };
 
-  // Booking options vary by language: foreign users get IG only,
-  // Japanese users get Phone + IG. Both IG paths lead to a copy-text step.
+  // Instagram DM is the only contact channel for everyone — JP and overseas alike.
+  // Phone has been removed because IG flow is smoother (text + media + history).
   const showBookingOptions = () => {
-    const isJP = (lang === 'ja');
-    const opts = isJP ? [
-      { label: $t('phone'),     subLabel: CONTACT.telLabel, primary: true, href: CONTACT.tel,    then: stepThanks },
-      { label: $t('instagram'),                                                                  then: stepInstagramCopy },
-    ] : [
-      { label: $t('instagram'), primary: true,                                                   then: stepInstagramCopy },
-    ];
-    setActions(opts);
+    setActions([
+      { label: $t('instagram'), primary: true, then: stepInstagramCopy },
+    ]);
   };
 
   const stepInstagramCopy = async () => {
