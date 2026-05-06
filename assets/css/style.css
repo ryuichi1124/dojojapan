@@ -3222,3 +3222,258 @@ select.cm-form__input {
   letter-spacing: 0.24em;
   color: var(--text-mute);
 }
+
+/* ============================================================
+   MASTER PAGE — 館長プロフィール (Wikipedia-style refined)
+   ============================================================ */
+.master-credit__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.master-credit__more {
+  margin: 22px 0 0;
+  font-family: var(--ff-display);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  text-transform: uppercase;
+  transition: color .25s ease, letter-spacing .25s ease;
+}
+@media (hover: hover) {
+  .master-credit__link:hover .master-credit__more {
+    color: var(--red);
+    letter-spacing: 0.4em;
+  }
+  .master-credit__link:hover .master-credit__photo img {
+    filter: contrast(1.06) brightness(1);
+  }
+}
+
+/* Bio HERO */
+.bio-hero {
+  position: relative;
+  min-height: 70vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  background: #050608;
+  overflow: hidden;
+}
+.bio-hero__photo {
+  position: relative;
+  height: 100%;
+  min-height: 70vh;
+  background: #050608;
+}
+.bio-hero__photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.bio-hero__photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, transparent 60%, #050608 100%),
+    linear-gradient(180deg, transparent 65%, rgba(5,6,8,0.5) 100%);
+}
+.bio-hero__inner {
+  padding: clamp(48px, 6vw, 96px) clamp(32px, 5vw, 80px);
+  position: relative;
+  z-index: 2;
+}
+.bio-hero__kicker {
+  margin: 0 0 18px;
+  font-family: var(--ff-display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.bio-hero__name {
+  margin: 0 0 24px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.bio-hero__name-en {
+  font-family: var(--ff-display);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+}
+.bio-hero__name-ja {
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #fff;
+}
+.bio-hero__name-ja small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--text-mute);
+  font-weight: 400;
+}
+.bio-hero__lead {
+  margin: 0;
+  max-width: 480px;
+  font-size: 15px;
+  line-height: 1.95;
+  color: rgba(255,255,255,0.85);
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
+}
+
+@media (max-width: 880px) {
+  .bio-hero { grid-template-columns: 1fr; }
+  .bio-hero__photo { min-height: 50vh; aspect-ratio: 5/4; }
+  .bio-hero__photo::after {
+    background: linear-gradient(180deg, transparent 50%, #050608 100%);
+  }
+  .bio-hero__inner { padding: 40px var(--gutter) 56px; }
+}
+
+/* Bio Infobox */
+.bio-infobox {
+  background: var(--bg-2);
+  padding: clamp(48px, 6vw, 80px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.bio-infobox__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.bio-infobox__list {
+  margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 0;
+}
+.bio-infobox__list > div {
+  display: contents;
+}
+.bio-infobox__list dt {
+  padding: 18px 16px 18px 0;
+  font-family: var(--ff-display);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.bio-infobox__list dd {
+  margin: 0;
+  padding: 18px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.8;
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 540px) {
+  .bio-infobox__list { grid-template-columns: 110px 1fr; }
+  .bio-infobox__list dt { padding-right: 12px; font-size: 10px; }
+  .bio-infobox__list dd { font-size: 13px; }
+}
+
+/* Bio body */
+.bio-body {
+  background: var(--bg);
+  padding: clamp(64px, 8vw, 112px) 0;
+}
+.bio-body__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.bio-body__article {
+  color: rgba(255,255,255,0.88);
+  line-height: 2.05;
+  font-size: 15px;
+}
+.bio-body__article p {
+  margin: 0 0 22px;
+}
+.bio-body__article a {
+  color: var(--gold);
+  border-bottom: 1px solid rgba(200,160,98,0.4);
+  transition: color .2s ease, border-color .2s ease;
+}
+.bio-body__article a:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+.bio-body__h2 {
+  margin: 72px 0 32px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--ff-display);
+  font-size: clamp(20px, 2.6vw, 26px);
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: #fff;
+}
+.bio-body__h2:first-child { margin-top: 0; }
+.bio-body__h3 {
+  margin: 40px 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #fff;
+  position: relative;
+  padding-left: 18px;
+}
+.bio-body__h3::before {
+  content: "";
+  position: absolute; left: 0; top: 0.5em;
+  width: 8px; height: 1px; background: var(--gold);
+}
+.bio-body__related {
+  list-style: none;
+  margin: 0; padding: 0;
+}
+.bio-body__related li {
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 14px;
+}
+.bio-body__related li:last-child { border-bottom: none; }
+.bio-body__related a {
+  color: var(--gold);
+  border-bottom: none;
+}
+
+/* Motto card */
+.bio-motto {
+  margin: 56px 0 8px;
+  padding: clamp(32px, 4vw, 56px) clamp(24px, 4vw, 56px);
+  background:
+    linear-gradient(135deg, rgba(201,21,42,0.06) 0%, rgba(200,160,98,0.04) 100%),
+    #0a0a0d;
+  border-left: 3px solid var(--red);
+  position: relative;
+}
+.bio-motto__label {
+  margin: 0 0 18px;
+  font-family: var(--ff-display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.bio-motto__quote {
+  margin: 0;
+}
+.bio-motto__quote p {
+  margin: 0;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.7;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+  font-feature-settings: "palt";
+}

@@ -51,8 +51,8 @@
 
   // ------- Contact endpoints --------------------------------------------
   const CONTACT = {
-    tel:       'tel:0927533621',
-    telLabel:  '092-753-3621',
+    tel:       'tel:0927533029',
+    telLabel:  '092-753-3029',
     instagram: 'https://www.instagram.com/dojo_japan/',
   };
 

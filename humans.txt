@@ -2,7 +2,7 @@
    Operator: 株式会社 gambler
    Site: https://dojo-japan.jp/
    Address: 〒810-0003 福岡県福岡市中央区春吉 2-12-5 1F
-   Phone: 092-753-3621
+   Phone: 092-753-3029
    Instagram: @dojo_japan
 
 /* 館長 */
