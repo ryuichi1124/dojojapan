@@ -239,32 +239,43 @@
   const trainerNext     = document.getElementById('trainerNext');
   const isDesktopSlider = window.matchMedia('(min-width: 769px)').matches;
 
-  /* ----- MOBILE PATH ----- */
+  /* ----- MOBILE PATH -----
+     Use card-index + scrollIntoView({inline:'center'}) so we never miscount
+     the last card. (Previous scrollLeft/maxLeft math made card 4 collide
+     with the "I'm past the end, loop back" condition.) */
   if (trainerViewport && trainerList && !isDesktopSlider) {
     const cards = [...trainerList.children];
-    const stepX = () => {
-      if (cards.length < 2) return cards[0]?.getBoundingClientRect().width || 0;
-      return cards[1].getBoundingClientRect().left - cards[0].getBoundingClientRect().left;
-    };
-    const maxLeft = () => trainerList.scrollWidth - trainerList.clientWidth - 1;
+    const N = cards.length;
+    let idx = 0;
 
-    const goNext = () => {
-      const cur = trainerList.scrollLeft;
-      const next = cur + stepX();
-      if (next >= maxLeft()) {
-        trainerList.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        trainerList.scrollTo({ left: next, behavior: 'smooth' });
-      }
+    const scrollToIdx = (i) => {
+      const card = cards[i];
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     };
-    const goPrev = () => {
-      const cur = trainerList.scrollLeft;
-      if (cur <= 1) {
-        trainerList.scrollTo({ left: maxLeft(), behavior: 'smooth' });
-      } else {
-        trainerList.scrollTo({ left: cur - stepX(), behavior: 'smooth' });
-      }
+
+    const goNext = () => { idx = (idx + 1) % N; scrollToIdx(idx); };
+    const goPrev = () => { idx = (idx - 1 + N) % N; scrollToIdx(idx); };
+
+    // Sync idx with manual swipes — pick the card whose center is closest
+    // to the viewport center after a scroll settles.
+    let scrollSyncT = null;
+    const syncIdxFromScroll = () => {
+      clearTimeout(scrollSyncT);
+      scrollSyncT = setTimeout(() => {
+        const vw = window.innerWidth;
+        const center = vw / 2;
+        let best = 0, bestDist = Infinity;
+        cards.forEach((card, i) => {
+          const r = card.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const d = Math.abs(cx - center);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        idx = best;
+      }, 120);
     };
+    trainerList.addEventListener('scroll', syncIdxFromScroll, { passive: true });
 
     const INTERVAL_MS = 1100;
     let timer = null;
@@ -283,7 +294,6 @@
     };
     trainerList.addEventListener('touchstart', userPause, { passive: true });
     trainerList.addEventListener('touchend',   userPause, { passive: true });
-    trainerList.addEventListener('scroll',     userPause, { passive: true });
 
     // Pause when off-screen
     const tio = new IntersectionObserver((entries) => {
