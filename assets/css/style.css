@@ -98,6 +98,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
@@ -2949,67 +2951,71 @@ select.cm-form__input {
 }
 
 /* ============================================================
-   MOBILE: SINGLE-TAP FIX
-   On touch devices, the first tap on an element with :hover styles
-   shows the hover state, the second tap actually clicks.
-   This block neutralises that behaviour so links/buttons fire on
-   the first tap.
+   MOBILE: SINGLE-TAP FIX (definitive)
+   On touch devices, :hover causes iOS sticky-hover (1st tap = hover,
+   2nd tap = click). This block disables hover effects entirely on
+   touch and ensures every interactive surface fires on a single tap.
    ============================================================ */
 @media (hover: none), (pointer: coarse) {
-  a, button, [role="button"], .btn,
-  .trainer-card__link, .facility-card,
-  .movie__play, .movie__thumb, .gym__cell,
-  .lesson__list li, .concept__pillar,
-  .gnav__list a, .brand, .trainer__arrow,
-  .floating-cta, .chatbot__toggle, .chatbot__reset {
+
+  /* Smooth single-tap on every interactive surface */
+  a, button, [role="button"], [type="button"], [type="submit"],
+  .btn, .btn-neon, .cm-btn, .cm-form__btn, .cm-copybox__btn,
+  .trainer-card, .trainer-card__link,
+  .trainers-page__link, .trainers-page__card,
+  .t-list__item, .t-list__link,
+  .facility-card, .facility-card__link,
+  .master-credit__link,
+  .movie__play, .movie__thumb, .movie-grid__item,
+  .gym__cell, .lesson__list li, .concept__pillar,
+  .plan, .plan__cta,
+  .gnav__list a, .gnav__cta, .brand, .hamburger,
+  .trainer__arrow, .preloader__skip,
+  .floating-cta, .floating-cta__btn,
+  .chatbot__toggle, .chatbot__reset, .chatbot__close,
+  .faq-item summary,
+  .site-footer__links a, .site-footer__legal a,
+  .access__info a, .bio-body a {
     -webkit-tap-highlight-color: rgba(255,255,255,0.04);
     touch-action: manipulation;
+    cursor: pointer;
   }
 
-  /* Disable hover-triggered transforms/filters that delay clicks */
-  a:hover, button:hover, .btn:hover,
-  .btn--primary:hover, .btn--ghost:hover,
-  .gnav__list a:hover, .gnav__list a:hover::after,
-  .brand:hover, .brand:hover .brand__logo,
-  .trainer-card__link:hover,
-  .trainer-card__link:hover::before,
-  .trainer-card__link:hover::after,
-  .trainer-card__link:hover .trainer-card__photo img,
-  .trainer__arrow:hover,
-  .trainer__arrow--prev:hover, .trainer__arrow--next:hover,
-  .facility-card:hover,
-  .facility-card:hover .facility-card__media img,
-  .movie__play:hover,
-  .movie__play:hover svg,
-  .movie__play:hover circle:nth-of-type(2),
-  .movie__thumb:hover,
-  .movie__thumb:hover img,
-  .gym__cell:hover,
-  .gym__cell:hover img,
-  .gym__cell:hover .gym__cell-num,
-  .lesson__list li:hover,
-  .lesson__list li:hover::after,
-  .concept__pillar:hover,
-  .concept__pillar:hover::before,
-  .btn-neon:hover,
-  .btn-neon:hover::before,
-  .cm-btn:hover, .cm-form__btn:hover, .cm-copybox__btn:hover,
-  .chatbot__toggle:hover, .chatbot__reset:hover {
+  /* NUCLEAR: neutralise ALL :hover-driven motion / filter / shadow
+     transforms so first tap goes straight through to click */
+  *:hover,
+  *:hover::before,
+  *:hover::after {
     transform: none !important;
     filter: none !important;
-    transition: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
 
-  /* Active-state visual feedback (replaces hover for touch) */
-  a:active, button:active, .btn:active,
-  .trainer-card__link:active,
-  .facility-card:active,
-  .movie__play:active,
-  .movie__thumb:active,
-  .gym__cell:active,
-  .lesson__list li:active {
-    opacity: 0.78;
-    transition: opacity .12s ease;
+  /* Re-allow background/color/opacity changes on :active for tactile feedback,
+     but make them instant (no transition that would delay perceived click) */
+  a:active, button:active, .btn:active, [role="button"]:active,
+  .trainer-card__link:active, .trainers-page__link:active,
+  .t-list__item:active, .facility-card:active, .master-credit__link:active,
+  .movie__play:active, .movie__thumb:active, .movie-grid__item:active,
+  .gym__cell:active, .lesson__list li:active, .concept__pillar:active,
+  .plan:active, .gnav__list a:active, .gnav__cta:active,
+  .floating-cta__btn:active, .chatbot__toggle:active, .chatbot__reset:active,
+  .btn-neon:active, .cm-btn:active, .cm-form__btn:active, .cm-copybox__btn:active,
+  .faq-item summary:active {
+    opacity: 0.72 !important;
+    transition: opacity 0.08s ease !important;
+  }
+
+  /* Hover-revealed overlays/labels must not block the click target */
+  .trainer-card__link::after,
+  .trainers-page__link::after,
+  .t-list__item::after,
+  .lesson__list li::after,
+  .concept__pillar::before {
+    pointer-events: none !important;
   }
 }
 
