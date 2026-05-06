@@ -240,27 +240,43 @@
   const isDesktopSlider = window.matchMedia('(min-width: 769px)').matches;
 
   /* ----- MOBILE PATH -----
-     Use card-index + scrollIntoView({inline:'center'}) so we never miscount
-     the last card. (Previous scrollLeft/maxLeft math made card 4 collide
-     with the "I'm past the end, loop back" condition.) */
+     Index-based; explicit scrollLeft calculation so the last card (card 4)
+     is reached reliably even when its centered position equals maxScrollLeft.
+     scrollIntoView was unreliable for the last item — switching to a direct
+     scrollTo({left:N}) eliminates that edge case.
+     Also: auto-mode disables the scroll-sync listener while a programmatic
+     scroll is in flight, so the listener can never overwrite idx mid-animation. */
   if (trainerViewport && trainerList && !isDesktopSlider) {
     const cards = [...trainerList.children];
     const N = cards.length;
     let idx = 0;
+    let isProgrammatic = false;
+    let progClearT = null;
+
+    const targetScrollFor = (i) => {
+      const card = cards[i];
+      if (!card) return 0;
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const max = Math.max(0, trainerList.scrollWidth - trainerList.clientWidth);
+      const want = cardCenter - trainerList.clientWidth / 2;
+      return Math.max(0, Math.min(max, Math.round(want)));
+    };
 
     const scrollToIdx = (i) => {
-      const card = cards[i];
-      if (!card) return;
-      card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      isProgrammatic = true;
+      clearTimeout(progClearT);
+      trainerList.scrollTo({ left: targetScrollFor(i), behavior: 'smooth' });
+      // Allow the smooth scroll to finish before re-enabling sync (typical < 700ms).
+      progClearT = setTimeout(() => { isProgrammatic = false; }, 800);
     };
 
     const goNext = () => { idx = (idx + 1) % N; scrollToIdx(idx); };
     const goPrev = () => { idx = (idx - 1 + N) % N; scrollToIdx(idx); };
 
-    // Sync idx with manual swipes — pick the card whose center is closest
-    // to the viewport center after a scroll settles.
+    // Sync idx with manual swipes only (suppressed during programmatic scroll).
     let scrollSyncT = null;
     const syncIdxFromScroll = () => {
+      if (isProgrammatic) return;
       clearTimeout(scrollSyncT);
       scrollSyncT = setTimeout(() => {
         const vw = window.innerWidth;
@@ -273,7 +289,7 @@
           if (d < bestDist) { bestDist = d; best = i; }
         });
         idx = best;
-      }, 120);
+      }, 140);
     };
     trainerList.addEventListener('scroll', syncIdxFromScroll, { passive: true });
 
@@ -285,7 +301,7 @@
     if (trainerPrev) trainerPrev.addEventListener('click', () => { stop(); goPrev(); setTimeout(start, INTERVAL_MS * 2); });
     if (trainerNext) trainerNext.addEventListener('click', () => { stop(); goNext(); setTimeout(start, INTERVAL_MS * 2); });
 
-    // Pause auto while user is swiping; resume after they're done
+    // Pause auto while user is swiping; resume after they're done.
     let touchPauseT = null;
     const userPause = () => {
       stop();
