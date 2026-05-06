@@ -13,7 +13,7 @@
       ...document.querySelectorAll('.hero__video'),
       ...document.querySelectorAll('.brand__logo'),
       ...document.querySelectorAll('.trainer-card__photo img'),
-      ...document.querySelectorAll('.gym__cell img'),
+      ...document.querySelectorAll('.gym-slider__slide img'),
       ...document.querySelectorAll('.movie__thumb img'),
     ];
     const total = Math.max(targets.length + 2, 6); // +css/+fonts symbolic

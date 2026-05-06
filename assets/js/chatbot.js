@@ -641,6 +641,7 @@
     btn.className = 'cm-copybox__btn';
     btn.textContent = $t('copyBtn');
     const copy = async () => {
+      try { fire('chatbot:copy', { intent: state.intent, plan: state.plan, lang, people: state.people }); } catch(e){}
       try {
         await navigator.clipboard.writeText(text);
       } catch (e) {
@@ -674,10 +675,10 @@
       `${T.ja.langTitle}\n${T.en.langTitle}\n${T.ko.langTitle}\n${T.zh.langTitle}`
     );
     setActions([
-      { label: '日本語',  primary: true, then: () => { lang = 'ja'; stepWelcome(); } },
-      { label: 'English', primary: true, then: () => { lang = 'en'; stepWelcome(); } },
-      { label: '한국어',  primary: true, then: () => { lang = 'ko'; stepWelcome(); } },
-      { label: '中文',    primary: true, then: () => { lang = 'zh'; stepWelcome(); } },
+      { label: '日本語',  primary: true, then: () => { lang = 'ja'; fire('chatbot:language', 'ja'); stepWelcome(); } },
+      { label: 'English', primary: true, then: () => { lang = 'en'; fire('chatbot:language', 'en'); stepWelcome(); } },
+      { label: '한국어',  primary: true, then: () => { lang = 'ko'; fire('chatbot:language', 'ko'); stepWelcome(); } },
+      { label: '中文',    primary: true, then: () => { lang = 'zh'; fire('chatbot:language', 'zh'); stepWelcome(); } },
     ]);
   };
 
@@ -692,8 +693,8 @@
   const stepIntent = async () => {
     await addMessage($t('intentQ'));
     setActions([
-      { label: $t('wantTrial'), primary: true, then: () => { state.intent = 'trial';  stepTrialFrequency(); } },
-      { label: $t('wantJoin'),                 then: () => { state.intent = 'member'; stepMembershipInfo(); } },
+      { label: $t('wantTrial'), primary: true, then: () => { state.intent = 'trial';  fire('chatbot:intent', 'trial');  stepTrialFrequency(); } },
+      { label: $t('wantJoin'),                 then: () => { state.intent = 'member'; fire('chatbot:intent', 'member'); stepMembershipInfo(); } },
     ]);
   };
 
@@ -701,12 +702,13 @@
   const stepTrialFrequency = async () => {
     await addMessage($t('frequencyQ'));
     setActions([
-      { label: $t('firstTime'),   primary: true, then: () => { stepResident(); } },
+      { label: $t('firstTime'),   primary: true, then: () => { fire('chatbot:frequency', 'first');  stepResident(); } },
       { label: $t('repeatVisit'),                then: () => {
           // 2nd+ visit pays the standard Visitor rate
           state.intent = 'member';
           state.plan   = 'visitor';
           state.resident = null;
+          fire('chatbot:frequency', 'returning');
           stepRental();
         }
       },
@@ -716,8 +718,8 @@
   const stepResident = async () => {
     await addMessage($t('residentQ'));
     setActions([
-      { label: $t('residentLocal'),   primary: true, then: () => { state.resident = 'local';   stepResidentAck(); } },
-      { label: $t('residentTourist'),                then: () => { state.resident = 'tourist'; stepResidentAck(); } },
+      { label: $t('residentLocal'),   primary: true, then: () => { state.resident = 'local';   fire('chatbot:resident', 'local');   stepResidentAck(); } },
+      { label: $t('residentTourist'),                then: () => { state.resident = 'tourist'; fire('chatbot:resident', 'tourist'); stepResidentAck(); } },
     ]);
   };
 
@@ -867,7 +869,8 @@
     showCopyBox(buildBilingualText());
     await sleep(120);
     setActions([
-      { label: $t('openIG'), primary: true, href: CONTACT.instagram, target: '_blank', then: stepThanks },
+      { label: $t('openIG'), primary: true, href: CONTACT.instagram, target: '_blank',
+        then: () => { try { fire('chatbot:complete', { intent: state.intent, plan: state.plan, lang, people: state.people }); } catch(e){} stepThanks(); } },
     ]);
   };
 
@@ -879,11 +882,18 @@
     ]);
   };
 
+  // ------- GA4 / Analytics integration ---------------------------------
+  // dispatch CustomEvents on key milestones; analytics.js listens & sends to GA4.
+  const fire = (name, detail) => {
+    try { window.dispatchEvent(new CustomEvent(name, { detail })); } catch (e) {}
+  };
+
   // ------- Toggle ------------------------------------------------------
   // CSS handles visibility / pointer-events via `.chatbot.is-open` — we only flip the class.
   const open = () => {
     root.classList.add('is-open');
     toggle.setAttribute('aria-expanded', 'true');
+    fire('chatbot:open');
     if (!msgList.children.length) stepLanguage();
   };
   const close = () => {
