@@ -166,12 +166,25 @@
         io.unobserve(en.target);
       }
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.section-head, .trainer__select, .movie__title, .movie__stage, .movie__thumbs, .movie__more-wrap, .gym__grid, .lesson__list, .system__grid, .trial__inner, .access__grid')
-    .forEach(el => {
-      el.classList.add('reveal');
-      io.observe(el);
-    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
+  const revealEls = document.querySelectorAll('.section-head, .trainer__select, .movie__title, .movie__stage, .movie__thumbs, .movie__more-wrap, .gym-slider__viewport, .gym__grid, .lesson__list, .system__grid, .trial__inner, .access__grid');
+  revealEls.forEach(el => {
+    el.classList.add('reveal');
+    io.observe(el);
+    // Immediate check: if element is already inside the viewport at page load,
+    // mark it visible right away. iOS Safari sometimes delays IO for elements
+    // that are above-the-fold on initial render.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('is-in');
+      io.unobserve(el);
+    }
+  });
+  // Defensive failsafe: after 2.5 s force-show any reveal that did not trigger.
+  // Guards against IO edge-cases on iOS Safari / WebView.
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.is-in)').forEach(el => el.classList.add('is-in'));
+  }, 2500);
 
   /* ---------- Hero video: iOS-safe autoplay + battery saver ---------- */
   const heroVid = document.querySelector('.hero__video');
