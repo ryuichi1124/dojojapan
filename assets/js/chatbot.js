@@ -61,7 +61,7 @@
     visitor: 3000,
     member:  10000,    // 準会員 entry tier (monthly)
     prime:   33000,    // 正会員 (monthly, unlimited)
-    dogi:    2000,  // レンタル道着（柔道・剣術用）
+    dogi:    2000,  // レンタル道着
     wear:    0,        // レンタルスポーツウェア（無料）
   };
   const fmtJPY = (n) => '¥' + n.toLocaleString('ja-JP');
