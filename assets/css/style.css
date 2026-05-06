@@ -2923,3 +2923,215 @@ select.cm-form__input {
   text-align: right;
 }
 
+
+/* ============================================================
+   PRICING PLAN — per-visit subscript (¥X,XXX / 回 表示)
+   ============================================================ */
+.plan__rows li {
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+}
+.plan__rows li > small {
+  flex-basis: 100%;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-align: right;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.plan__rows li > small b {
+  font-family: var(--ff-display);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* ============================================================
+   MOBILE: SINGLE-TAP FIX
+   On touch devices, the first tap on an element with :hover styles
+   shows the hover state, the second tap actually clicks.
+   This block neutralises that behaviour so links/buttons fire on
+   the first tap.
+   ============================================================ */
+@media (hover: none), (pointer: coarse) {
+  a, button, [role="button"], .btn,
+  .trainer-card__link, .facility-card,
+  .movie__play, .movie__thumb, .gym__cell,
+  .lesson__list li, .concept__pillar,
+  .gnav__list a, .brand, .trainer__arrow,
+  .floating-cta, .chatbot__toggle, .chatbot__reset {
+    -webkit-tap-highlight-color: rgba(255,255,255,0.04);
+    touch-action: manipulation;
+  }
+
+  /* Disable hover-triggered transforms/filters that delay clicks */
+  a:hover, button:hover, .btn:hover,
+  .btn--primary:hover, .btn--ghost:hover,
+  .gnav__list a:hover, .gnav__list a:hover::after,
+  .brand:hover, .brand:hover .brand__logo,
+  .trainer-card__link:hover,
+  .trainer-card__link:hover::before,
+  .trainer-card__link:hover::after,
+  .trainer-card__link:hover .trainer-card__photo img,
+  .trainer__arrow:hover,
+  .trainer__arrow--prev:hover, .trainer__arrow--next:hover,
+  .facility-card:hover,
+  .facility-card:hover .facility-card__media img,
+  .movie__play:hover,
+  .movie__play:hover svg,
+  .movie__play:hover circle:nth-of-type(2),
+  .movie__thumb:hover,
+  .movie__thumb:hover img,
+  .gym__cell:hover,
+  .gym__cell:hover img,
+  .gym__cell:hover .gym__cell-num,
+  .lesson__list li:hover,
+  .lesson__list li:hover::after,
+  .concept__pillar:hover,
+  .concept__pillar:hover::before,
+  .btn-neon:hover,
+  .btn-neon:hover::before,
+  .cm-btn:hover, .cm-form__btn:hover, .cm-copybox__btn:hover,
+  .chatbot__toggle:hover, .chatbot__reset:hover {
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  /* Active-state visual feedback (replaces hover for touch) */
+  a:active, button:active, .btn:active,
+  .trainer-card__link:active,
+  .facility-card:active,
+  .movie__play:active,
+  .movie__thumb:active,
+  .gym__cell:active,
+  .lesson__list li:active {
+    opacity: 0.78;
+    transition: opacity .12s ease;
+  }
+}
+
+/* ============================================================
+   MOVIE PAGE — gallery grid + lightbox popup
+   ============================================================ */
+.movie-page {
+  padding: var(--section-y) 0;
+  background: var(--bg-2);
+}
+.movie-page__inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.movie-page__intro {
+  max-width: 720px;
+  margin: 0 auto 56px;
+  text-align: center;
+  color: var(--text-mute);
+  line-height: 1.95;
+  font-size: 14px;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+@media (max-width: 540px) {
+  .movie-grid { grid-template-columns: 1fr; gap: 18px; }
+}
+.movie-grid__item {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.movie-grid__item img,
+.movie-grid__item video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.movie-grid__item::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1;
+}
+.movie-grid__play {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--red);
+  display: grid; place-items: center;
+  z-index: 2;
+  transition: background .25s ease, transform .25s ease;
+}
+.movie-grid__play svg { width: 22px; height: 22px; fill: #fff; transform: translateX(2px); }
+.movie-grid__caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.9));
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  z-index: 2;
+}
+@media (hover: hover) {
+  .movie-grid__item:hover { border-color: var(--red); transform: translateY(-2px); }
+  .movie-grid__item:hover .movie-grid__play { background: var(--red-deep); transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* Lightbox */
+.movie-lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 2000;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.movie-lightbox.is-open {
+  display: flex;
+  opacity: 1;
+}
+.movie-lightbox__inner {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  aspect-ratio: 16 / 9;
+}
+.movie-lightbox__inner video {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  object-fit: contain;
+}
+.movie-lightbox__close {
+  position: absolute;
+  right: -8px; top: -56px;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background .25s ease, border-color .25s ease;
+}
+.movie-lightbox__close:hover { background: var(--red); border-color: var(--red); }
+.movie-lightbox__close svg { width: 18px; height: 18px; }
+@media (max-width: 540px) {
+  .movie-lightbox { padding: 16px; }
+  .movie-lightbox__close { top: -52px; right: 0; }
+}

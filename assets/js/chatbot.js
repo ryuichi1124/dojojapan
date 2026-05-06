@@ -62,7 +62,7 @@
     visitor: 3000,
     member:  10000,    // 準会員 entry tier (monthly)
     prime:   33000,    // 正会員 (monthly, unlimited)
-    dogi:    2000,     // レンタル道着
+    dogi:    0,     // レンタル道着
     wear:    0,        // レンタルスポーツウェア（無料）
   };
   const fmtJPY = (n) => '¥' + n.toLocaleString('ja-JP');
@@ -91,8 +91,8 @@
       planSubVisitor: '¥3,000 / 60 分',
       planSubMember:  '¥10,000〜 / 月',
       planSubPrime:   '¥33,000 / 月',
-      rentalQ: 'レンタルはご希望ですか？\n（スポーツウェア 無料 / 道着 ¥2,000）',
-      rentalDogi: '道着',
+      rentalQ: 'レンタルはご希望ですか？\n（スポーツウェア・グローブ・レガース・タオル すべて無料）',
+      rentalDogi: 'グローブ・レガース',
       rentalWear: 'スポーツウェア',
       rentalNone: '不要',
       summary: 'ご選択内容',
@@ -100,7 +100,7 @@
       lineVisitor: 'ビジター 利用',
       lineMember:  '準会員 月額',
       linePrime:   '正会員 月額',
-      lineDogi:    '道着レンタル',
+      lineDogi:    'グローブ・レガース 等',
       lineWear:    'スポーツウェアレンタル',
       total: '合計',
       payNotice: 'お支払いは当日、施設にて現金でお願いいたします。',
@@ -135,7 +135,7 @@
       peopleSuffix: '名',
       dateQ: 'ご来所希望日をお選びください。\n（営業日: 月〜土）',
       chooseDate: '日付を選択',
-      timeQ: 'ご来所希望時間をお選びください。\n（営業時間: 7:00〜18:00）',
+      timeQ: 'ご来所希望時間をお選びください。\n（営業時間: 7:00〜21:00／日曜完全予約制）',
       chooseTime: '時間を選択',
       submit: '送信',
       disclaimerNotice: '※ ご予約状況によりご希望に添えない場合がございます。詳しくは Instagram DM にてやりとりさせていただきます。',
@@ -164,8 +164,8 @@
       planSubVisitor: '¥3,000 / 60 min',
       planSubMember:  'from ¥10,000 / mo',
       planSubPrime:   '¥33,000 / mo',
-      rentalQ: 'Would you like to rent any items?\n(Sportswear — free / Gi — ¥2,000)',
-      rentalDogi: 'Gi',
+      rentalQ: 'Would you like to rent any items?\n(Sportswear, gloves, shin pads, towel — all free)',
+      rentalDogi: 'Gloves & shin pads',
       rentalWear: 'Sportswear',
       rentalNone: 'No rental',
       summary: 'Your selection',
@@ -173,7 +173,7 @@
       lineVisitor: 'Visitor session',
       lineMember:  'Member monthly',
       linePrime:   'Prime monthly',
-      lineDogi:    'Gi rental',
+      lineDogi:    'Gloves & shin pads',
       lineWear:    'Sportswear rental',
       total: 'Total',
       payNotice: 'Payment in cash at the facility on the day of your visit.',
@@ -208,7 +208,7 @@
       peopleSuffix: ' person(s)',
       dateQ: 'Please choose your preferred visit date.\n(Business days: Mon–Sat)',
       chooseDate: 'Choose a date',
-      timeQ: 'Please choose your preferred visit time.\n(Business hours: 7:00–18:00)',
+      timeQ: 'Please choose your preferred visit time.\n(Hours: 7:00–21:00 / Sun by appointment)',
       chooseTime: 'Choose a time',
       submit: 'Send',
       disclaimerNotice: '* We may not be able to accommodate your preferred date/time depending on availability. Please continue the conversation via Instagram DM.',
@@ -237,8 +237,8 @@
       planSubVisitor: '¥3,000 / 60 분',
       planSubMember:  '¥10,000〜 / 월',
       planSubPrime:   '¥33,000 / 월',
-      rentalQ: '대여를 원하십니까?\n(스포츠웨어 무료 / 도복 ¥2,000)',
-      rentalDogi: '도복',
+      rentalQ: '대여를 원하십니까?\n(스포츠웨어・글러브・레가스・타올 모두 무료)',
+      rentalDogi: '글러브・레가스',
       rentalWear: '스포츠웨어',
       rentalNone: '필요 없음',
       summary: '선택 내용',
@@ -246,7 +246,7 @@
       lineVisitor: '비지터 이용',
       lineMember:  '준회원 월액',
       linePrime:   '정회원 월액',
-      lineDogi:    '도복 대여',
+      lineDogi:    '글러브・레가스',
       lineWear:    '스포츠웨어 대여',
       total: '합계',
       payNotice: '결제는 당일 시설에서 현금으로 부탁드립니다.',
@@ -281,7 +281,7 @@
       peopleSuffix: '명',
       dateQ: '방문 희망일을 선택해 주세요.\n(영업일: 월~토)',
       chooseDate: '날짜 선택',
-      timeQ: '방문 희망 시간을 선택해 주세요.\n(영업시간: 7:00~18:00)',
+      timeQ: '방문 희망 시간을 선택해 주세요.\n(영업시간: 7:00~21:00 / 일요일은 예약제)',
       chooseTime: '시간 선택',
       submit: '전송',
       disclaimerNotice: '※ 예약 상황에 따라 희망 일시에 맞춰드리지 못할 수 있습니다. 자세한 내용은 Instagram DM으로 안내해 드립니다.',
@@ -310,8 +310,8 @@
       planSubVisitor: '¥3,000 / 60 分钟',
       planSubMember:  '¥10,000〜 / 月',
       planSubPrime:   '¥33,000 / 月',
-      rentalQ: '是否需要租借？\n（运动服 免费 / 道服 ¥2,000）',
-      rentalDogi: '道服',
+      rentalQ: '是否需要租借？\n（运动服・拳套・护胫・毛巾 全部免费）',
+      rentalDogi: '拳套・护胫',
       rentalWear: '运动服',
       rentalNone: '不需要',
       summary: '您的选择',
@@ -319,7 +319,7 @@
       lineVisitor: '访客单次',
       lineMember:  '准会员月费',
       linePrime:   '正式会员月费',
-      lineDogi:    '道服租借',
+      lineDogi:    '拳套・护胫',
       lineWear:    '运动服租借',
       total: '合计',
       payNotice: '请于当日在场馆现金支付。',
@@ -354,7 +354,7 @@
       peopleSuffix: '人',
       dateQ: '请选择希望到访日期。\n（营业日：周一〜周六）',
       chooseDate: '选择日期',
-      timeQ: '请选择希望到访时间。\n（营业时间：7:00〜18:00）',
+      timeQ: '请选择希望到访时间。\n（营业时间：7:00〜21:00／周日仅预约）',
       chooseTime: '选择时间',
       submit: '发送',
       disclaimerNotice: '※ 视预约情况，我们可能无法配合您希望的日期与时间。详情请通过 Instagram DM 联系。',
@@ -419,7 +419,7 @@
   // 7:00 → 17:30 in 30-min slots
   const generateTimeOptions = () => {
     const opts = [];
-    for (let mins = 7*60; mins <= 17*60 + 30; mins += 30) {
+    for (let mins = 7*60; mins <= 20*60 + 30; mins += 30) {
       const h = Math.floor(mins / 60);
       const m = mins % 60;
       const t = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;

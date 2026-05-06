@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=202605061900" />
+<link rel="stylesheet" href="assets/css/style.css?v=202605062000" />
 </head>
 <body>
 
@@ -37,7 +37,7 @@
     <ul class="gnav__list">
       <li><a href="concept.html">CONCEPT</a></li>
       <li><a href="trainers.html">TRAINER</a></li>
-      <li><a href="./#movie">MOVIE</a></li>
+      <li><a href="movie.html">MOVIE</a></li>
       <li><a href="gym.html">GYM</a></li>
       <li><a href="pricing.html" aria-current="page">PRICING</a></li>
       <li><a href="faq.html">FAQ</a></li>
@@ -86,19 +86,20 @@
     <h2 class="pricing-page__h2">PLANS <span>ご利用プラン</span></h2>
 
     <div class="system__grid">
-      <article class="plan">
+      <article class="plan plan--prime">
         <header class="plan__head">
           <p class="plan__no">01</p>
-          <h3 class="plan__name">VISITOR</h3>
-          <p class="plan__name-ja">ビジター</p>
+          <h3 class="plan__name">PRIME</h3>
+          <p class="plan__name-ja">正会員（最もお得 / 通い放題）</p>
         </header>
         <ul class="plan__rows">
-          <li><span>初回</span><b>¥3,000</b></li>
-          <li><span>2 回目以降</span><b>¥5,000</b></li>
+          <li><span>月額</span><b>¥33,000</b><small>通い放題</small></li>
+          <li><span>1 回最大</span><b>180 分</b></li>
+          <li><span>参考レート</span><small>週 3 回通えば実質 <b>¥2,750 / 回</b> 相当</small></li>
         </ul>
         <p class="plan__note">
-          1 回 60 分 / 月〜土 7:00–18:00<br />
-          観光・出張・単発利用向けのプランです。
+          7:00–21:00（日曜は完全予約制 / 21:00 以降はフリー利用可）<br />
+          毎日でも、好きなだけ通いたい方へ。
         </p>
       </article>
 
@@ -109,30 +110,29 @@
           <p class="plan__name-ja">準会員</p>
         </header>
         <ul class="plan__rows">
-          <li><span>月 2 回</span><b>¥10,000</b></li>
-          <li><span>月 4 回</span><b>¥15,000</b></li>
-          <li><span>月 6 回</span><b>¥19,000</b></li>
+          <li><span>月 8 回</span><b>¥19,000</b><small>¥2,375 / 回</small></li>
+          <li><span>月 4 回</span><b>¥15,000</b><small>¥3,750 / 回</small></li>
+          <li><span>月 2 回</span><b>¥10,000</b><small>¥5,000 / 回</small></li>
         </ul>
         <p class="plan__note">
-          1 回 60 分 / 月〜土 7:00–18:00<br />
-          ペースを保って通いたい方へ。
+          1 回 60 分 / 7:00–21:00（日曜は完全予約制）<br />
+          ペースを保って通いたい方へ。月 8 回プランが最もお得です。
         </p>
       </article>
 
-      <article class="plan plan--prime">
+      <article class="plan">
         <header class="plan__head">
           <p class="plan__no">03</p>
-          <h3 class="plan__name">PRIME</h3>
-          <p class="plan__name-ja">正会員</p>
+          <h3 class="plan__name">VISITOR</h3>
+          <p class="plan__name-ja">ビジター（単発利用）</p>
         </header>
         <ul class="plan__rows">
-          <li><span>月額</span><b>¥33,000</b></li>
-          <li><span>利用回数</span><b>無制限</b></li>
-          <li><span>1 回最大</span><b>180 分</b></li>
+          <li><span>初回</span><b>¥3,000</b><small>¥3,000 / 回（60 分）</small></li>
+          <li><span>2 回目以降</span><b>¥5,000</b><small>¥5,000 / 回（60 分）</small></li>
         </ul>
         <p class="plan__note">
-          月〜土 7:00–18:00<br />
-          毎日通いたい方・本格志向の方へ。
+          7:00–21:00（日曜は完全予約制）<br />
+          観光・出張・単発利用向け。継続のご利用は MEMBER がお得です。
         </p>
       </article>
     </div>
@@ -142,18 +142,22 @@
 <!-- RENTAL -->
 <section class="pricing-page__plans" style="padding-top:0;">
   <div class="pricing-page__inner">
-    <h2 class="pricing-page__h2">RENTAL <span>レンタル</span></h2>
+    <h2 class="pricing-page__h2">RENTAL <span>レンタル・備品</span></h2>
     <ul class="rental-list">
       <li>
-        <span class="rental-list__name">スポーツウェア</span>
+        <span class="rental-list__name">スポーツウェア（上下）</span>
         <span class="rental-list__price">無料</span>
       </li>
       <li>
-        <span class="rental-list__name">道着</span>
-        <span class="rental-list__price">¥2,000</span>
+        <span class="rental-list__name">グローブ・レガース</span>
+        <span class="rental-list__price">無料</span>
+      </li>
+      <li>
+        <span class="rental-list__name">シャワー・バスタオル</span>
+        <span class="rental-list__price">無料</span>
       </li>
     </ul>
-    <p class="rental-list__note">※ ミット・グローブ等の道具類は無料貸出しいたします。</p>
+    <p class="rental-list__note">※ 必要な物はすべて無料でご用意しております。<strong>手ぶらでご来店ください。</strong></p>
   </div>
 </section>
 
@@ -164,11 +168,17 @@
     <dl class="pricing-page__notes-list">
       <div>
         <dt>営業時間</dt>
-        <dd>月曜〜土曜 7:00 – 18:00 / 日曜定休</dd>
+        <dd>
+          7:00 – 21:00（日曜は完全予約制）<br />
+          <small>21:00 以降は会員フリー利用可。Mon–Sat 7:00–21:00 / Sun by appointment only.</small>
+        </dd>
       </div>
       <div>
         <dt>持ち物</dt>
-        <dd>動きやすい服装・タオル・飲み物・着替え。<br />レンタルスポーツウェアもご用意しております（無料）。</dd>
+        <dd>
+          <strong>手ぶらでお越しいただけます。</strong><br />
+          スポーツウェア（上下）・グローブ・レガース・シャワー・バスタオル、すべて無料でご用意しております。
+        </dd>
       </div>
       <div>
         <dt>お支払い</dt>
@@ -208,7 +218,7 @@
   <ul class="site-footer__links">
     <li><a href="concept.html">CONCEPT</a></li>
     <li><a href="trainers.html">TRAINER</a></li>
-    <li><a href="./#movie">MOVIE</a></li>
+    <li><a href="movie.html">MOVIE</a></li>
     <li><a href="gym.html">GYM</a></li>
     <li><a href="pricing.html">PRICING</a></li>
     <li><a href="faq.html">FAQ</a></li>
@@ -240,8 +250,8 @@
   </section>
 </div>
 
-<script src="assets/js/main.js?v=202605061900" defer></script>
-<script src="assets/js/chatbot.js?v=202605061900" defer></script>
-<script src="assets/js/analytics.js?v=202605061900" defer></script>
+<script src="assets/js/main.js?v=202605062000" defer></script>
+<script src="assets/js/chatbot.js?v=202605062000" defer></script>
+<script src="assets/js/analytics.js?v=202605062000" defer></script>
 </body>
 </html>
