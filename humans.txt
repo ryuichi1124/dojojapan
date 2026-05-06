@@ -1,0 +1,23 @@
+/* TEAM */
+   Operator: 株式会社 gambler
+   Site: https://dojo-japan.jp/
+   Address: 〒810-0003 福岡県福岡市中央区春吉 2-12-5 1F
+   Phone: 092-753-3621
+   Instagram: @dojo_japan
+
+/* DOJO MASTER */
+   Manabu Miwa (三輪 愛生)
+
+/* TRAINERS */
+   Boxing: Shiro Yahiro (八尋 史朗)
+   Muay Thai: Izaya Matsushima (松島 勲也)
+   Kickboxing: Satoru Nariai (SATORU 成合)
+   Martial Arts: Luke Holloway (ルーク・ホロウェイ)
+
+/* SITE */
+   Last update: 2026/05/06
+   Standards: HTML5, CSS3, ES2020
+   Components: Vanilla JS, no framework
+   Hosting: Cloudflare Pages
+   Domain: dojo-japan.jp
+   Languages: 日本語 / English / 한국어 / 中文（chatbot）
