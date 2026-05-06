@@ -685,7 +685,7 @@ button { font: inherit; }
   margin: 0;
   padding: 0;
   transform: translate3d(0, 0, 0);
-  transition: transform .4s cubic-bezier(.4, 0, .2, 1);
+  transition: transform .32s cubic-bezier(.4, 0, .2, 1);
   will-change: transform;
 }
 .trainer__select.is-no-transition { transition: none; }
@@ -2964,6 +2964,18 @@ select.cm-form__input {
   font-family: var(--ff-display);
   font-size: 14px;
   color: #fff;
+}
+
+
+/* MORE link below trainer slider */
+.trainer__more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 56px;
+  padding: 0 var(--gutter);
+}
+@media (max-width: 768px) {
+  .trainer__more-wrap { margin-top: 32px; }
 }
 
 /* ============================================================

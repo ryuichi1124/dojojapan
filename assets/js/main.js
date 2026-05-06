@@ -167,7 +167,7 @@
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
-  const revealEls = document.querySelectorAll('.section-head, .trainer__select, .movie__title, .movie__stage, .movie__thumbs, .movie__more-wrap, .gym-slider__viewport, .gym__grid, .lesson__list, .system__grid, .trial__inner, .access__grid');
+  const revealEls = document.querySelectorAll('.section-head, .trainer__select, .trainer__more-wrap, .movie__title, .movie__stage, .movie__thumbs, .movie__more-wrap, .gym-slider__viewport, .gym__grid, .lesson__list, .system__grid, .trial__inner, .access__grid');
   revealEls.forEach(el => {
     el.classList.add('reveal');
     io.observe(el);
@@ -266,7 +266,7 @@
       }
     };
 
-    const INTERVAL_MS = 1800;
+    const INTERVAL_MS = 1100;
     let timer = null;
     const start = () => { if (timer) return; timer = setInterval(goNext, INTERVAL_MS); };
     const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
@@ -347,7 +347,7 @@
     });
 
     // Auto-advance
-    const INTERVAL_MS = 1500;
+    const INTERVAL_MS = 900;
     let timer = null;
     const start = () => { if (timer) return; timer = setInterval(next, INTERVAL_MS); };
     const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
