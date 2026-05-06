@@ -262,12 +262,30 @@
       return Math.max(0, Math.min(max, Math.round(want)));
     };
 
+    // Custom rAF smooth-scroll. Avoids native scrollTo({behavior:'smooth'}),
+    // which on iOS Safari can scroll the PAGE vertically to "bring the
+    // element into view" before doing the horizontal scroll.
+    let rafId = null;
+    const animateScrollLeft = (target, duration = 380) => {
+      cancelAnimationFrame(rafId);
+      const startLeft = trainerList.scrollLeft;
+      const dist = target - startLeft;
+      if (Math.abs(dist) < 1) return;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / duration);
+        const ease = 1 - Math.pow(1 - p, 3); // easeOutCubic
+        trainerList.scrollLeft = startLeft + dist * ease;
+        if (p < 1) rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    };
+
     const scrollToIdx = (i) => {
       isProgrammatic = true;
       clearTimeout(progClearT);
-      trainerList.scrollTo({ left: targetScrollFor(i), behavior: 'smooth' });
-      // Allow the smooth scroll to finish before re-enabling sync (typical < 700ms).
-      progClearT = setTimeout(() => { isProgrammatic = false; }, 800);
+      animateScrollLeft(targetScrollFor(i));
+      progClearT = setTimeout(() => { isProgrammatic = false; }, 500);
     };
 
     const goNext = () => { idx = (idx + 1) % N; scrollToIdx(idx); };
