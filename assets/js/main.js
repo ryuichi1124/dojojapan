@@ -167,11 +167,17 @@
 
     const tryPlay = () => heroVid.play().catch(() => {});
 
+    // Pick the smallest hero asset that fits the viewport.
+    // Mobile gets a 480p / 250kbps variant (~1.9 MB vs 8.4 MB desktop)
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+    const heroSrc = (isMobileViewport && heroVid.dataset.srcMobile)
+      ? heroVid.dataset.srcMobile
+      : heroVid.dataset.src;
+
     const activateHeroVideo = () => {
-      const src = heroVid.dataset.src;
-      if (!src || heroVid.querySelector('source')) return;
+      if (!heroSrc || heroVid.querySelector('source')) return;
       const source = document.createElement('source');
-      source.src = src;
+      source.src = heroSrc;
       source.type = 'video/mp4';
       heroVid.appendChild(source);
       heroVid.preload = 'auto';
