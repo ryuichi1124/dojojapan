@@ -102,7 +102,8 @@
       lineDogi:    '道着レンタル',
       lineWear:    'スポーツウェアレンタル',
       total: '合計',
-      payNotice: 'お支払いは当日、施設にて現金でお願いいたします。',
+      payNotice: 'お支払いは当日、施設にて現金または PayPay でお願いいたします。',
+      payNoticeMonthly: '月会員のお支払いは毎月、現金・PayPay・銀行振込のいずれかからお選びいただけます。',
       bookQ: 'ご連絡は Instagram DM がスムーズです。下記よりお進みくださいませ。',
       memberInfo: 'ありがとうございます。\nDŌJŌ JAPAN では、ビジター・準会員・正会員の 3 プランをご用意しております。\nスタッフより詳細をご案内し、ご来館の日程もあわせて調整いたします。',
       memberBookQ: 'ご連絡は Instagram DM がスムーズです。下記よりお進みください。スタッフが日程を個別にご相談いたします。',
@@ -124,7 +125,8 @@
       copyLabelTime: 'ご希望時間',
       copyLabelPerPerson: 'お一人あたり',
       copyMemberBody: 'DŌJŌ JAPAN への入会を検討しております。プランの詳細とご来館の日程についてご案内をお願いいたします。',
-      copyPaymentNote: '※ お支払いは当日、施設にて現金でお願いいたします。',
+      copyPaymentNote: '※ お支払いは当日、施設にて現金または PayPay でお願いいたします。',
+      copyPaymentNoteMonthly: '※ 月会員のお支払いは毎月、現金・PayPay・銀行振込のいずれかからお選びいただけます。',
       copyDisclaimer: '※ ご予約状況によりご希望に添えない場合がございます。詳細は Instagram DM にてご相談くださいませ。',
       perPerson: '／人',
       nameQ: 'ご予約者様のお名前をお聞かせください。',
@@ -175,7 +177,8 @@
       lineDogi:    'Gi rental',
       lineWear:    'Sportswear rental',
       total: 'Total',
-      payNotice: 'Payment in cash at the facility on the day of your visit.',
+      payNotice: 'Payment in cash or PayPay at the facility on the day of your visit.',
+      payNoticeMonthly: 'Monthly members may pay each month by cash, PayPay, or bank transfer.',
       bookQ: 'Instagram DM is the smoothest way to reach us. Please proceed below.',
       memberInfo: 'Thank you.\nDŌJŌ JAPAN offers three plans — Visitor, Member, and Prime. Our staff will walk you through the details and arrange a visit date with you.',
       memberBookQ: 'Please reach out via one of the channels below. We\'ll set the date together.',
@@ -197,7 +200,8 @@
       copyLabelTime: 'Preferred time',
       copyLabelPerPerson: 'Per person',
       copyMemberBody: 'I would like to inquire about membership at DŌJŌ JAPAN. Please share details about plans and arrange a visit date.',
-      copyPaymentNote: '* Payment in cash at the facility on the day of your visit.',
+      copyPaymentNote: '* Payment in cash or PayPay at the facility on the day of your visit.',
+      copyPaymentNoteMonthly: '* Monthly members may pay each month by cash, PayPay, or bank transfer.',
       copyDisclaimer: '* We may not be able to accommodate your preferred date/time depending on availability. Please discuss details via Instagram DM.',
       perPerson: '/ person',
       nameQ: 'May I have your name?',
@@ -248,7 +252,8 @@
       lineDogi:    '도복 대여',
       lineWear:    '스포츠웨어 대여',
       total: '합계',
-      payNotice: '결제는 당일 시설에서 현금으로 부탁드립니다.',
+      payNotice: '결제는 당일 시설에서 현금 또는 PayPay로 부탁드립니다.',
+      payNoticeMonthly: '월회원의 경우 매월 현금·PayPay·계좌이체 중에서 선택하여 결제하실 수 있습니다.',
       bookQ: 'Instagram DM이 가장 원활합니다. 아래에서 진행해 주세요.',
       memberInfo: '감사합니다.\nDŌJŌ JAPAN 에서는 비지터·준회원·정회원 3 가지 플랜을 제공하고 있습니다. 자세한 내용과 방문 일정은 담당자가 안내해 드립니다.',
       memberBookQ: '아래에서 편하신 방법으로 연락 주세요. 일정은 담당자가 안내해 드립니다.',
@@ -270,7 +275,8 @@
       copyLabelTime: '희망 시간',
       copyLabelPerPerson: '1인당',
       copyMemberBody: 'DŌJŌ JAPAN 입회를 검토하고 있습니다. 플랜의 세부 정보와 방문 일정 안내를 부탁드립니다.',
-      copyPaymentNote: '※ 결제는 당일 시설에서 현금으로 부탁드립니다.',
+      copyPaymentNote: '※ 결제는 당일 시설에서 현금 또는 PayPay로 부탁드립니다.',
+      copyPaymentNoteMonthly: '※ 월회원의 경우 매월 현금·PayPay·계좌이체 중에서 선택하여 결제하실 수 있습니다.',
       copyDisclaimer: '※ 예약 상황에 따라 희망 일시에 맞춰드리지 못할 수 있습니다. 자세한 내용은 Instagram DM으로 상담 부탁드립니다.',
       perPerson: '/명',
       nameQ: '예약자분의 성함을 알려주세요.',
@@ -321,7 +327,8 @@
       lineDogi:    '道服租借',
       lineWear:    '运动服租借',
       total: '合计',
-      payNotice: '请于当日在场馆现金支付。',
+      payNotice: '请于当日在场馆使用现金或 PayPay 支付。',
+      payNoticeMonthly: '月会员每月可通过现金、PayPay 或银行转账支付。',
       bookQ: 'Instagram DM 是最方便的联系方式。请从下方进行。',
       memberInfo: '感谢您的咨询。\nDŌJŌ JAPAN 提供访客、准会员、正式会员三种方案。详细内容和到访日期，由工作人员为您逐一安排。',
       memberBookQ: '请通过以下任一方式与我们联系。具体日期由工作人员协助安排。',
@@ -343,7 +350,8 @@
       copyLabelTime: '希望时间',
       copyLabelPerPerson: '每人',
       copyMemberBody: '我希望咨询 DŌJŌ JAPAN 的入会事宜。请告知方案详情并协助安排到访日期。',
-      copyPaymentNote: '※ 请于当日在场馆现金支付。',
+      copyPaymentNote: '※ 请于当日在场馆使用现金或 PayPay 支付。',
+      copyPaymentNoteMonthly: '※ 月会员每月可通过现金、PayPay 或银行转账支付。',
       copyDisclaimer: '※ 视预约情况，我们可能无法配合您希望的日期与时间。详情请通过 Instagram DM 咨询。',
       perPerson: '/人',
       nameQ: '请告知预约人姓名。',
@@ -613,7 +621,8 @@
     lines.push(`${t.copyLabelPerPerson}: ${fmtJPY(perPersonTotal)}`);
     lines.push(`${t.copyLabelTotal}: ${fmtJPY(perPersonTotal)} × ${people}${t.peopleSuffix} = ${fmtJPY(grandTotal)}`);
     lines.push('');
-    lines.push(t.copyPaymentNote);
+    const monthlyPlan = state.plan === 'member' || state.plan === 'prime';
+    lines.push(monthlyPlan ? t.copyPaymentNoteMonthly : t.copyPaymentNote);
     lines.push(t.copyDisclaimer);
 
     return lines.join('\n');
@@ -845,7 +854,8 @@
     rows.push(`${$t('total')}: ${fmtJPY(perPersonTotal)} × ${people}${t.peopleSuffix} = ${fmtJPY(grandTotal)}`);
     await addMessage(`${$t('summary')}\n\n${rows.join('\n')}`);
     await sleep(250);
-    await addMessage($t('payNotice'));
+    const monthlyPlan = state.plan === 'member' || state.plan === 'prime';
+    await addMessage($t(monthlyPlan ? 'payNoticeMonthly' : 'payNotice'));
     await sleep(220);
   };
 
