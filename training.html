@@ -6,7 +6,7 @@
 <link rel="canonical" href="https://dojo-japan.jp/training.html" />
 <meta property="og:url" content="https://dojo-japan.jp/training.html" />
 <meta property="og:site_name" content="DŌJŌ JAPAN" />
-<meta property="og:image" content="https://dojo-japan.jp/assets/img/gym/bag_work.jpg" />
+<meta property="og:image" content="https://dojo-japan.jp/assets/img/training/02_jumprope_brand.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#050608" />
 <!-- Google Analytics 4 -->
@@ -60,9 +60,19 @@
   /* ============================================================
      TRAINING PAGE — Cinematic vertical-flow journey
      ============================================================ */
+
+  /* HERO override — use training-specific photo */
+  .page-hero--training .page-hero__bg {
+    background-image:
+      linear-gradient(180deg, rgba(5,6,8,0.55) 0%, rgba(5,6,8,0.85) 100%),
+      url('assets/img/training/hero_action.jpg');
+    background-size: cover;
+    background-position: center 30%;
+  }
+
   .training-flow {
     background: var(--bg-2);
-    padding: 120px 0 80px;
+    padding: 120px 0 0;
     overflow: hidden;
   }
   .training-flow__inner {
@@ -129,9 +139,8 @@
     transform: translateY(0);
   }
   .training-step:first-child { padding-top: 0; }
-  .training-step:last-child  { padding-bottom: 0; }
 
-  /* Connector node (small dot on the spine line) */
+  /* Connector node */
   .training-step::before {
     content: '';
     position: absolute;
@@ -146,10 +155,10 @@
     z-index: 2;
   }
 
-  /* Alternate sides — even step rows flip image to right */
-  .training-step:nth-child(even) .training-step__media { order: 2; }
-  .training-step:nth-child(even) .training-step__body  { order: 1; text-align: right; }
-  .training-step:nth-child(even) .training-step__num   { left: auto; right: -22px; }
+  /* Alternate sides (image steps only) */
+  .training-step--image:nth-of-type(even) .training-step__media { order: 2; }
+  .training-step--image:nth-of-type(even) .training-step__body  { order: 1; text-align: right; }
+  .training-step--image:nth-of-type(even) .training-step__num   { left: auto; right: -22px; }
 
   /* ---------- Media (image with subtle frame) ---------- */
   .training-step__media {
@@ -225,9 +234,9 @@
     position: relative;
     z-index: 1;
   }
-  .training-step:nth-child(even) .training-step__desc { margin-left: auto; }
+  .training-step--image:nth-of-type(even) .training-step__desc { margin-left: auto; }
 
-  /* "希望者のみ" badge — STEP 06 distinct treatment */
+  /* "希望者のみ" badge */
   .training-step__badge {
     display: inline-block;
     font-family: var(--ff-display);
@@ -243,13 +252,73 @@
     z-index: 1;
   }
 
+  /* ---------- TEXT-ONLY VARIANT (no photo steps) ---------- */
+  .training-step--text {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 140px 0;
+    gap: 0;
+  }
+  .training-step--text .training-step__body {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .training-step--text .training-step__num {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    font-size: clamp(180px, 28vw, 360px);
+    text-align: center;
+    margin: 0 auto -100px;
+    color: rgba(255,255,255,0.05);
+    width: 100%;
+  }
+  .training-step--text .training-step__desc {
+    margin: 0 auto;
+    max-width: 520px;
+  }
+
+  /* ---------- Closing image band ---------- */
+  .training-flow__closing {
+    margin-top: 80px;
+    height: clamp(360px, 50vw, 580px);
+    background:
+      linear-gradient(180deg, rgba(5,6,8,0.4) 0%, rgba(5,6,8,0.85) 100%),
+      url('assets/img/training/07_weight_finale.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 60px var(--gutter);
+  }
+  .training-flow__closing-text {
+    text-align: center;
+    color: #fff;
+    max-width: 720px;
+  }
+  .training-flow__closing-text p {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    color: var(--red);
+    margin: 0 0 16px;
+  }
+  .training-flow__closing-text h3 {
+    font-size: clamp(22px, 2.6vw, 32px);
+    letter-spacing: 0.06em;
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 700;
+  }
+
   /* ---------- Closing note ---------- */
   .training-flow__note {
     max-width: 760px;
-    margin: 100px auto 0;
-    padding: 32px 32px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    margin: 0 auto;
+    padding: 60px 32px 80px;
     text-align: center;
     color: rgba(255,255,255,0.72);
     font-size: 13px;
@@ -259,18 +328,19 @@
 
   /* ---------- Tablet (≤960px) ---------- */
   @media (max-width: 960px) {
-    .training-flow { padding: 80px 0 60px; }
+    .training-flow { padding: 80px 0 0; }
     .training-flow__steps::before { display: none; }
-    .training-step {
+    .training-step--image {
       grid-template-columns: 1fr;
       gap: 32px;
       padding: 80px 0;
     }
+    .training-step--text { padding: 100px 0; }
     .training-step::before { display: none; }
-    .training-step:nth-child(even) .training-step__media { order: 0; }
-    .training-step:nth-child(even) .training-step__body  { order: 0; text-align: left; }
-    .training-step:nth-child(even) .training-step__desc  { margin-left: 0; }
-    .training-step__num {
+    .training-step--image:nth-of-type(even) .training-step__media { order: 0; }
+    .training-step--image:nth-of-type(even) .training-step__body  { order: 0; text-align: left; }
+    .training-step--image:nth-of-type(even) .training-step__desc  { margin-left: 0; }
+    .training-step--image .training-step__num {
       position: relative;
       top: auto;
       left: auto;
@@ -278,18 +348,24 @@
       margin-bottom: -28px;
       color: rgba(255,255,255,0.06);
     }
-    .training-step:nth-child(even) .training-step__num { right: auto; left: 0; }
-    .training-step__body { padding: 0; }
+    .training-step--image:nth-of-type(even) .training-step__num { right: auto; left: 0; }
+    .training-step--image .training-step__body { padding: 0; }
+    .training-step--text .training-step__num {
+      font-size: clamp(140px, 38vw, 240px);
+      margin-bottom: -70px;
+    }
   }
 
   /* ---------- Mobile (≤540px) ---------- */
   @media (max-width: 540px) {
     .training-flow__intro { margin-bottom: 56px; }
-    .training-step { padding: 56px 0; gap: 24px; }
+    .training-step--image { padding: 56px 0; gap: 24px; }
+    .training-step--text { padding: 72px 0; }
     .training-step__title { font-size: 26px; }
     .training-step__lead { font-size: 13.5px; }
     .training-step__desc { font-size: 12.5px; line-height: 2; }
-    .training-flow__note { margin-top: 64px; padding: 24px 18px; font-size: 12.5px; }
+    .training-flow__closing { height: 320px; padding: 40px 18px; }
+    .training-flow__note { padding: 48px 18px 60px; font-size: 12.5px; }
   }
 
   /* ---------- Reduced motion ---------- */
@@ -328,7 +404,7 @@
 </header>
 
 <!-- HERO -->
-<section class="page-hero">
+<section class="page-hero page-hero--training">
   <div class="page-hero__bg" aria-hidden="true"></div>
   <div class="page-hero__inner">
     <p class="page-hero__sub">TRAINING</p>
@@ -349,11 +425,8 @@
 
     <ol class="training-flow__steps">
 
-      <!-- STEP 01 -->
-      <li class="training-step">
-        <div class="training-step__media">
-          <img src="assets/img/gym/training_floor.jpg" alt="DŌJŌ JAPAN 稽古フロアでのストレッチ風景" loading="lazy" />
-        </div>
+      <!-- STEP 01 — TEXT ONLY -->
+      <li class="training-step training-step--text">
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">01</span>
           <p class="training-step__sub">STEP 01 / STRETCH</p>
@@ -363,11 +436,8 @@
         </div>
       </li>
 
-      <!-- STEP 02 -->
-      <li class="training-step">
-        <div class="training-step__media">
-          <img src="assets/img/gym/slider_3_training.jpg" alt="DŌJŌ JAPAN なわとびによるウォームアップ" loading="lazy" />
-        </div>
+      <!-- STEP 02 — TEXT ONLY -->
+      <li class="training-step training-step--text">
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">02</span>
           <p class="training-step__sub">STEP 02 / JUMP ROPE</p>
@@ -377,10 +447,10 @@
         </div>
       </li>
 
-      <!-- STEP 03 -->
-      <li class="training-step">
+      <!-- STEP 03 — IMAGE -->
+      <li class="training-step training-step--image">
         <div class="training-step__media">
-          <img src="assets/img/gym/slider_2_action.jpg" alt="DŌJŌ JAPAN パンチ・キックの基本動作の指導風景" loading="lazy" />
+          <img src="assets/img/training/03_basics_shadow.jpg" alt="DŌJŌ JAPAN 鏡の前で基本動作を確認するシャドーボクシング" loading="lazy" />
         </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">03</span>
@@ -391,10 +461,10 @@
         </div>
       </li>
 
-      <!-- STEP 04 -->
-      <li class="training-step">
+      <!-- STEP 04 — IMAGE -->
+      <li class="training-step training-step--image">
         <div class="training-step__media">
-          <img src="assets/img/gym/bag_work.jpg" alt="DŌJŌ JAPAN サンドバッグ稽古の様子" loading="lazy" />
+          <img src="assets/img/training/04_bag_work.jpg" alt="DŌJŌ JAPAN サンドバッグへのパンチ稽古" loading="lazy" />
         </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">04</span>
@@ -405,10 +475,10 @@
         </div>
       </li>
 
-      <!-- STEP 05 -->
-      <li class="training-step">
+      <!-- STEP 05 — IMAGE -->
+      <li class="training-step training-step--image">
         <div class="training-step__media">
-          <img src="assets/img/bg/boxing_1.jpg" alt="DŌJŌ JAPAN ミット打ちの稽古風景" loading="lazy" />
+          <img src="assets/img/training/05_mitt_pair.jpg" alt="DŌJŌ JAPAN 鏡の前でペアで動きを確認する稽古" loading="lazy" />
         </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">05</span>
@@ -419,10 +489,10 @@
         </div>
       </li>
 
-      <!-- STEP 06 — MASS SPARRING (optional) -->
-      <li class="training-step">
+      <!-- STEP 06 — IMAGE — MASS SPARRING (希望者のみ) -->
+      <li class="training-step training-step--image">
         <div class="training-step__media">
-          <img src="assets/img/gym/sparring.jpg" alt="DŌJŌ JAPAN マススパーリングの様子（希望者のみ）" loading="lazy" />
+          <img src="assets/img/training/06_sparring_stance.jpg" alt="DŌJŌ JAPAN マススパーリングの構え（希望者のみ）" loading="lazy" />
         </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">06</span>
@@ -434,11 +504,8 @@
         </div>
       </li>
 
-      <!-- STEP 07 -->
-      <li class="training-step">
-        <div class="training-step__media">
-          <img src="assets/img/gym/weights.jpg" alt="DŌJŌ JAPAN ウェイトトレーニングエリア" loading="lazy" />
-        </div>
+      <!-- STEP 07 — TEXT ONLY -->
+      <li class="training-step training-step--text">
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">07</span>
           <p class="training-step__sub">STEP 07 / WEIGHT TRAINING</p>
@@ -449,6 +516,14 @@
       </li>
 
     </ol>
+
+    <!-- CLOSING IMAGE BAND -->
+    <div class="training-flow__closing">
+      <div class="training-flow__closing-text">
+        <p>BEYOND THE FLOW</p>
+        <h3>稽古は、終わりではなく、はじまり。<br />明日のあなたを、ここで磨きます。</h3>
+      </div>
+    </div>
 
     <p class="training-flow__note">
       ※ 上記は標準的な稽古の流れでございます。<br />
