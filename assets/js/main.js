@@ -3,24 +3,26 @@
   'use strict';
 
   /* ---------- Preloader (TOP only) ----------
-     Lightweight version: animate to 100% on a 600ms timeline regardless
-     of asset load. This keeps the brand reveal but never blocks LCP.
-     Below-the-fold lazy images would otherwise never trigger the
-     completion handler (chicken-and-egg with viewport). */
+     Time-driven: animate 0% → 100% over 1500ms regardless of asset load,
+     then fade out. Asset loading does NOT block this (was a deadlock
+     when below-the-fold lazy images couldn't trigger). */
   const preloader = document.getElementById('preloader');
   if (preloader) {
     const fill = document.getElementById('preloaderFill');
     const pctEl = document.getElementById('preloaderPct');
     document.body.style.overflow = 'hidden';
 
+    let finished = false;
     const finish = () => {
+      if (finished) return;
+      finished = true;
       preloader.classList.add('is-done');
       document.body.style.overflow = '';
     };
 
-    // Drive percentage to 100% over ~600ms
+    // Animate 0 → 100 % over exactly 1500 ms, then fade
     const start = performance.now();
-    const duration = 600;
+    const duration = 1500;
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration);
       const pct = Math.round(t * 100);
@@ -28,12 +30,12 @@
       if (pctEl) pctEl.textContent = pct + '%';
       preloader.setAttribute('aria-valuenow', String(pct));
       if (t < 1) requestAnimationFrame(tick);
-      else setTimeout(finish, 120);
+      else finish();
     };
     requestAnimationFrame(tick);
 
-    // Failsafe: if anything stalls, force-finish after 1.5s
-    setTimeout(finish, 1500);
+    // Failsafe (e.g. if rAF is paused on a hidden tab)
+    setTimeout(finish, 1800);
   }
 
   /* ---------- Header scroll state ---------- */
