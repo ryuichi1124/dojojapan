@@ -46,8 +46,8 @@
   "description": "ストレッチに始まり、なわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、希望者によるマススパー、最後のウェイトトレーニングまで、初めての方にもご安心いただける王道の稽古フローでございます。",
   "totalTime": "PT60M",
   "step": [
-    {"@type":"HowToStep","position":1,"name":"ストレッチ","text":"怪我の防止のため、稽古開始前に必ずストレッチを行います。正しい姿勢と呼吸法を意識しながら、ゆっくりと身体を伸ばしてまいります。"},
-    {"@type":"HowToStep","position":2,"name":"なわとび","text":"有酸素運動による脂肪燃焼と代謝向上を狙います。バランス感覚・身体の協調性・俊敏性・反射速度を、楽しみながら高めていただけます。"},
+    {"@type":"HowToStep","position":1,"name":"ストレッチ","text":"怪我の防止のため、稽古開始前に必ずストレッチを行います。正しい姿勢と呼吸を意識しながら、ゆっくりと身体を伸ばしてまいります。"},
+    {"@type":"HowToStep","position":2,"name":"なわとび","text":"有酸素運動による脂肪燃焼と代謝向上を狙います。バランス感覚・協調性・俊敏性・反射速度を、楽しみながら高めていただけます。"},
     {"@type":"HowToStep","position":3,"name":"パンチ・キックの基本動作","text":"拳の握り方や基本ポジション、体の使い方を、鏡の前でトレーナーと一緒に確認いたします。一つひとつの動きを分かりやすく丁寧にお伝えいたします。"},
     {"@type":"HowToStep","position":4,"name":"サンドバッグ打ち","text":"サンドバッグに向かい、実際にパンチ・キックを打ち込んでいきます。正しいフォームとリズムを保ちながら反復練習を重ねてまいります。"},
     {"@type":"HowToStep","position":5,"name":"ミット打ち","text":"トレーナーの指示に合わせ、手にしたミットへパンチ・キックを当てていきます。実戦的な感覚でテクニックと反射神経を磨いていただけ、ストレス発散にも効果的でございます。"},
@@ -57,33 +57,249 @@
 }
 </script>
 <style>
-  /* Training-page-only flourishes (extends shared facility-card pattern) */
-  .training-card-badge {
+  /* ============================================================
+     TRAINING PAGE — Cinematic vertical-flow journey
+     ============================================================ */
+  .training-flow {
+    background: var(--bg-2);
+    padding: 120px 0 80px;
+    overflow: hidden;
+  }
+  .training-flow__inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .training-flow__intro {
+    max-width: 720px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+  .training-flow__intro p {
+    color: rgba(255,255,255,0.78);
+    line-height: 2.1;
+    font-size: 14px;
+    margin: 0;
+  }
+  .training-flow__intro p + p { margin-top: 18px; }
+  .training-flow__intro .training-flow__intro-en {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: var(--red);
+    margin-bottom: 24px;
+  }
+
+  /* ---------- Step list with vertical connector ---------- */
+  .training-flow__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+  .training-flow__steps::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    bottom: 40px;
+    width: 1px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(255,255,255,0.18) 8%,
+      rgba(255,255,255,0.18) 92%,
+      transparent 100%
+    );
+    transform: translateX(-0.5px);
+  }
+
+  .training-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 88px;
+    padding: 110px 0;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+  .training-step.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .training-step:first-child { padding-top: 0; }
+  .training-step:last-child  { padding-bottom: 0; }
+
+  /* Connector node (small dot on the spine line) */
+  .training-step::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg-2);
+    border: 1px solid rgba(255,255,255,0.4);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  /* Alternate sides — even step rows flip image to right */
+  .training-step:nth-child(even) .training-step__media { order: 2; }
+  .training-step:nth-child(even) .training-step__body  { order: 1; text-align: right; }
+  .training-step:nth-child(even) .training-step__num   { left: auto; right: -22px; }
+
+  /* ---------- Media (image with subtle frame) ---------- */
+  .training-step__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #050608;
+  }
+  .training-step__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.6s ease;
+  }
+  .training-step.is-in .training-step__media img { transform: scale(1.04); }
+
+  /* ---------- Body (text column) ---------- */
+  .training-step__body {
+    position: relative;
+    padding: 0 8px;
+  }
+  .training-step__num {
+    position: absolute;
+    top: -110px;
+    left: -22px;
+    font-family: var(--ff-display);
+    font-weight: 700;
+    font-size: clamp(120px, 16vw, 220px);
+    line-height: 1;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -0.02em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    white-space: nowrap;
+  }
+  .training-step__sub {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    color: var(--red);
+    margin: 0 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .training-step__title {
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin: 0 0 14px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+  .training-step__lead {
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.92);
+    margin: 0 0 22px;
+    line-height: 1.85;
+    position: relative;
+    z-index: 1;
+  }
+  .training-step__desc {
+    font-size: 13px;
+    line-height: 2.1;
+    color: rgba(255,255,255,0.62);
+    margin: 0;
+    max-width: 460px;
+    position: relative;
+    z-index: 1;
+  }
+  .training-step:nth-child(even) .training-step__desc { margin-left: auto; }
+
+  /* "希望者のみ" badge — STEP 06 distinct treatment */
+  .training-step__badge {
     display: inline-block;
     font-family: var(--ff-display);
     font-size: 10px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.28em;
     color: var(--red);
     border: 1px solid var(--red);
-    padding: 4px 10px;
-    margin: 0 0 12px;
+    padding: 5px 12px;
+    margin: 0 0 18px;
     text-transform: uppercase;
     line-height: 1;
+    position: relative;
+    z-index: 1;
   }
-  .training-note {
+
+  /* ---------- Closing note ---------- */
+  .training-flow__note {
     max-width: 760px;
-    margin: 56px auto 0;
-    padding: 24px 28px;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.02);
+    margin: 100px auto 0;
+    padding: 32px 32px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
     text-align: center;
-    color: rgba(255,255,255,0.78);
+    color: rgba(255,255,255,0.72);
     font-size: 13px;
-    line-height: 2;
+    line-height: 2.1;
   }
-  .training-note strong { color: #fff; }
+  .training-flow__note strong { color: #fff; font-weight: 600; }
+
+  /* ---------- Tablet (≤960px) ---------- */
+  @media (max-width: 960px) {
+    .training-flow { padding: 80px 0 60px; }
+    .training-flow__steps::before { display: none; }
+    .training-step {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 80px 0;
+    }
+    .training-step::before { display: none; }
+    .training-step:nth-child(even) .training-step__media { order: 0; }
+    .training-step:nth-child(even) .training-step__body  { order: 0; text-align: left; }
+    .training-step:nth-child(even) .training-step__desc  { margin-left: 0; }
+    .training-step__num {
+      position: relative;
+      top: auto;
+      left: auto;
+      font-size: clamp(80px, 22vw, 140px);
+      margin-bottom: -28px;
+      color: rgba(255,255,255,0.06);
+    }
+    .training-step:nth-child(even) .training-step__num { right: auto; left: 0; }
+    .training-step__body { padding: 0; }
+  }
+
+  /* ---------- Mobile (≤540px) ---------- */
   @media (max-width: 540px) {
-    .training-note { margin-top: 44px; padding: 20px 18px; font-size: 12.5px; }
+    .training-flow__intro { margin-bottom: 56px; }
+    .training-step { padding: 56px 0; gap: 24px; }
+    .training-step__title { font-size: 26px; }
+    .training-step__lead { font-size: 13.5px; }
+    .training-step__desc { font-size: 12.5px; line-height: 2; }
+    .training-flow__note { margin-top: 64px; padding: 24px 18px; font-size: 12.5px; }
+  }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .training-step,
+    .training-step.is-in .training-step__media img {
+      transition: none;
+      transform: none;
+      opacity: 1;
+    }
   }
 </style>
 </head>
@@ -122,94 +338,124 @@
   </div>
 </section>
 
-<!-- TRAINING FLOW -->
-<section class="facility-page">
-  <div class="facility-page__inner">
-    <p class="facility-page__intro">
-      初めての方でもご安心ください。<br />
-      経験豊富なトレーナーが、ストレッチから打撃の基本、サンドバッグ・ミット稽古、希望者向けのマススパー、最後のウェイトトレーニングまでを丁寧にご案内いたします。
-    </p>
+<!-- TRAINING FLOW (cinematic vertical journey) -->
+<section class="training-flow">
+  <div class="training-flow__inner">
 
-    <div class="facility-grid">
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/training_floor.jpg" alt="DŌJŌ JAPAN 稽古フロアでのストレッチ風景" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 01</p>
-        <h2 class="facility-card__label">STRETCH</h2>
-        <p class="facility-card__name">ストレッチ</p>
-        <p class="facility-card__desc">怪我の防止のため、稽古開始前に必ずストレッチを行います。正しい姿勢と呼吸法を意識しながら、ゆっくりと身体を伸ばしてまいります。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/slider_3_training.jpg" alt="DŌJŌ JAPAN なわとびによるウォームアップ" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 02</p>
-        <h2 class="facility-card__label">JUMP ROPE</h2>
-        <p class="facility-card__name">なわとび</p>
-        <p class="facility-card__desc">有酸素運動による脂肪燃焼と代謝向上を狙います。バランス感覚・身体の協調性・俊敏性・反射速度を、楽しみながら高めていただけます。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/slider_2_action.jpg" alt="DŌJŌ JAPAN パンチ・キックの基本動作の指導風景" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 03</p>
-        <h2 class="facility-card__label">BASICS</h2>
-        <p class="facility-card__name">パンチ・キックの基本動作</p>
-        <p class="facility-card__desc">拳の握り方や基本ポジション、体の使い方を、鏡の前でトレーナーと一緒に確認いたします。一つひとつの動きを分かりやすく丁寧にお伝えいたします。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/bag_work.jpg" alt="DŌJŌ JAPAN サンドバッグ稽古の様子" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 04</p>
-        <h2 class="facility-card__label">BAG WORK</h2>
-        <p class="facility-card__name">サンドバッグ打ち</p>
-        <p class="facility-card__desc">サンドバッグに向かい、実際にパンチ・キックを打ち込んでまいります。正しいフォームとリズムを保ちながら、反復練習を重ねてまいります。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/bg/boxing_1.jpg" alt="DŌJŌ JAPAN ミット打ちの稽古風景" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 05</p>
-        <h2 class="facility-card__label">MITT WORK</h2>
-        <p class="facility-card__name">ミット打ち</p>
-        <p class="facility-card__desc">トレーナーの指示に合わせ、手にしたミットへパンチ・キックを当てていきます。実戦的な感覚でテクニックと反射神経を磨いていただけ、ストレス発散にも効果的でございます。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/sparring.jpg" alt="DŌJŌ JAPAN マススパーリングの様子（希望者のみ）" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 06</p>
-        <span class="training-card-badge" aria-label="希望者のみ">希望者のみ</span>
-        <h2 class="facility-card__label">MASS SPARRING</h2>
-        <p class="facility-card__name">マススパーリング</p>
-        <p class="facility-card__desc">軽い打撃で間合いと駆け引きを学ぶ実戦稽古でございます。強制ではございませんので、ご希望の方のみご参加いただけます。安全に配慮し、トレーナーが必ず立ち会います。</p>
-      </article>
-
-      <article class="facility-card">
-        <div class="facility-card__media">
-          <img src="assets/img/gym/weights.jpg" alt="DŌJŌ JAPAN ウェイトトレーニングエリア" loading="lazy" />
-        </div>
-        <p class="facility-card__num">STEP 07</p>
-        <h2 class="facility-card__label">WEIGHT TRAINING</h2>
-        <p class="facility-card__name">ウェイトトレーニング</p>
-        <p class="facility-card__desc">打撃に必要な筋力と体幹を鍛える仕上げのメニューでございます。専用スペースのフリーウェイトで、トレーナーと共にお身体に合った強度で取り組んでまいります。</p>
-      </article>
-
+    <div class="training-flow__intro">
+      <p class="training-flow__intro-en">SEVEN STEPS · ONE JOURNEY</p>
+      <p>初めての方でもご安心ください。<br />ストレッチから最後の仕上げまで、トレーナーが一つひとつ丁寧にお導きいたします。</p>
     </div>
 
-    <p class="training-note">
+    <ol class="training-flow__steps">
+
+      <!-- STEP 01 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/training_floor.jpg" alt="DŌJŌ JAPAN 稽古フロアでのストレッチ風景" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">01</span>
+          <p class="training-step__sub">STEP 01 / STRETCH</p>
+          <h2 class="training-step__title">身体を解く。</h2>
+          <p class="training-step__lead">はじまりの一手。姿勢と呼吸を整える。</p>
+          <p class="training-step__desc">怪我の防止のため、稽古は必ずストレッチから。正しい姿勢と呼吸を意識しながら、ゆっくりと身体を伸ばしてまいります。</p>
+        </div>
+      </li>
+
+      <!-- STEP 02 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/slider_3_training.jpg" alt="DŌJŌ JAPAN なわとびによるウォームアップ" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">02</span>
+          <p class="training-step__sub">STEP 02 / JUMP ROPE</p>
+          <h2 class="training-step__title">鼓動を整える。</h2>
+          <p class="training-step__lead">軽やかなリズムで、心拍を上げていく。</p>
+          <p class="training-step__desc">有酸素運動で脂肪を燃やし、代謝を上げます。バランス感覚・協調性・俊敏性・反射速度。なわとび一つで、身体の地図が立ち上がります。</p>
+        </div>
+      </li>
+
+      <!-- STEP 03 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/slider_2_action.jpg" alt="DŌJŌ JAPAN パンチ・キックの基本動作の指導風景" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">03</span>
+          <p class="training-step__sub">STEP 03 / BASICS</p>
+          <h2 class="training-step__title">型を覚える。</h2>
+          <p class="training-step__lead">拳を握り、姿勢を決める。</p>
+          <p class="training-step__desc">鏡の前でトレーナーと一緒に、拳の握り方・構え・体重移動の基本を確認いたします。一つひとつの動きを分かりやすく、丁寧にお伝えいたします。</p>
+        </div>
+      </li>
+
+      <!-- STEP 04 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/bag_work.jpg" alt="DŌJŌ JAPAN サンドバッグ稽古の様子" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">04</span>
+          <p class="training-step__sub">STEP 04 / BAG WORK</p>
+          <h2 class="training-step__title">バッグを打つ。</h2>
+          <p class="training-step__lead">フォームを反復し、骨に刻む。</p>
+          <p class="training-step__desc">サンドバッグに向かい、実際にパンチとキックを打ち込んでまいります。正しいフォームとリズムを保ちながら、一発一発に集中して反復稽古を重ねます。</p>
+        </div>
+      </li>
+
+      <!-- STEP 05 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/bg/boxing_1.jpg" alt="DŌJŌ JAPAN ミット打ちの稽古風景" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">05</span>
+          <p class="training-step__sub">STEP 05 / MITT WORK</p>
+          <h2 class="training-step__title">動きを試す。</h2>
+          <p class="training-step__lead">反応と駆け引きが、目覚める。</p>
+          <p class="training-step__desc">トレーナーの合図に呼応し、手にしたミットへ打撃を当てていきます。実戦的な感覚でテクニックと反射神経が磨かれ、ストレス発散にも効果的でございます。</p>
+        </div>
+      </li>
+
+      <!-- STEP 06 — MASS SPARRING (optional) -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/sparring.jpg" alt="DŌJŌ JAPAN マススパーリングの様子（希望者のみ）" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">06</span>
+          <p class="training-step__sub">STEP 06 / MASS SPARRING</p>
+          <span class="training-step__badge">希望者のみ</span>
+          <h2 class="training-step__title">間合いを読む。</h2>
+          <p class="training-step__lead">軽い打撃で、実戦の空気を体感する。</p>
+          <p class="training-step__desc">強制ではございません。ご希望の方のみ、トレーナーが必ず立ち会うかたちで、安全に配慮しながら行います。距離感・タイミング・駆け引きを身体で覚えていただけます。</p>
+        </div>
+      </li>
+
+      <!-- STEP 07 -->
+      <li class="training-step">
+        <div class="training-step__media">
+          <img src="assets/img/gym/weights.jpg" alt="DŌJŌ JAPAN ウェイトトレーニングエリア" loading="lazy" />
+        </div>
+        <div class="training-step__body">
+          <span class="training-step__num" aria-hidden="true">07</span>
+          <p class="training-step__sub">STEP 07 / WEIGHT TRAINING</p>
+          <h2 class="training-step__title">仕上げる。</h2>
+          <p class="training-step__lead">打撃を支える、芯の力を鍛える。</p>
+          <p class="training-step__desc">専用スペースのフリーウェイトで、打撃に必要な筋力と体幹を整えます。トレーナーと共に、お身体に合った強度で無理なく取り組んでまいります。</p>
+        </div>
+      </li>
+
+    </ol>
+
+    <p class="training-flow__note">
       ※ 上記は標準的な稽古の流れでございます。<br />
       ご経験・ご体調に合わせて、トレーナーが内容を柔軟に調整いたします。<br />
       <strong>マススパーリング（STEP 06）はご希望の方のみ</strong>のご参加で、無理にお勧めすることはございません。
     </p>
+
   </div>
 </section>
 
@@ -264,6 +510,27 @@
     <div class="chatbot__actions" id="chatbotActions"></div>
   </section>
 </div>
+
+<!-- Scroll-reveal for training steps -->
+<script>
+(function () {
+  var steps = document.querySelectorAll('.training-step');
+  if (!steps.length) return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    steps.forEach(function (s) { s.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  steps.forEach(function (s) { io.observe(s); });
+})();
+</script>
 
 <script src="assets/js/main.js?v=202605071930" defer></script>
 <script src="assets/js/chatbot.js?v=202605071930" defer></script>
