@@ -9,9 +9,26 @@
 <meta property="og:image" content="https://dojo-japan.jp/assets/img/gym/gym_main_iconic.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#050608" />
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RV5Q6QLTLJ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RV5Q6QLTLJ',{anonymize_ip:true});</script>
+<!-- Google Analytics 4 (lazy: load after first interaction or 4s) -->
+<script>
+(function(){
+  var GA_ID='G-RV5Q6QLTLJ', loaded=false;
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments);};
+  function load(){
+    if(loaded)return; loaded=true;
+    var s=document.createElement('script'); s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+    document.head.appendChild(s);
+    gtag('js',new Date()); gtag('config',GA_ID,{anonymize_ip:true});
+  }
+  ['scroll','click','touchstart','keydown','mousemove','wheel'].forEach(function(ev){
+    addEventListener(ev,load,{once:true,passive:true});
+  });
+  setTimeout(load,4000);
+  addEventListener('pagehide',load,{once:true});
+})();
+</script>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png" />
@@ -78,8 +95,8 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){.preloader__logo{animation:none}}
 </style>
 <!-- Full stylesheet — non-blocking via media trick -->
-<link rel="preload" as="style" href="assets/css/style.css?v=202605072500" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605072500" /></noscript>
+<link rel="preload" as="style" href="assets/css/style.css?v=202605072600" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605072600" /></noscript>
 <!-- Fonts — non-blocking (display=swap shows fallback first, swaps when ready) -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" onload="this.onload=null;this.rel='stylesheet'" />
@@ -532,8 +549,36 @@ button{font:inherit}
 }
 </script>
 
-<script src="assets/js/main.js?v=202605072500" defer></script>
-<script src="assets/js/chatbot.js?v=202605072500" defer></script>
-<script src="assets/js/analytics.js?v=202605072500" defer></script>
+<script src="assets/js/main.js?v=202605072600" defer></script>
+<script src="assets/js/analytics.js?v=202605072600" defer></script>
+<!-- Chatbot — lazy load on first interaction or after 3s -->
+<script>
+(function(){
+  var loaded=false, pending=false;
+  function load(){
+    if(loaded)return; loaded=true;
+    var s=document.createElement('script');
+    s.src='assets/js/chatbot.js?v=202605072600';
+    s.onload=function(){
+      if(pending){
+        var btn=document.getElementById('chatbotToggle');
+        if(btn)btn.click();
+      }
+    };
+    document.body.appendChild(s);
+  }
+  // If user clicks BOOK before script is ready, remember and re-fire after load
+  var btn=document.getElementById('chatbotToggle');
+  if(btn){
+    btn.addEventListener('click',function(e){
+      if(!loaded){ e.preventDefault(); pending=true; load(); }
+    });
+  }
+  ['scroll','click','touchstart','keydown'].forEach(function(ev){
+    addEventListener(ev,load,{once:true,passive:true});
+  });
+  setTimeout(load,3000);
+})();
+</script>
 </body>
 </html>
