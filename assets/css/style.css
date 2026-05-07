@@ -537,6 +537,19 @@ button { font: inherit; }
     object-fit: cover;
     filter: brightness(0.92) contrast(1.02);
   }
+  /* Poster overlays the video's 16:9 banner area until video is ready */
+  .hero__poster {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    inset: auto;
+    filter: brightness(0.92) contrast(1.02);
+    /* z-index inherits 0 from critical CSS — video (DOM order: after poster) sits on top */
+  }
   .hero__bg, .hero::after { display: none; }
   .hero__inner {
     align-self: auto;

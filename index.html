@@ -60,7 +60,11 @@ button{font:inherit}
 .btn--ghost{background:transparent;color:#fff;outline:1px solid rgba(255,255,255,.5);outline-offset:-1px}
 .btn small{display:block;margin-top:4px;font-size:9px;font-weight:400;letter-spacing:.18em;opacity:.85}
 .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:140px 0 120px;overflow:hidden;background:#000}
-.hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.55) contrast(1.05) saturate(.95)}
+.hero__poster{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:brightness(.55) contrast(1.05) saturate(.95);transition:opacity .8s ease}
+.hero__poster img{width:100%;height:100%;object-fit:cover;display:block}
+.hero__poster.is-hidden{opacity:0}
+.hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;filter:brightness(.55) contrast(1.05) saturate(.95);opacity:0;transition:opacity .8s ease}
+.hero__video.is-playing{opacity:1}
 .hero__bg{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 80% 35%,rgba(201,21,42,.32),transparent 55%),radial-gradient(ellipse at 15% 75%,rgba(200,160,98,.10),transparent 50%),linear-gradient(180deg,rgba(5,6,8,.55) 0%,rgba(5,6,8,.35) 50%,rgba(5,6,8,.85) 100%);pointer-events:none}
 .hero__inner{position:relative;z-index:2;max-width:var(--max);width:100%;margin:0 auto;padding:0 var(--gutter);display:flex;flex-direction:column;align-self:flex-end}
 .visually-hidden{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -74,8 +78,8 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){.preloader__logo{animation:none}}
 </style>
 <!-- Full stylesheet — non-blocking via media trick -->
-<link rel="preload" as="style" href="assets/css/style.css?v=202605072400" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605072400" /></noscript>
+<link rel="preload" as="style" href="assets/css/style.css?v=202605072500" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605072500" /></noscript>
 <!-- Fonts — non-blocking (display=swap shows fallback first, swaps when ready) -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" onload="this.onload=null;this.rel='stylesheet'" />
@@ -151,6 +155,10 @@ button{font:inherit}
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <picture class="hero__poster" aria-hidden="true">
+    <source srcset="assets/movies/poster_hero.webp" type="image/webp" />
+    <img src="assets/movies/poster_hero.jpg" alt="" decoding="async" fetchpriority="high" />
+  </picture>
   <video class="hero__video" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" poster="assets/movies/poster_hero.webp" aria-hidden="true" tabindex="-1" data-src="assets/movies/dojo_hero.mp4" data-src-mobile="assets/movies/dojo_hero_mobile.mp4"></video>
   <div class="hero__bg" aria-hidden="true"></div>
   <div class="hero__inner">
@@ -524,8 +532,8 @@ button{font:inherit}
 }
 </script>
 
-<script src="assets/js/main.js?v=202605072400" defer></script>
-<script src="assets/js/chatbot.js?v=202605072400" defer></script>
-<script src="assets/js/analytics.js?v=202605072400" defer></script>
+<script src="assets/js/main.js?v=202605072500" defer></script>
+<script src="assets/js/chatbot.js?v=202605072500" defer></script>
+<script src="assets/js/analytics.js?v=202605072500" defer></script>
 </body>
 </html>

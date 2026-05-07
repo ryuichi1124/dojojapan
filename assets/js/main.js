@@ -213,6 +213,16 @@
     heroVid.addEventListener('loadedmetadata', tryPlay, { once: true });
     heroVid.addEventListener('canplay', tryPlay, { once: true });
 
+    // Crossfade poster → video when actually playing
+    const heroPoster = document.querySelector('.hero__poster');
+    heroVid.addEventListener('playing', () => {
+      heroVid.classList.add('is-playing');
+      if (heroPoster) {
+        // Wait for video fade-in to complete before hiding poster (prevents flicker)
+        setTimeout(() => heroPoster.classList.add('is-hidden'), 700);
+      }
+    }, { once: true });
+
     // iOS sometimes blocks until first user gesture — recover on any tap/scroll
     const userKick = () => {
       tryPlay();
