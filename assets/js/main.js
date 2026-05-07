@@ -20,9 +20,9 @@
       document.body.style.overflow = '';
     };
 
-    // Animate 0 → 100 % over exactly 1500 ms, then fade
+    // Animate 0 → 100 % over exactly 600 ms, then fade
     const start = performance.now();
-    const duration = 1500;
+    const duration = 600;
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration);
       const pct = Math.round(t * 100);
@@ -35,7 +35,7 @@
     requestAnimationFrame(tick);
 
     // Failsafe (e.g. if rAF is paused on a hidden tab)
-    setTimeout(finish, 1800);
+    setTimeout(finish, 900);
   }
 
   /* ---------- Header scroll state ---------- */
