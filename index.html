@@ -26,12 +26,13 @@
 <meta property="og:locale:alternate" content="en_US" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Preload above-the-fold visuals -->
-<link rel="preload" as="image" href="assets/movies/poster_hero.jpg" fetchpriority="high" />
-<link rel="preload" as="image" href="assets/img/trainers/01_yahiro_shiro_photo.jpg" />
+<!-- Preload critical visuals (WebP) -->
+<link rel="preload" as="image" href="assets/movies/poster_hero.webp" type="image/webp" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/img/trainers/01_yahiro_shiro_photo.webp" type="image/webp" />
+<link rel="preload" as="style" href="assets/css/style.css?v=202605072000" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=202605071930" />
+<link rel="stylesheet" href="assets/css/style.css?v=202605072000" />
 <!-- VIDEO-SEO-BEGIN -->
 <script type="application/ld+json">
 {
@@ -100,9 +101,7 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <video class="hero__video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="metadata" poster="assets/movies/poster_hero.jpg" aria-hidden="true" tabindex="-1">
-    <source src="assets/movies/dojo_hero.mp4" type="video/mp4" />
-  </video>
+  <video class="hero__video" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" poster="assets/movies/poster_hero.webp" aria-hidden="true" tabindex="-1" data-src="assets/movies/dojo_hero.mp4"></video>
   <div class="hero__bg" aria-hidden="true"></div>
   <div class="hero__inner">
     <h1 class="visually-hidden">DŌJŌ JAPAN — NEO JAPANESE</h1>
@@ -137,7 +136,10 @@
     <li class="trainer-card">
       <a href="trainer/yahiro.html" class="trainer-card__link">
         <figure class="trainer-card__photo">
-          <img src="assets/img/trainers/01_yahiro_shiro_photo.jpg" alt="八尋 史朗" loading="eager" fetchpriority="high" />
+          <picture>
+            <source srcset="assets/img/trainers/01_yahiro_shiro_photo.webp" type="image/webp" />
+            <img src="assets/img/trainers/01_yahiro_shiro_photo.jpg" alt="八尋 史朗" width="600" height="800" loading="eager" fetchpriority="high" />
+          </picture>
         </figure>
         <div class="trainer-card__label">
           <span class="trainer-card__role">BOXING</span>
@@ -150,7 +152,10 @@
     <li class="trainer-card">
       <a href="trainer/matsushima.html" class="trainer-card__link">
         <figure class="trainer-card__photo">
-          <img src="assets/img/trainers/02_matsushima_izaya_photo.jpg" alt="松島 勲也" loading="eager" />
+          <picture>
+            <source srcset="assets/img/trainers/02_matsushima_izaya_photo.webp" type="image/webp" />
+            <img src="assets/img/trainers/02_matsushima_izaya_photo.jpg" alt="松島 勲也" width="600" height="800" loading="lazy" />
+          </picture>
         </figure>
         <div class="trainer-card__label">
           <span class="trainer-card__role">MUAY THAI</span>
@@ -163,7 +168,10 @@
     <li class="trainer-card">
       <a href="trainer/satoru.html" class="trainer-card__link">
         <figure class="trainer-card__photo">
-          <img src="assets/img/trainers/03_nariai_satoru_photo.jpg" alt="SATORU 成合" loading="eager" />
+          <picture>
+            <source srcset="assets/img/trainers/03_nariai_satoru_photo.webp" type="image/webp" />
+            <img src="assets/img/trainers/03_nariai_satoru_photo.jpg" alt="SATORU 成合" width="600" height="800" loading="lazy" />
+          </picture>
         </figure>
         <div class="trainer-card__label">
           <span class="trainer-card__role">KICKBOXING</span>
@@ -176,7 +184,10 @@
     <li class="trainer-card">
       <a href="trainer/luke.html" class="trainer-card__link">
         <figure class="trainer-card__photo">
-          <img src="assets/img/trainers/04_luke_holloway_photo.jpg" alt="ルークホロウェイ" loading="eager" />
+          <picture>
+            <source srcset="assets/img/trainers/04_luke_holloway_photo.webp" type="image/webp" />
+            <img src="assets/img/trainers/04_luke_holloway_photo.jpg" alt="ルークホロウェイ" width="600" height="800" loading="lazy" />
+          </picture>
         </figure>
         <div class="trainer-card__label">
           <span class="trainer-card__role">MARTIAL ARTS</span>
@@ -218,19 +229,31 @@
 
   <ul class="movie__thumbs">
     <li class="movie__thumb is-active" data-src="assets/movies/dojo_luke.mp4" data-poster="assets/movies/poster_luke.jpg" tabindex="0">
-      <img src="assets/movies/poster_luke.jpg" alt="ルーク・ホロウェイ Luke Holloway" />
+      <picture>
+        <source srcset="assets/movies/poster_luke.webp" type="image/webp" />
+        <img src="assets/movies/poster_luke.jpg" alt="ルーク・ホロウェイ Luke Holloway" width="640" height="360" loading="lazy" />
+      </picture>
       <span class="movie__thumb-meta"><b>01</b> Luke Holloway</span>
     </li>
     <li class="movie__thumb" data-src="assets/movies/dojo_yahiro.mp4" data-poster="assets/movies/poster_yahiro.jpg" tabindex="0">
-      <img src="assets/movies/poster_yahiro.jpg" alt="八尋 史朗 Shiro Yahiro" />
+      <picture>
+        <source srcset="assets/movies/poster_yahiro.webp" type="image/webp" />
+        <img src="assets/movies/poster_yahiro.jpg" alt="八尋 史朗 Shiro Yahiro" width="640" height="360" loading="lazy" />
+      </picture>
       <span class="movie__thumb-meta"><b>02</b> Shiro Yahiro</span>
     </li>
     <li class="movie__thumb" data-src="assets/movies/dojo_izaya.mp4" data-poster="assets/movies/poster_izaya.jpg" tabindex="0">
-      <img src="assets/movies/poster_izaya.jpg" alt="松島 勲也 Izaya" />
+      <picture>
+        <source srcset="assets/movies/poster_izaya.webp" type="image/webp" />
+        <img src="assets/movies/poster_izaya.jpg" alt="松島 勲也 Izaya" width="640" height="360" loading="lazy" />
+      </picture>
       <span class="movie__thumb-meta"><b>03</b> Izaya Matsushima</span>
     </li>
     <li class="movie__thumb" data-src="assets/movies/dojo_02.mp4" data-poster="assets/movies/poster_02.jpg" tabindex="0">
-      <img src="assets/movies/poster_02.jpg" alt="DOJO JAPAN Vol.2" />
+      <picture>
+        <source srcset="assets/movies/poster_02.webp" type="image/webp" />
+        <img src="assets/movies/poster_02.jpg" alt="DOJO JAPAN Vol.2" width="640" height="360" loading="lazy" />
+      </picture>
       <span class="movie__thumb-meta"><b>04</b> Concept Vol.2</span>
     </li>
   </ul>
@@ -248,16 +271,28 @@
   </header>
   <div class="gym-slider__viewport" aria-roledescription="image carousel">
     <div class="gym-slider__slide gym-slider__slide--1">
-      <img src="assets/img/gym/slider_1_gym_wide.jpg" alt="DŌJŌ JAPAN フロア全景 — 和のラウンジとトレーニングエリア" loading="eager" />
+      <picture>
+        <source srcset="assets/img/gym/slider_1_gym_wide.webp" type="image/webp" />
+        <img src="assets/img/gym/slider_1_gym_wide.jpg" alt="DŌJŌ JAPAN フロア全景 — 和のラウンジとトレーニングエリア" width="1600" height="900" loading="lazy" />
+      </picture>
     </div>
     <div class="gym-slider__slide gym-slider__slide--2">
-      <img src="assets/img/gym/slider_2_action.jpg" alt="ヘビーバッグでの稽古 — ハイキック" loading="eager" />
+      <picture>
+        <source srcset="assets/img/gym/slider_2_action.webp" type="image/webp" />
+        <img src="assets/img/gym/slider_2_action.jpg" alt="ヘビーバッグでの稽古 — ハイキック" width="1600" height="900" loading="lazy" />
+      </picture>
     </div>
     <div class="gym-slider__slide gym-slider__slide--3">
-      <img src="assets/img/gym/slider_3_training.jpg" alt="メインフロア — 松の透かし彫りに照らされたトレーニング機材エリア" loading="eager" />
+      <picture>
+        <source srcset="assets/img/gym/slider_3_training.webp" type="image/webp" />
+        <img src="assets/img/gym/slider_3_training.jpg" alt="メインフロア — 松の透かし彫りに照らされたトレーニング機材エリア" width="1600" height="900" loading="lazy" />
+      </picture>
     </div>
     <div class="gym-slider__slide gym-slider__slide--4">
-      <img src="assets/img/gym/slider_4_lounge.jpg" alt="ラウンジ — DŌJŌ JAPAN バーカウンター" loading="eager" />
+      <picture>
+        <source srcset="assets/img/gym/slider_4_lounge.webp" type="image/webp" />
+        <img src="assets/img/gym/slider_4_lounge.jpg" alt="ラウンジ — DŌJŌ JAPAN バーカウンター" width="1600" height="900" loading="lazy" />
+      </picture>
     </div>
   </div>
   <div class="gym-slider__cta">
@@ -439,8 +474,8 @@
 }
 </script>
 
-<script src="assets/js/main.js?v=202605071930" defer></script>
-<script src="assets/js/chatbot.js?v=202605071930" defer></script>
-<script src="assets/js/analytics.js?v=202605071930" defer></script>
+<script src="assets/js/main.js?v=202605072000" defer></script>
+<script src="assets/js/chatbot.js?v=202605072000" defer></script>
+<script src="assets/js/analytics.js?v=202605072000" defer></script>
 </body>
 </html>

@@ -7,14 +7,11 @@
   if (preloader) {
     const fill = document.getElementById('preloaderFill');
     const pctEl = document.getElementById('preloaderPct');
-    // Track these critical assets (in DOM order). The hero video and gym images
-    // are the heaviest items, so this gives a reasonably accurate percentage.
+    // Track only above-the-fold visuals so preloader finishes fast.
+    // Hero video is lazy-loaded after `load` event and is NOT tracked here.
     const targets = [
-      ...document.querySelectorAll('.hero__video'),
       ...document.querySelectorAll('.brand__logo'),
       ...document.querySelectorAll('.trainer-card__photo img'),
-      ...document.querySelectorAll('.gym-slider__slide img'),
-      ...document.querySelectorAll('.movie__thumb img'),
     ];
     const total = Math.max(targets.length + 2, 6); // +css/+fonts symbolic
     let loaded = 0;
@@ -186,7 +183,10 @@
     document.querySelectorAll('.reveal:not(.is-in)').forEach(el => el.classList.add('is-in'));
   }, 2500);
 
-  /* ---------- Hero video: iOS-safe autoplay + battery saver ---------- */
+  /* ---------- Hero video: lazy load after first paint ----------
+     The <video> ships without <source> (data-src holds the URL).
+     We inject the source AFTER window.load so the 8 MB MP4 never
+     competes with the LCP. Poster image is shown in the meantime. */
   const heroVid = document.querySelector('.hero__video');
   if (heroVid) {
     // iOS Safari requires explicit muted + playsinline before play()
@@ -198,8 +198,24 @@
 
     const tryPlay = () => heroVid.play().catch(() => {});
 
-    // Try as soon as we can
-    if (heroVid.readyState >= 2) tryPlay();
+    const activateHeroVideo = () => {
+      const src = heroVid.dataset.src;
+      if (!src || heroVid.querySelector('source')) return;
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      heroVid.appendChild(source);
+      heroVid.preload = 'auto';
+      heroVid.load();
+    };
+
+    // Wait for window.load + a small idle gap before pulling the MP4.
+    if (document.readyState === 'complete') {
+      setTimeout(activateHeroVideo, 200);
+    } else {
+      window.addEventListener('load', () => setTimeout(activateHeroVideo, 200), { once: true });
+    }
+
     heroVid.addEventListener('loadedmetadata', tryPlay, { once: true });
     heroVid.addEventListener('canplay', tryPlay, { once: true });
 
