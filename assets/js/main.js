@@ -2,71 +2,38 @@
 (() => {
   'use strict';
 
-  /* ---------- Preloader (TOP only) ---------- */
+  /* ---------- Preloader (TOP only) ----------
+     Lightweight version: animate to 100% on a 600ms timeline regardless
+     of asset load. This keeps the brand reveal but never blocks LCP.
+     Below-the-fold lazy images would otherwise never trigger the
+     completion handler (chicken-and-egg with viewport). */
   const preloader = document.getElementById('preloader');
   if (preloader) {
     const fill = document.getElementById('preloaderFill');
     const pctEl = document.getElementById('preloaderPct');
-    // Track only above-the-fold visuals so preloader finishes fast.
-    // Hero video is lazy-loaded after `load` event and is NOT tracked here.
-    const targets = [
-      ...document.querySelectorAll('.brand__logo'),
-      ...document.querySelectorAll('.trainer-card__photo img'),
-    ];
-    const total = Math.max(targets.length + 2, 6); // +css/+fonts symbolic
-    let loaded = 0;
-    const step = () => {
-      loaded = Math.min(loaded + 1, total);
-      const pct = Math.round((loaded / total) * 100);
+    document.body.style.overflow = 'hidden';
+
+    const finish = () => {
+      preloader.classList.add('is-done');
+      document.body.style.overflow = '';
+    };
+
+    // Drive percentage to 100% over ~600ms
+    const start = performance.now();
+    const duration = 600;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const pct = Math.round(t * 100);
       if (fill) fill.style.width = pct + '%';
       if (pctEl) pctEl.textContent = pct + '%';
       preloader.setAttribute('aria-valuenow', String(pct));
-      if (loaded >= total) finish();
+      if (t < 1) requestAnimationFrame(tick);
+      else setTimeout(finish, 120);
     };
-    let finished = false;
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      // small delay so the 100% renders briefly
-      setTimeout(() => {
-        preloader.classList.add('is-done');
-        document.body.style.overflow = '';
-      }, 300);
-    };
-    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(tick);
 
-    targets.forEach(el => {
-      const isVideo = el.tagName === 'VIDEO';
-      const isImg = el.tagName === 'IMG';
-      const ok = () => step();
-      if (isImg) {
-        if (el.complete && el.naturalWidth) ok();
-        else {
-          el.addEventListener('load', ok, { once: true });
-          el.addEventListener('error', ok, { once: true });
-        }
-      } else if (isVideo) {
-        // Don't wait for full canplay (would force eager video download).
-        // loadedmetadata fires after only a few hundred KB are fetched —
-        // good enough to mark the page as "loaded" for the preloader.
-        if (el.readyState >= 1) ok();
-        else {
-          el.addEventListener('loadedmetadata', ok, { once: true });
-          el.addEventListener('error', ok, { once: true });
-        }
-      } else {
-        ok();
-      }
-    });
-
-    // CSS / fonts symbolic ticks
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(step).catch(step);
-    } else { step(); }
-    window.addEventListener('load', step, { once: true });
-
-    // Hard cap at 3 seconds — never block longer than this on the preloader.
-    setTimeout(() => { while (loaded < total) step(); }, 3000);
+    // Failsafe: if anything stalls, force-finish after 1.5s
+    setTimeout(finish, 1500);
   }
 
   /* ---------- Header scroll state ---------- */
@@ -209,12 +176,31 @@
       heroVid.load();
     };
 
-    // Wait for window.load + a small idle gap before pulling the MP4.
+    // Pull the MP4 only after the page is fully idle.
+    // Use requestIdleCallback when available (1.2s deadline), fallback to a
+    // 1500ms post-load timeout. First user interaction also triggers loading.
+    let activated = false;
+    const activateOnce = () => {
+      if (activated) return;
+      activated = true;
+      activateHeroVideo();
+    };
+    const scheduleActivate = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(activateOnce, { timeout: 2000 });
+      } else {
+        setTimeout(activateOnce, 1500);
+      }
+    };
     if (document.readyState === 'complete') {
-      setTimeout(activateHeroVideo, 200);
+      scheduleActivate();
     } else {
-      window.addEventListener('load', () => setTimeout(activateHeroVideo, 200), { once: true });
+      window.addEventListener('load', scheduleActivate, { once: true });
     }
+    // Also activate on first user interaction (covers slow-network cases)
+    ['touchstart','click','scroll'].forEach(ev =>
+      document.addEventListener(ev, activateOnce, { once: true, passive: true })
+    );
 
     heroVid.addEventListener('loadedmetadata', tryPlay, { once: true });
     heroVid.addEventListener('canplay', tryPlay, { once: true });
