@@ -326,6 +326,109 @@
   }
   .training-flow__note strong { color: #fff; font-weight: 600; }
 
+  /* ---------- Trainer Credit (Ishii Kazunari) ---------- */
+  .training-credit {
+    background: linear-gradient(180deg, var(--bg-2) 0%, #050608 100%);
+    padding: 100px 0 120px;
+    border-top: 1px solid var(--line);
+  }
+  .training-credit__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .training-credit__media {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #050608;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,0.9);
+  }
+  .training-credit__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .training-credit__eyebrow {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    color: var(--gold);
+    margin: 0 0 22px;
+  }
+  .training-credit__name {
+    margin: 0 0 14px;
+    line-height: 1.1;
+  }
+  .training-credit__name-en {
+    display: block;
+    font-family: var(--ff-display);
+    font-size: clamp(24px, 3vw, 36px);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 8px;
+  }
+  .training-credit__name-jp {
+    display: block;
+    font-size: clamp(28px, 3.6vw, 44px);
+    letter-spacing: 0.1em;
+    color: #fff;
+    font-weight: 700;
+  }
+  .training-credit__role {
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(255,255,255,0.78);
+    margin: 0 0 28px;
+    letter-spacing: 0.06em;
+  }
+  .training-credit__titles {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .training-credit__titles li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.5;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    background: rgba(200,160,98,0.04);
+  }
+  .training-credit__titles-badge {
+    flex-shrink: 0;
+    font-family: var(--ff-display);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 4px 10px;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .training-credit__note {
+    font-size: 12px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+    margin: 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    letter-spacing: 0.04em;
+  }
+
   /* ---------- Tablet (≤960px) ---------- */
   @media (max-width: 960px) {
     .training-flow { padding: 80px 0 0; }
@@ -356,6 +459,16 @@
     }
   }
 
+  /* Trainer credit responsive */
+  @media (max-width: 900px) {
+    .training-credit__inner {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      max-width: 540px;
+    }
+    .training-credit__media { aspect-ratio: 4 / 5; max-height: 480px; }
+  }
+
   /* ---------- Mobile (≤540px) ---------- */
   @media (max-width: 540px) {
     .training-flow__intro { margin-bottom: 56px; }
@@ -366,6 +479,9 @@
     .training-step__desc { font-size: 12.5px; line-height: 2; }
     .training-flow__closing { height: 320px; padding: 40px 18px; }
     .training-flow__note { padding: 48px 18px 60px; font-size: 12.5px; }
+    .training-credit { padding: 72px 0 88px; }
+    .training-credit__titles li { font-size: 13px; padding: 12px 14px; gap: 10px; }
+    .training-credit__titles-badge { font-size: 9px; padding: 3px 8px; }
   }
 
   /* ---------- Reduced motion ---------- */
@@ -531,6 +647,40 @@
       <strong>マススパーリング（STEP 06）はご希望の方のみ</strong>のご参加で、無理にお勧めすることはございません。
     </p>
 
+  </div>
+</section>
+
+<!-- TRAINER CREDIT — KAZUNARI ISHII -->
+<section class="training-credit" aria-labelledby="credit-name-jp">
+  <div class="training-credit__inner">
+    <div class="training-credit__media">
+      <img src="assets/img/training/01_stretch_silhouette.jpg" alt="DŌJŌ JAPAN 外部トレーナー 石井 一成 選手" loading="lazy" />
+    </div>
+    <div class="training-credit__body">
+      <p class="training-credit__eyebrow">PHOTOGRAPHED BY · MODEL TRAINER</p>
+      <h2 class="training-credit__name">
+        <span class="training-credit__name-en">KAZUNARI ISHII</span>
+        <span class="training-credit__name-jp" id="credit-name-jp">石井 一成</span>
+      </h2>
+      <p class="training-credit__role">
+        ウォーワンチャイプロモーション 所属<br />
+        DŌJŌ JAPAN 外部トレーナー
+      </p>
+      <ul class="training-credit__titles">
+        <li>
+          <span class="training-credit__titles-badge">Champion</span>
+          <span>K-1 WORLD GP バンタム級王者</span>
+        </li>
+        <li>
+          <span class="training-credit__titles-badge">Champion</span>
+          <span>WBC ムエタイ世界スーパーフライ級王者</span>
+        </li>
+      </ul>
+      <p class="training-credit__note">
+        本ページのお写真はすべて、石井選手にモデルとしてご協力いただきました。<br />
+        DŌJŌ JAPAN では、石井選手をはじめとする現役トップクラスの選手が、外部トレーナーとして直接ご指導いたします。
+      </p>
+    </div>
   </div>
 </section>
 
