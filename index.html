@@ -95,8 +95,8 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){.preloader__logo{animation:none}}
 </style>
 <!-- Full stylesheet — non-blocking via media trick -->
-<link rel="preload" as="style" href="assets/css/style.css?v=202605074000" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605074000" /></noscript>
+<link rel="preload" as="style" href="assets/css/style.css?v=202605074100" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605074100" /></noscript>
 <!-- Fonts — non-blocking (display=swap shows fallback first, swaps when ready) -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" onload="this.onload=null;this.rel='stylesheet'" />
@@ -302,9 +302,9 @@ button{font:inherit}
   </header>
 
   <div class="movie__stage">
-    <div class="movie__player" id="moviePlayer" data-src="assets/movies/dojo_luke.mp4" data-poster="assets/movies/poster_luke.jpg">
-      <video class="movie__video" preload="none" playsinline poster="assets/movies/poster_luke.jpg">
-        <source src="assets/movies/dojo_luke.mp4" type="video/mp4" />
+    <div class="movie__player" id="moviePlayer" data-src="assets/movies/dojo_master.mp4" data-poster="assets/movies/poster_master.jpg">
+      <video class="movie__video" preload="none" playsinline poster="assets/movies/poster_master.jpg">
+        <source src="assets/movies/dojo_master.mp4" type="video/mp4" />
       </video>
       <button class="movie__play" type="button" aria-label="動画を再生">
         <svg viewBox="0 0 96 96" aria-hidden="true">
@@ -317,19 +317,19 @@ button{font:inherit}
   </div>
 
   <ul class="movie__thumbs">
-    <li class="movie__thumb is-active" data-src="assets/movies/dojo_luke.mp4" data-poster="assets/movies/poster_luke.jpg" tabindex="0">
+    <li class="movie__thumb is-active" data-src="assets/movies/dojo_master.mp4" data-poster="assets/movies/poster_master.jpg" tabindex="0">
+      <picture>
+        <source srcset="assets/movies/poster_master.webp" type="image/webp" />
+        <img src="assets/movies/poster_master.jpg" alt="DŌJŌ JAPAN Official PV" width="640" height="360" loading="lazy" />
+      </picture>
+      <span class="movie__thumb-meta"><b>01</b> Official PV</span>
+    </li>
+    <li class="movie__thumb" data-src="assets/movies/dojo_luke.mp4" data-poster="assets/movies/poster_luke.jpg" tabindex="0">
       <picture>
         <source srcset="assets/movies/poster_luke.webp" type="image/webp" />
         <img src="assets/movies/poster_luke.jpg" alt="ルーク・ホロウェイ Luke Holloway" width="640" height="360" loading="lazy" />
       </picture>
-      <span class="movie__thumb-meta"><b>01</b> Luke Holloway</span>
-    </li>
-    <li class="movie__thumb" data-src="assets/movies/dojo_yahiro.mp4" data-poster="assets/movies/poster_yahiro.jpg" tabindex="0">
-      <picture>
-        <source srcset="assets/movies/poster_yahiro.webp" type="image/webp" />
-        <img src="assets/movies/poster_yahiro.jpg" alt="八尋 史朗 Shiro Yahiro" width="640" height="360" loading="lazy" />
-      </picture>
-      <span class="movie__thumb-meta"><b>02</b> Shiro Yahiro</span>
+      <span class="movie__thumb-meta"><b>02</b> Luke Holloway</span>
     </li>
     <li class="movie__thumb" data-src="assets/movies/dojo_izaya.mp4" data-poster="assets/movies/poster_izaya.jpg" tabindex="0">
       <picture>
@@ -338,12 +338,12 @@ button{font:inherit}
       </picture>
       <span class="movie__thumb-meta"><b>03</b> Izaya Matsushima</span>
     </li>
-    <li class="movie__thumb" data-src="assets/movies/dojo_02.mp4" data-poster="assets/movies/poster_02.jpg" tabindex="0">
+    <li class="movie__thumb" data-src="assets/movies/dojo_yahiro.mp4" data-poster="assets/movies/poster_yahiro.jpg" tabindex="0">
       <picture>
-        <source srcset="assets/movies/poster_02.webp" type="image/webp" />
-        <img src="assets/movies/poster_02.jpg" alt="DOJO JAPAN Vol.2" width="640" height="360" loading="lazy" />
+        <source srcset="assets/movies/poster_yahiro.webp" type="image/webp" />
+        <img src="assets/movies/poster_yahiro.jpg" alt="八尋 史朗 Shiro Yahiro" width="640" height="360" loading="lazy" />
       </picture>
-      <span class="movie__thumb-meta"><b>04</b> Concept Vol.2</span>
+      <span class="movie__thumb-meta"><b>04</b> Shiro Yahiro</span>
     </li>
   </ul>
 
@@ -688,8 +688,8 @@ button{font:inherit}
   });
 })();
 </script>
-<script src="assets/js/main.js?v=202605074000" defer></script>
-<script src="assets/js/analytics.js?v=202605074000" defer></script>
+<script src="assets/js/main.js?v=202605074100" defer></script>
+<script src="assets/js/analytics.js?v=202605074100" defer></script>
 <!-- Chatbot — lazy load on first interaction or after 3s -->
 <script>
 (function(){
@@ -697,7 +697,7 @@ button{font:inherit}
   function load(){
     if(loaded)return; loaded=true;
     var s=document.createElement('script');
-    s.src='assets/js/chatbot.js?v=202605074000';
+    s.src='assets/js/chatbot.js?v=202605074100';
     s.onload=function(){
       if(pending){
         var btn=document.getElementById('chatbotToggle');
