@@ -95,8 +95,8 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){.preloader__logo{animation:none}}
 </style>
 <!-- Full stylesheet — non-blocking via media trick -->
-<link rel="preload" as="style" href="assets/css/style.css?v=202605073400" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605073400" /></noscript>
+<link rel="preload" as="style" href="assets/css/style.css?v=202605073500" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605073500" /></noscript>
 <!-- Fonts — non-blocking (display=swap shows fallback first, swaps when ready) -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" onload="this.onload=null;this.rel='stylesheet'" />
@@ -658,8 +658,8 @@ button{font:inherit}
   });
 })();
 </script>
-<script src="assets/js/main.js?v=202605073400" defer></script>
-<script src="assets/js/analytics.js?v=202605073400" defer></script>
+<script src="assets/js/main.js?v=202605073500" defer></script>
+<script src="assets/js/analytics.js?v=202605073500" defer></script>
 <!-- Chatbot — lazy load on first interaction or after 3s -->
 <script>
 (function(){
@@ -667,7 +667,7 @@ button{font:inherit}
   function load(){
     if(loaded)return; loaded=true;
     var s=document.createElement('script');
-    s.src='assets/js/chatbot.js?v=202605073400';
+    s.src='assets/js/chatbot.js?v=202605073500';
     s.onload=function(){
       if(pending){
         var btn=document.getElementById('chatbotToggle');
