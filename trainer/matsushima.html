@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/css/style.css?v=202605073300" />
+<link rel="stylesheet" href="../assets/css/style.css?v=202605073400" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -36,13 +36,29 @@
       "@type": "Person",
       "@id": "https://dojo-japan.jp/trainer/matsushima.html#person",
       "name": "松島 勲也",
-      "alternateName": "Izaya Matsushima",
-      "jobTitle": "ムエタイ・キックボクシングトレーナー",
+      "alternateName": ["Izaya Matsushima", "松島勲也"],
+      "jobTitle": "ムエタイ・キックボクシングトレーナー（現役プロ選手）",
       "image": "https://dojo-japan.jp/assets/img/trainers/02_matsushima_izaya_photo.jpg",
       "url": "https://dojo-japan.jp/trainer/matsushima.html",
+      "birthPlace": { "@type": "Place", "name": "福岡県", "address": { "@type": "PostalAddress", "addressRegion": "福岡県", "addressCountry": "JP" } },
+      "nationality": { "@type": "Country", "name": "日本" },
+      "gender": "Male",
       "worksFor": { "@type": "LocalBusiness", "@id": "https://dojo-japan.jp/#business", "name": "DŌJŌ JAPAN" },
-      "award": ["IMC INTERNATIONAL ムエタイ ミドル級 世界チャンピオン", "J-NETWORK キックボクシング ミドル級 日本チャンピオン"],
-      "knowsAbout": ["ムエタイ", "Muay Thai", "キックボクシング"]
+      "memberOf": [
+        { "@type": "SportsOrganization", "name": "DŌJŌ JAPAN" },
+        { "@type": "SportsOrganization", "name": "MSJ KICKBOXING GYM" }
+      ],
+      "award": [
+        "IMC INTERNATIONAL ムエタイ世界王座",
+        "J-NETWORK 日本ミドル級王座（2018年10月獲得）",
+        "KING OF STRIKERS スーパーウェルター級王座"
+      ],
+      "knowsAbout": ["ムエタイ", "Muay Thai", "キックボクシング", "Kickboxing", "ミドル級", "スーパーウェルター級"],
+      "sameAs": [
+        "https://ja.wikipedia.org/wiki/%E6%9D%BE%E5%B3%B6%E5%8B%B2%E4%B9%9F",
+        "https://msj-kickboxing.com/"
+      ],
+      "description": "福岡県出身のキックボクサー／ムエタイ選手。22 歳でプロデビュー。2018 年 10 月に J-NETWORK 日本ミドル級王座を獲得、KING OF STRIKERS スーパーウェルター級王座、IMC INTERNATIONAL ムエタイ世界王座を保持。通算 38 戦 30 勝 14KO 7 敗 1 分。DŌJŌ JAPAN 専属トレーナーとしてムエタイ指導を担当。"
     },
     {
       "@type": "BreadcrumbList",
@@ -125,8 +141,9 @@
       </h1>
       <div class="t-hero__rule" aria-hidden="true"></div>
       <p class="t-hero__lead">
-        IMC INTERNATIONAL ムエタイ ミドル級 世界チャンピオン。<br />
-        J-NETWORK キックボクシング ミドル級 日本チャンピオン。<br />
+        IMC INTERNATIONAL ムエタイ世界王者。<br />
+        J-NETWORK 日本ミドル級王者（2018 年 10 月獲得）／KING OF STRIKERS スーパーウェルター級王者。<br />
+        通算 38 戦 30 勝 14KO 7 敗 1 分。<br />
         DŌJŌ JAPAN 専属トレーナーとしてムエタイ指導を担当します。
       </p>
     </div>
@@ -145,17 +162,33 @@
     <ol class="t-titles__list">
       <li>
         <span class="t-titles__no">01</span>
-        <span class="t-titles__txt">IMC INTERNATIONAL ムエタイ ミドル級 <strong>世界チャンピオン</strong>
+        <span class="t-titles__txt">IMC INTERNATIONAL ムエタイ <strong>世界王座</strong>
           <small>INTERNATIONAL MUAYTHAI COUNCIL</small>
         </span>
       </li>
       <li>
         <span class="t-titles__no">02</span>
-        <span class="t-titles__txt">J-NETWORK キックボクシング ミドル級 <strong>日本チャンピオン</strong>
-          <small>J-NETWORK</small>
+        <span class="t-titles__txt">J-NETWORK ミドル級 <strong>日本王座</strong>
+          <small>2018 年 10 月獲得</small>
+        </span>
+      </li>
+      <li>
+        <span class="t-titles__no">03</span>
+        <span class="t-titles__txt">KING OF STRIKERS スーパーウェルター級 <strong>王座</strong>
+          <small>KING OF STRIKERS</small>
         </span>
       </li>
     </ol>
+
+    <!-- PROFILE / E-E-A-T -->
+    <dl class="t-profile">
+      <div class="t-profile__row"><dt>出身</dt><dd>福岡県</dd></div>
+      <div class="t-profile__row"><dt>階級</dt><dd>ミドル級／スーパーウェルター級</dd></div>
+      <div class="t-profile__row"><dt>プロデビュー</dt><dd>22 歳でプロデビュー</dd></div>
+      <div class="t-profile__row"><dt>所属</dt><dd>DŌJŌ JAPAN ／ MSJ KICKBOXING GYM</dd></div>
+      <div class="t-profile__row"><dt>戦績</dt><dd>38 戦 30 勝（14 KO）7 敗 1 分</dd></div>
+      <div class="t-profile__row"><dt>出典</dt><dd><a href="https://ja.wikipedia.org/wiki/%E6%9D%BE%E5%B3%B6%E5%8B%B2%E4%B9%9F" target="_blank" rel="noopener noreferrer nofollow">Wikipedia「松島勲也」</a> ／ <a href="https://msj-kickboxing.com/" target="_blank" rel="noopener noreferrer nofollow">MSJ KICKBOXING GYM 公式</a></dd></div>
+    </dl>
   </div>
 </section>
 
@@ -272,8 +305,8 @@
   </section>
 </div>
 
-<script src="../assets/js/main.js?v=202605073300" defer></script>
-<script src="../assets/js/chatbot.js?v=202605073300" defer></script>
-<script src="../assets/js/analytics.js?v=202605073300" defer></script>
+<script src="../assets/js/main.js?v=202605073400" defer></script>
+<script src="../assets/js/chatbot.js?v=202605073400" defer></script>
+<script src="../assets/js/analytics.js?v=202605073400" defer></script>
 </body>
 </html>
