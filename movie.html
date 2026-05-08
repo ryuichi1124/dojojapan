@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=202605073900" />
+<link rel="stylesheet" href="assets/css/style.css?v=202605074000" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -447,15 +447,27 @@
 
     <ul class="movie-grid" id="movieGrid">
       <li class="movie-grid__item"
+          data-src="assets/movies/dojo_master.mp4"
+          data-poster="assets/movies/poster_master.jpg"
+          data-title="DŌJŌ JAPAN — Official PV"
+          tabindex="0" role="button" aria-label="DŌJŌ JAPAN Official PV を再生">
+        <img src="assets/movies/poster_master.jpg" alt="DŌJŌ JAPAN Official PV" loading="eager" />
+        <span class="movie-grid__play" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
+        </span>
+        <span class="movie-grid__caption">01 / Official PV</span>
+      </li>
+
+      <li class="movie-grid__item"
           data-src="assets/movies/dojo_25s.mp4"
           data-poster="assets/movies/poster_25s.jpg"
           data-title="DŌJŌ JAPAN — Concept 25s"
           tabindex="0" role="button" aria-label="DŌJŌ JAPAN Concept 25 秒 を再生">
-        <img src="assets/movies/poster_25s.jpg" alt="DŌJŌ JAPAN Concept 25s" loading="eager" />
+        <img src="assets/movies/poster_25s.jpg" alt="DŌJŌ JAPAN Concept 25s" loading="lazy" />
         <span class="movie-grid__play" aria-hidden="true">
           <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
         </span>
-        <span class="movie-grid__caption">01 / Concept 25 sec</span>
+        <span class="movie-grid__caption">02 / Concept 25 sec</span>
       </li>
 
       <li class="movie-grid__item"
@@ -467,7 +479,7 @@
         <span class="movie-grid__play" aria-hidden="true">
           <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
         </span>
-        <span class="movie-grid__caption">02 / Action Cut</span>
+        <span class="movie-grid__caption">03 / Action Cut</span>
       </li>
 
       <li class="movie-grid__item"
@@ -479,7 +491,7 @@
         <span class="movie-grid__play" aria-hidden="true">
           <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
         </span>
-        <span class="movie-grid__caption">03 / Dragon Kick</span>
+        <span class="movie-grid__caption">04 / Dragon Kick</span>
       </li>
 
       <li class="movie-grid__item"
@@ -491,19 +503,7 @@
         <span class="movie-grid__play" aria-hidden="true">
           <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
         </span>
-        <span class="movie-grid__caption">04 / Kongou</span>
-      </li>
-
-      <li class="movie-grid__item"
-          data-src="assets/movies/dojo_master.mp4"
-          data-poster="assets/movies/poster_master.jpg"
-          data-title="DŌJŌ JAPAN — Official PV"
-          tabindex="0" role="button" aria-label="DŌJŌ JAPAN Official PV を再生">
-        <img src="assets/movies/poster_master.jpg" alt="DŌJŌ JAPAN Official PV" loading="lazy" />
-        <span class="movie-grid__play" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
-        </span>
-        <span class="movie-grid__caption">05 / Official PV</span>
+        <span class="movie-grid__caption">05 / Kongou</span>
       </li>
 
       <li class="movie-grid__item"
@@ -708,8 +708,8 @@
 })();
 </script>
 
-<script src="assets/js/main.js?v=202605073900" defer></script>
-<script src="assets/js/chatbot.js?v=202605073900" defer></script>
-<script src="assets/js/analytics.js?v=202605073900" defer></script>
+<script src="assets/js/main.js?v=202605074000" defer></script>
+<script src="assets/js/chatbot.js?v=202605074000" defer></script>
+<script src="assets/js/analytics.js?v=202605074000" defer></script>
 </body>
 </html>
