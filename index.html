@@ -95,8 +95,8 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){.preloader__logo{animation:none}}
 </style>
 <!-- Full stylesheet — non-blocking via media trick -->
-<link rel="preload" as="style" href="assets/css/style.css?v=202605090000" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605090000" /></noscript>
+<link rel="preload" as="style" href="assets/css/style.css?v=202605090100" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="assets/css/style.css?v=202605090100" /></noscript>
 <!-- Fonts — non-blocking (display=swap shows fallback first, swaps when ready) -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap&text=D%C5%8CJ%C5%8C%20JAPAN%E2%80%94" onload="this.onload=null;this.rel='stylesheet'" />
@@ -569,10 +569,10 @@ button{font:inherit}
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "ExerciseGym", "HealthClub", "SportsActivityLocation"],
       "@id": "https://dojo-japan.jp/#business",
       "name": "DŌJŌ JAPAN",
-      "alternateName": "ドージョージャパン",
+      "alternateName": ["ドージョージャパン", "DOJO JAPAN", "道場ジャパン"],
       "url": "https://dojo-japan.jp/",
       "logo": "https://dojo-japan.jp/assets/img/logo/dojo_japan_logo_white.svg",
       "image": [
@@ -583,6 +583,8 @@ button{font:inherit}
       ],
       "telephone": "+81-92-753-3029",
       "priceRange": "¥3,000 - ¥33,000",
+      "currenciesAccepted": "JPY",
+      "paymentAccepted": "現金, PayPay, 銀行振込 / Cash, PayPay, Bank Transfer",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "春吉 2-12-5 1F",
@@ -592,10 +594,98 @@ button{font:inherit}
         "postalCode": "810-0003"
       },
       "geo": { "@type": "GeoCoordinates", "latitude": 33.5864915, "longitude": 130.4075432 },
+      "hasMap": "https://www.google.com/maps?q=33.5864915,130.4075432&z=17",
       "openingHoursSpecification": [
         { "@type": "OpeningHoursSpecification",
           "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
           "opens": "07:00", "closes": "21:00" }
+      ],
+      "publicAccess": true,
+      "isAccessibleForFree": false,
+      "smokingAllowed": false,
+      "amenityFeature": [
+        { "@type": "LocationFeatureSpecification", "name": "シャワー個室", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "パウダースペース", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "ヘアドライヤー", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "ウェア無料貸出", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "グローブ無料貸出", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "レガース無料貸出", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "タオル無料貸出", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "更衣室", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "ロッカー", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true }
+      ],
+      "knowsAbout": [
+        "ボクシング", "Boxing",
+        "ムエタイ", "Muay Thai",
+        "キックボクシング", "Kickboxing",
+        "総合格闘技", "MMA", "Mixed Martial Arts",
+        "柔道", "Judo",
+        "空手", "Karate",
+        "柔術", "Jiu-Jitsu",
+        "テコンドー", "Taekwondo",
+        "クンフー", "Kung Fu",
+        "レスリング", "Wrestling",
+        "太極拳", "Tai Chi",
+        "筋力トレーニング", "Strength Training",
+        "ダイエット", "ボディメイク", "護身術", "Self-Defense"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "139",
+        "reviewCount": "139"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "DŌJŌ JAPAN 料金プラン",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "無料体験 45 分",
+            "description": "福岡在住の方限定。45 分で道場の雰囲気と稽古を体験。手ぶらで OK。",
+            "price": "0",
+            "priceCurrency": "JPY",
+            "availability": "https://schema.org/InStock",
+            "eligibleRegion": { "@type": "City", "name": "福岡市" },
+            "url": "https://dojo-japan.jp/#trial"
+          },
+          {
+            "@type": "Offer",
+            "name": "VISITOR ビジター単発",
+            "description": "観光・出張の方も歓迎。60 分の単発利用。会員登録不要。",
+            "price": "3000",
+            "priceCurrency": "JPY",
+            "availability": "https://schema.org/InStock",
+            "url": "https://dojo-japan.jp/pricing"
+          },
+          {
+            "@type": "Offer",
+            "name": "MEMBER 月会員（月 4 回〜8 回）",
+            "description": "月会費 ¥10,000 〜。週 1〜2 回ペースで本格指導。",
+            "price": "10000",
+            "priceCurrency": "JPY",
+            "availability": "https://schema.org/InStock",
+            "url": "https://dojo-japan.jp/pricing"
+          },
+          {
+            "@type": "Offer",
+            "name": "PRIME 通い放題",
+            "description": "営業時間内 24/7 通い放題。本気で取り組む方向け。入会金 ¥100,000。",
+            "price": "33000",
+            "priceCurrency": "JPY",
+            "availability": "https://schema.org/InStock",
+            "url": "https://dojo-japan.jp/pricing"
+          }
+        ]
+      },
+      "makesOffer": [
+        { "@type": "Offer", "name": "無料体験 45 分", "price": "0", "priceCurrency": "JPY" },
+        { "@type": "Offer", "name": "ビジター 60 分", "price": "3000", "priceCurrency": "JPY" },
+        { "@type": "Offer", "name": "月会員", "price": "10000", "priceCurrency": "JPY" },
+        { "@type": "Offer", "name": "通い放題", "price": "33000", "priceCurrency": "JPY" }
       ],
       "sameAs": ["https://www.instagram.com/dojo_japan/"],
       "founder": {
@@ -611,7 +701,10 @@ button{font:inherit}
         { "@type": "Person", "name": "成合 さとる", "alternateName": "Nariai Satoru", "jobTitle": "キックボクシングトレーナー", "url": "https://dojo-japan.jp/trainer/satoru" },
         { "@type": "Person", "name": "ルーク・ホロウェイ", "alternateName": "Luke Holloway", "jobTitle": "武術師範", "url": "https://dojo-japan.jp/trainer/luke" }
       ],
-      "areaServed": { "@type": "City", "name": "福岡市" },
+      "areaServed": [
+        { "@type": "City", "name": "福岡市" },
+        { "@type": "AdministrativeArea", "name": "福岡県" }
+      ],
       "description": "福岡市中央区春吉の格闘技&トレーニングジム。ボクシング日本王者・OPBF 東洋太平洋王者の八尋史朗、IMC インターナショナル王者・J-NETWORK ミドル級王者の松島勲也、元 K-1 ファイター SATORU 成合、7 武術黒帯のルーク・ホロウェイが直接指導。"
     },
     {
@@ -688,8 +781,8 @@ button{font:inherit}
   });
 })();
 </script>
-<script src="assets/js/main.js?v=202605090000" defer></script>
-<script src="assets/js/analytics.js?v=202605090000" defer></script>
+<script src="assets/js/main.js?v=202605090100" defer></script>
+<script src="assets/js/analytics.js?v=202605090100" defer></script>
 <!-- Chatbot — lazy load on first interaction or after 3s -->
 <script>
 (function(){
@@ -697,7 +790,7 @@ button{font:inherit}
   function load(){
     if(loaded)return; loaded=true;
     var s=document.createElement('script');
-    s.src='assets/js/chatbot.js?v=202605090000';
+    s.src='assets/js/chatbot.js?v=202605090100';
     s.onload=function(){
       if(pending){
         var btn=document.getElementById('chatbotToggle');
