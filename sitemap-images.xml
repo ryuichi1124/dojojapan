@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://dojo-japan.jp/</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/gym_main_iconic.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN メインフロア（福岡市中央区春吉）</image:title>
+      <image:caption>福岡市中央区春吉のDŌJŌ JAPAN メインフロア。本格設備のトレーニングジム</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/sections/champion_coaches.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN チャンピオン陣4名</image:title>
+      <image:caption>日本王者・OPBF王者の八尋史朗、IMC世界王者の松島勲也、元K-1のSATORU成合、UFC打撃世界記録のルーク・ホロウェイ</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/sections/first_day.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN 無料体験 First Day</image:title>
+      <image:caption>福岡在住の方限定 無料体験45分</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/concept</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/sections/first_day.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN コンセプト NEO JAPANESE</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/trainers</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/00_master_miwa_photo.jpg</image:loc>
+      <image:title>三輪 愛生 / Manabu Miwa（DŌJŌ JAPAN 館長）</image:title>
+      <image:caption>DŌJŌ JAPAN を率いる館長</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/01_yahiro_shiro_photo.jpg</image:loc>
+      <image:title>八尋 史朗 / Shiro Yahiro（プロボクシング日本王者・OPBF東洋太平洋王者）</image:title>
+      <image:caption>DŌJŌ JAPAN ボクシングトレーナー</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/02_matsushima_izaya_photo.jpg</image:loc>
+      <image:title>松島 勲也 / Izaya Matsushima（IMC世界王者・J-NETWORK日本王者）</image:title>
+      <image:caption>DŌJŌ JAPAN ムエタイトレーナー</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/03_nariai_satoru_photo.jpg</image:loc>
+      <image:title>SATORU 成合 / Nariai Satoru（元K-1ファイター）</image:title>
+      <image:caption>DŌJŌ JAPAN キックボクシングトレーナー</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/04_luke_holloway_photo.jpg</image:loc>
+      <image:title>ルーク・ホロウェイ / Luke Holloway（7武術黒帯・UFC打撃世界記録）</image:title>
+      <image:caption>DŌJŌ JAPAN 武術師範</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/trainer/yahiro</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/01_yahiro_shiro_photo.jpg</image:loc>
+      <image:title>八尋 史朗 / Shiro Yahiro</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dojo-japan.jp/trainer/matsushima</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/02_matsushima_izaya_photo.jpg</image:loc>
+      <image:title>松島 勲也 / Izaya Matsushima</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dojo-japan.jp/trainer/satoru</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/03_nariai_satoru_photo.jpg</image:loc>
+      <image:title>SATORU 成合 / Nariai Satoru</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dojo-japan.jp/trainer/luke</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/trainers/04_luke_holloway_photo.jpg</image:loc>
+      <image:title>ルーク・ホロウェイ / Luke Holloway</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/training</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/hero_action.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN トレーニング風景</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/01_stretch_silhouette.jpg</image:loc>
+      <image:title>ストレッチ・ウォームアップ</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/02_jumprope_brand.jpg</image:loc>
+      <image:title>縄跳び・心肺強化</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/03_basics_shadow.jpg</image:loc>
+      <image:title>シャドーボクシング・基本動作</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/04_bag_work.jpg</image:loc>
+      <image:title>サンドバッグ・打ち込み</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/05_mitt_pair.jpg</image:loc>
+      <image:title>ミット打ち・パートナードリル</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/06_sparring_stance.jpg</image:loc>
+      <image:title>スパーリング・実戦稽古</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/07_weight_finale.jpg</image:loc>
+      <image:title>ウェイトトレーニング・締め</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/gym</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/slider_1_gym_wide.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN メインフロア全景</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/training_floor.jpg</image:loc>
+      <image:title>トレーニングフロア</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/lounge.jpg</image:loc>
+      <image:title>ラウンジスペース</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/lounge_bar.jpg</image:loc>
+      <image:title>ラウンジバー</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/shower.jpg</image:loc>
+      <image:title>シャワールーム（無料）</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/weights.jpg</image:loc>
+      <image:title>ウェイトエリア</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/terrace.jpg</image:loc>
+      <image:title>テラス</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/samurai.jpg</image:loc>
+      <image:title>SAMURAI 装飾エリア</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/pricing</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/sections/first_day.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN 無料体験45分</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://dojo-japan.jp/access</loc>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/gym/gym_main_iconic.jpg</image:loc>
+      <image:title>DŌJŌ JAPAN 福岡市中央区春吉2-12-5 1F</image:title>
+    </image:image>
+  </url>
+
+</urlset>

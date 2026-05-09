@@ -6,4 +6,7 @@
   <sitemap>
     <loc>https://dojo-japan.jp/sitemap-videos.xml</loc>
   </sitemap>
+  <sitemap>
+    <loc>https://dojo-japan.jp/sitemap-images.xml</loc>
+  </sitemap>
 </sitemapindex>

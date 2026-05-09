@@ -13,17 +13,18 @@
 ## Site
 
 - [TOP](https://dojo-japan.jp/): ヒーロー映像、トレーナー一覧、施設スライダー、料金概要
-- [CONCEPT](https://dojo-japan.jp/concept.html): コンセプト映像（NEO JAPANESE）
-- [TRAINER 一覧](https://dojo-japan.jp/trainers.html): 4 名のトレーナー紹介
-  - [八尋 史朗 / Shiro Yahiro](https://dojo-japan.jp/trainer/yahiro.html): ボクシング日本王者・OPBF東洋太平洋ライトフライ級王者
-  - [松島 勲也 / Izaya Matsushima](https://dojo-japan.jp/trainer/matsushima.html): IMCインターナショナル王者・J-NETWORK日本ミドル級王者
-  - [SATORU 成合 / Nariai Satoru](https://dojo-japan.jp/trainer/satoru.html): 元 K-1 ファイター・北九州市出身
-  - [ルーク・ホロウェイ / Luke Holloway](https://dojo-japan.jp/trainer/luke.html): 7 武術黒帯・UFC PI 2019 打撃世界記録
-- [MOVIE](https://dojo-japan.jp/movie.html): 11 本のプロモーション映像・トレーナー特集
-- [GYM](https://dojo-japan.jp/gym.html): 設備のご案内（メインフロア・ラウンジ・シャワー）
-- [PRICING](https://dojo-japan.jp/pricing.html): 料金プラン詳細
-- [FAQ](https://dojo-japan.jp/faq.html): よくあるご質問
-- [ACCESS](https://dojo-japan.jp/access.html): アクセス・地図・交通
+- [CONCEPT](https://dojo-japan.jp/concept): コンセプト映像（NEO JAPANESE）
+- [TRAINER 一覧](https://dojo-japan.jp/trainers): 4 名のトレーナー紹介
+  - [八尋 史朗 / Shiro Yahiro](https://dojo-japan.jp/trainer/yahiro): ボクシング日本王者・OPBF東洋太平洋ライトフライ級王者
+  - [松島 勲也 / Izaya Matsushima](https://dojo-japan.jp/trainer/matsushima): IMCインターナショナル王者・J-NETWORK日本ミドル級王者
+  - [SATORU 成合 / Nariai Satoru](https://dojo-japan.jp/trainer/satoru): 元 K-1 ファイター・北九州市出身
+  - [ルーク・ホロウェイ / Luke Holloway](https://dojo-japan.jp/trainer/luke): 7 武術黒帯・UFC PI 2019 打撃世界記録
+- [TRAINING](https://dojo-japan.jp/training): 11 種目の指導内容
+- [MOVIE](https://dojo-japan.jp/movie): 11 本のプロモーション映像・トレーナー特集
+- [GYM](https://dojo-japan.jp/gym): 設備のご案内（メインフロア・ラウンジ・シャワー）
+- [PRICING](https://dojo-japan.jp/pricing): 料金プラン詳細
+- [FAQ](https://dojo-japan.jp/faq): よくあるご質問
+- [ACCESS](https://dojo-japan.jp/access): アクセス・地図・交通
 
 ## Business Information
 
@@ -70,4 +71,4 @@
 
 ## Optional
 
-- [利用規約](https://dojo-japan.jp/terms.html): 株式会社 gambler 運営の利用規約全 16 条
+- [利用規約](https://dojo-japan.jp/terms): 株式会社 gambler 運営の利用規約全 16 条

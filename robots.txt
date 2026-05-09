@@ -57,3 +57,4 @@ Allow: /
 Sitemap: https://dojo-japan.jp/sitemap.xml
 Sitemap: https://dojo-japan.jp/sitemap-pages.xml
 Sitemap: https://dojo-japan.jp/sitemap-videos.xml
+Sitemap: https://dojo-japan.jp/sitemap-images.xml
