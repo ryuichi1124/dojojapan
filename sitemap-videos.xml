@@ -4,20 +4,20 @@
   <url>
     <loc>https://dojo-japan.jp/</loc>
     <video:video>
-      <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_hero.jpg</video:thumbnail_loc>
-      <video:title>DŌJŌ JAPAN — Hero</video:title>
-      <video:description>DŌJŌ JAPAN（ドージョージャパン）公式ヒーロー映像。福岡市中央区春吉の格闘技&トレーニングジム。各種武道の現役王者が直接指導する道場のスピリットを描く。</video:description>
-      <video:content_loc>https://dojo-japan.jp/assets/movies/dojo_hero.mp4</video:content_loc>
-      <video:duration>63</video:duration>
-      <video:publication_date>2026-04-26T00:00:00+09:00</video:publication_date>
+      <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_yahiro_hero.jpg</video:thumbnail_loc>
+      <video:title>DŌJŌ JAPAN — 八尋 史朗（YAHIRO SHIRO）Hero</video:title>
+      <video:description>DŌJŌ JAPAN ヘッドトレーナー 八尋 史朗（第 19 代日本ライトフライ級王者・第 18 代 OPBF 東洋太平洋ライトフライ級王者）。福岡市中央区春吉のトレーニングジム DŌJŌ JAPAN ヒーロー映像。</video:description>
+      <video:content_loc>https://dojo-japan.jp/assets/movies/dojo_yahiro_hero.mp4</video:content_loc>
+      <video:duration>13</video:duration>
+      <video:publication_date>2026-05-08T00:00:00+09:00</video:publication_date>
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_25s.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Concept 25s</video:title>
@@ -28,11 +28,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_action.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Action Cut</video:title>
@@ -43,11 +43,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_dragonkick.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Dragon Kick</video:title>
@@ -58,11 +58,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_kongou.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Kongou</video:title>
@@ -73,11 +73,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_master.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Official PV</video:title>
@@ -88,11 +88,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_30s.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — 30sec Cut</video:title>
@@ -103,11 +103,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/trainer/yahiro.html</loc>
+    <loc>https://dojo-japan.jp/trainer/yahiro</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_yahiro.jpg</video:thumbnail_loc>
       <video:title>八尋 史朗 (Shiro Yahiro) Special — Boxing</video:title>
@@ -118,11 +118,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/trainer/matsushima.html</loc>
+    <loc>https://dojo-japan.jp/trainer/matsushima</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_izaya.jpg</video:thumbnail_loc>
       <video:title>松島 勲也 (Izaya Matsushima) Special — Muay Thai</video:title>
@@ -133,11 +133,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/trainer/luke.html</loc>
+    <loc>https://dojo-japan.jp/trainer/luke</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_luke.jpg</video:thumbnail_loc>
       <video:title>ルーク・ホロウェイ (Luke Holloway) Special — Martial Arts</video:title>
@@ -148,11 +148,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/movie.html</loc>
+    <loc>https://dojo-japan.jp/movie</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_02.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Concept Vol. 2</video:title>
@@ -163,11 +163,11 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
   <url>
-    <loc>https://dojo-japan.jp/gym.html</loc>
+    <loc>https://dojo-japan.jp/gym</loc>
     <video:video>
       <video:thumbnail_loc>https://dojo-japan.jp/assets/movies/poster_gym.jpg</video:thumbnail_loc>
       <video:title>DŌJŌ JAPAN — Gym Tour</video:title>
@@ -178,7 +178,7 @@
       <video:family_friendly>yes</video:family_friendly>
       <video:live>no</video:live>
       <video:requires_subscription>no</video:requires_subscription>
-      <video:uploader info="https://dojo-japan.jp/master.html">DŌJŌ JAPAN</video:uploader>
+      <video:uploader info="https://dojo-japan.jp/master">DŌJŌ JAPAN</video:uploader>
     </video:video>
   </url>
 </urlset>

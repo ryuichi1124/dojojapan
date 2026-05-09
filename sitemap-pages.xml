@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://dojo-japan.jp/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://dojo-japan.jp/concept.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://dojo-japan.jp/master.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/trainers.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://dojo-japan.jp/trainer/yahiro.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/trainer/matsushima.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/trainer/satoru.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/trainer/luke.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/training.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://dojo-japan.jp/movie.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/gym.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://dojo-japan.jp/pricing.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://dojo-japan.jp/faq.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://dojo-japan.jp/access.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dojo-japan.jp/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://dojo-japan.jp/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://dojo-japan.jp/</loc><lastmod>2026-05-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://dojo-japan.jp/concept</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dojo-japan.jp/master</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/trainers</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dojo-japan.jp/trainer/yahiro</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/trainer/matsushima</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/trainer/satoru</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/trainer/luke</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/training</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dojo-japan.jp/movie</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/gym</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dojo-japan.jp/pricing</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dojo-japan.jp/faq</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dojo-japan.jp/access</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dojo-japan.jp/terms</loc><lastmod>2026-05-08</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
