@@ -78,6 +78,7 @@
       <li><a href="movie">MOVIE</a></li>
       <li><a href="gym">GYM</a></li>
       <li><a href="pricing" aria-current="page">PRICING</a></li>
+      <li><a href="flow">FLOW</a></li>
       <li><a href="faq">FAQ</a></li>
       <li><a href="access">ACCESS</a></li>
     </ul>
@@ -106,6 +107,66 @@
     <p class="page-hero__lead">3 つの利用形態。体験・ビジターは当日、施設にて現金または PayPay でお支払いいただけます。月会員の方は毎月、現金・PayPay・銀行振込からお選びいただけます。</p>
   </div>
 </section>
+
+<!-- FLOW LINK NOTICE -->
+<aside class="pricing-flow-link" aria-label="お申し込み・ご利用の流れ">
+  <a href="flow" class="pricing-flow-link__inner">
+    <span class="pricing-flow-link__label">お申し込み・ご利用の流れ</span>
+    <span class="pricing-flow-link__cta">こちらからご確認ください</span>
+    <span class="pricing-flow-link__arrow" aria-hidden="true">→</span>
+  </a>
+</aside>
+<style>
+  .pricing-flow-link {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 24px 0;
+  }
+  .pricing-flow-link__inner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 24px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+    text-decoration: none;
+    color: #fff;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .pricing-flow-link__inner:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.32);
+    transform: translateY(-1px);
+  }
+  .pricing-flow-link__label {
+    font-family: var(--ff-display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.55);
+    flex: 0 0 auto;
+  }
+  .pricing-flow-link__cta {
+    flex: 1 1 auto;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #fff;
+  }
+  .pricing-flow-link__arrow {
+    flex: 0 0 auto;
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    transition: transform .25s ease;
+  }
+  .pricing-flow-link__inner:hover .pricing-flow-link__arrow { transform: translateX(4px); }
+  @media (max-width: 560px) {
+    .pricing-flow-link { padding: 22px 18px 0; }
+    .pricing-flow-link__inner { flex-wrap: wrap; gap: 8px; padding: 16px 18px; }
+    .pricing-flow-link__label { font-size: 11px; letter-spacing: 0.26em; width: 100%; }
+    .pricing-flow-link__cta { font-size: 13.5px; }
+  }
+</style>
 
 <!-- TRIAL CALLOUT -->
 <section class="pricing-page__trial" id="trial">
@@ -285,6 +346,7 @@
     <li><a href="movie">MOVIE</a></li>
     <li><a href="gym">GYM</a></li>
     <li><a href="pricing">PRICING</a></li>
+    <li><a href="flow">FLOW</a></li>
     <li><a href="faq">FAQ</a></li>
     <li><a href="access">ACCESS</a></li>
   </ul>
