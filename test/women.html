@@ -9,25 +9,28 @@
 <meta name="theme-color" content="#fbf9f7" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #fbf9f7;           /* warm off-white */
+    --bg: #fbf9f7;
     --bg-card: #ffffff;
-    --bg-soft: #f5f0ec;
-    --bg-tint: #fbe9e4;      /* warm peach tint */
+    --bg-soft: #f4ede8;
+    --bg-warm: #faece6;
+    --bg-tint: #fce4dd;
     --line: rgba(45,29,29,0.08);
-    --line-strong: rgba(45,29,29,0.18);
+    --line-strong: rgba(45,29,29,0.16);
+    --line-rose: rgba(200,122,133,0.32);
 
-    --text: #2d1d1d;         /* warm dark */
-    --text-body: #4f3e3e;
-    --text-mute: #836f6f;
-    --text-soft: #b09e9e;
+    --text: #2a1a1a;
+    --text-body: #4a3a3a;
+    --text-mute: #7a6a6a;
+    --text-soft: #aa9a9a;
 
-    --accent: #c87a85;       /* rose */
-    --accent-soft: #e3a5ac;
-    --accent-deep: #9b5560;
-    --accent-pale: #fdf2f0;
+    --accent: #c87a85;
+    --accent-soft: #e0a3aa;
+    --accent-deep: #8e4d57;
+    --accent-pale: #fbe9e7;
+    --gold: #c8a062;
 
     --ff-display: "Oswald","Noto Sans JP",sans-serif;
     --ff-serif:   "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
@@ -52,20 +55,21 @@
   }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; height: auto; }
+  ol, ul { padding: 0; margin: 0; list-style: none; }
 
   /* ===== test banner ===== */
   .test-banner {
-    background: #9b5560;
+    background: var(--accent-deep);
     color: #fff;
     text-align: center;
-    padding: 8px 16px;
+    padding: 7px 16px;
     font-size: 10.5px;
     font-family: var(--ff-display);
     letter-spacing: 0.34em;
     font-weight: 400;
   }
 
-  /* ===== slim header ===== */
+  /* ===== header ===== */
   .lp-header {
     position: sticky;
     top: 0;
@@ -74,7 +78,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line);
-    padding: 16px 20px;
+    padding: 14px 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -88,7 +92,7 @@
   }
   .lp-header__back {
     font-family: var(--ff-display);
-    font-size: 10.5px;
+    font-size: 10px;
     letter-spacing: 0.26em;
     color: var(--text-mute);
     padding: 7px 14px;
@@ -100,7 +104,7 @@
   /* ===== image placeholder ===== */
   .img-ph {
     width: 100%;
-    background: linear-gradient(135deg, #f5efe9 0%, #ebe1da 100%);
+    background: linear-gradient(135deg, #f3ebe5 0%, #e8ddd5 100%);
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -118,7 +122,7 @@
   .img-ph--hero    { aspect-ratio: 4 / 5; }
   .img-ph--wide    { aspect-ratio: 16 / 10; }
   .img-ph--square  { aspect-ratio: 1 / 1; }
-  .img-ph__label   { color: var(--text); font-weight: 500; }
+  .img-ph__label   { color: var(--text); font-weight: 500; font-size: 11px; }
   .img-ph__hint    {
     font-family: var(--ff-body);
     font-size: 10.5px;
@@ -130,55 +134,70 @@
 
   /* ===== layout ===== */
   .wrap {
-    max-width: 640px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 0 24px;
   }
-  .section { padding: 88px 0; position: relative; }
-  .section--alt { background: var(--bg-soft); }
-  .section--tint { background: var(--accent-pale); }
-
-  /* small ornamental separator */
-  .ornament {
-    text-align: center;
-    margin: 0 auto 28px;
-    color: var(--accent);
-    font-family: var(--ff-elegant);
-    font-size: 18px;
-    line-height: 1;
-    font-weight: 300;
-    letter-spacing: 0.3em;
+  .section {
+    padding: 96px 0;
+    position: relative;
   }
+  .section--alt  { background: var(--bg-soft); }
+  .section--warm { background: var(--bg-warm); }
+  .section--tint { background: var(--accent-pale); }
+  .section--dark { background: #2a1a1a; color: rgba(255,255,255,0.85); }
+  .section--dark .h-section,
+  .section--dark .p-body strong,
+  .section--dark .lead--large { color: #fff; }
+  .section--dark .h-section strong { color: var(--accent-soft); }
 
-  /* ===== section eyebrow & headings ===== */
-  .eyebrow {
+  /* ===== section meta header (No / dot) ===== */
+  .sec-meta {
+    text-align: center;
+    margin: 0 auto 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-meta__no {
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+  .sec-meta__line {
+    width: 32px;
+    height: 1px;
+    background: var(--accent-soft);
+  }
+  .sec-meta__cat {
     font-family: var(--ff-display);
     font-size: 10.5px;
-    letter-spacing: 0.42em;
+    letter-spacing: 0.44em;
     color: var(--accent);
-    margin: 0 0 16px;
-    text-align: center;
     font-weight: 500;
   }
+
+  /* ===== headings ===== */
   .h-section {
     font-family: var(--ff-serif);
     font-weight: 500;
-    font-size: 24px;
+    font-size: clamp(24px, 6.4vw, 30px);
     line-height: 1.75;
     letter-spacing: 0.08em;
     margin: 0 0 32px;
     text-align: center;
     color: var(--text);
   }
-  .h-section strong { color: var(--accent); font-weight: 600; }
-  .h-section--big {
-    font-size: 28px;
-    letter-spacing: 0.06em;
-  }
+  .h-section strong { color: var(--accent); font-weight: 700; }
+  .h-section em { font-style: normal; font-family: var(--ff-elegant); font-weight: 500; font-style: italic; color: var(--accent); }
 
   /* ===== body text ===== */
   .lead {
-    font-family: var(--ff-body);
     font-size: 14.5px;
     line-height: 2.15;
     color: var(--text-body);
@@ -187,16 +206,17 @@
   }
   .lead--center { text-align: center; }
   .lead--large {
-    font-size: 16px;
-    line-height: 2.05;
+    font-family: var(--ff-serif);
+    font-size: 17px;
+    line-height: 2;
     color: var(--text);
     font-weight: 500;
     text-align: center;
-    margin: 0 auto 28px;
-    max-width: 540px;
+    margin: 0 auto 32px;
+    max-width: 520px;
+    letter-spacing: 0.04em;
   }
   .p-body {
-    font-family: var(--ff-body);
     font-size: 14.5px;
     line-height: 2.15;
     color: var(--text-body);
@@ -204,128 +224,192 @@
     font-weight: 400;
   }
   .p-body strong { color: var(--text); font-weight: 700; }
+  .p-body--lift { font-size: 16px; color: var(--text); line-height: 2.05; font-weight: 500; }
 
-  /* ===== pull quote ===== */
+  /* ===== pull quote (smart quotes via ::before / ::after) ===== */
   .pull-quote {
     text-align: center;
-    margin: 36px auto;
-    max-width: 520px;
+    margin: 36px auto 24px;
+    max-width: 480px;
+    position: relative;
+    padding: 0 8px;
   }
   .pull-quote__q {
     font-family: var(--ff-serif);
     font-size: 19px;
     font-weight: 500;
-    line-height: 1.85;
+    line-height: 1.95;
     color: var(--text);
     letter-spacing: 0.06em;
-    margin: 0 0 18px;
+    margin: 0;
     position: relative;
-    padding: 0 8px;
+    padding: 18px 24px;
   }
   .pull-quote__q::before,
   .pull-quote__q::after {
-    content: '";
     font-family: var(--ff-elegant);
     color: var(--accent-soft);
-    font-size: 32px;
+    font-size: 48px;
     line-height: 1;
-    vertical-align: -0.2em;
-    margin: 0 4px;
+    position: absolute;
+    font-weight: 400;
   }
-  .pull-quote__q::after { content: '"; }
+  .pull-quote__q::before {
+    content: "\201C";
+    top: 0;
+    left: 0;
+  }
+  .pull-quote__q::after {
+    content: "\201D";
+    bottom: -16px;
+    right: 0;
+  }
 
   /* ===== big answer block ===== */
   .answer-block {
     text-align: center;
-    margin: 32px auto 36px;
+    margin: 28px auto 36px;
+    padding: 28px 24px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    box-shadow: 0 6px 28px rgba(45,29,29,0.06);
+    border: 1px solid var(--line-rose);
+    max-width: 480px;
   }
   .answer-block__small {
-    font-family: var(--ff-body);
-    font-size: 12.5px;
-    letter-spacing: 0.16em;
-    color: var(--text-mute);
-    margin: 0 0 14px;
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin: 0 0 12px;
+    font-weight: 400;
   }
   .answer-block__big {
     font-family: var(--ff-serif);
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.55;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.6;
     letter-spacing: 0.06em;
     color: var(--accent-deep);
     margin: 0;
   }
-  .answer-block__big--small { font-size: 22px; }
+
+  /* ===== big stat (focal point) ===== */
+  .big-stat {
+    text-align: center;
+    margin: 36px auto;
+    max-width: 480px;
+  }
+  .big-stat__num {
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(48px, 12vw, 64px);
+    color: var(--accent);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+    display: block;
+  }
+  .big-stat__num small {
+    font-family: var(--ff-serif);
+    font-style: normal;
+    font-size: 0.36em;
+    color: var(--accent-deep);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .big-stat__label {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: var(--text-mute);
+    margin: 0;
+    line-height: 1.8;
+  }
 
   /* ===== hero ===== */
-  .hero { padding: 36px 0 64px; }
-  .hero__inner { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  .hero { padding: 32px 0 56px; }
+  .hero__inner { max-width: 600px; margin: 0 auto; padding: 0 24px; }
   .hero__eyebrow {
     font-family: var(--ff-display);
     font-size: 10.5px;
-    letter-spacing: 0.44em;
+    letter-spacing: 0.46em;
     color: var(--accent);
-    margin: 36px 0 22px;
+    margin: 32px 0 18px;
     font-weight: 500;
     text-align: center;
   }
   .hero__title {
     font-family: var(--ff-serif);
-    font-weight: 500;
-    font-size: clamp(26px, 7vw, 34px);
-    line-height: 1.7;
-    letter-spacing: 0.08em;
-    margin: 0 0 28px;
+    font-weight: 600;
+    font-size: clamp(28px, 8.4vw, 40px);
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    margin: 0 0 22px;
     color: var(--text);
     text-align: center;
   }
   .hero__title em {
     font-style: normal;
     color: var(--accent);
-    font-weight: 600;
+    font-weight: 700;
   }
   .hero__sub {
     font-family: var(--ff-elegant);
     font-style: italic;
-    font-size: 17px;
+    font-size: 18px;
     color: var(--accent-deep);
     text-align: center;
-    margin: 0 0 28px;
-    letter-spacing: 0.04em;
+    margin: 0 0 32px;
+    letter-spacing: 0.06em;
     line-height: 1.6;
     font-weight: 400;
+  }
+  .hero__lift {
+    font-family: var(--ff-serif);
+    font-size: 16.5px;
+    line-height: 2.1;
+    color: var(--text);
+    font-weight: 500;
+    text-align: center;
+    margin: 0 auto 28px;
+    max-width: 520px;
+    letter-spacing: 0.04em;
   }
   .hero__lead {
     font-size: 14.5px;
     line-height: 2.15;
     color: var(--text-body);
-    margin: 22px 0;
-  }
-  .hero__lead--accent {
-    font-family: var(--ff-serif);
-    font-size: 15.5px;
-    color: var(--text);
-    line-height: 2.05;
-    font-weight: 500;
+    margin: 24px 0;
     text-align: center;
-    margin: 20px 0 24px;
   }
   .hero__assurance {
-    border-top: 1px solid var(--accent-soft);
-    border-bottom: 1px solid var(--accent-soft);
-    padding: 24px 16px;
-    margin: 36px 0;
+    margin: 40px 0;
+    padding: 32px 20px;
     text-align: center;
     background: var(--accent-pale);
+    border-radius: 12px;
+    border: 1px solid var(--line-rose);
+  }
+  .hero__assurance__deco {
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    margin: 0 0 14px;
+    letter-spacing: 0.06em;
   }
   .hero__assurance__main {
     font-family: var(--ff-serif);
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: 700;
+    font-size: 21px;
     color: var(--accent-deep);
-    letter-spacing: 0.06em;
-    line-height: 1.65;
-    margin: 0 0 8px;
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+    margin: 0 0 10px;
   }
   .hero__assurance__sub {
     font-size: 13px;
@@ -355,9 +439,9 @@
   .btn--primary {
     background: var(--accent);
     color: #fff;
-    box-shadow: 0 6px 18px rgba(200,122,133,0.22);
+    box-shadow: 0 8px 22px rgba(200,122,133,0.28);
   }
-  .btn--primary:hover { background: var(--accent-deep); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(200,122,133,0.3); }
+  .btn--primary:hover { background: var(--accent-deep); transform: translateY(-1px); box-shadow: 0 10px 26px rgba(200,122,133,0.35); }
   .btn--ghost {
     background: #fff;
     color: var(--text);
@@ -375,206 +459,263 @@
   }
   .btn--ghost .btn__sub { color: var(--text-mute); }
 
-  /* ===== reasons (cards) ===== */
-  .reasons { display: flex; flex-direction: column; gap: 20px; margin-top: 36px; }
+  /* ===== reason cards (alternating layouts) ===== */
+  .reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 40px;
+  }
   .reason-card {
     background: var(--bg-card);
-    border-radius: 12px;
-    padding: 28px 24px;
-    box-shadow: 0 4px 22px rgba(45,29,29,0.05);
-  }
-  .reason-card__top {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin: 0 0 18px;
+    border-radius: 14px;
+    padding: 32px 26px;
+    box-shadow: 0 6px 28px rgba(45,29,29,0.06);
+    position: relative;
   }
   .reason-card__num {
     font-family: var(--ff-elegant);
     font-style: italic;
-    font-size: 30px;
-    color: var(--accent);
+    font-size: 56px;
+    color: var(--accent-soft);
     line-height: 1;
-    flex: 0 0 auto;
-    font-weight: 500;
+    font-weight: 400;
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
   }
   .reason-card__title {
     font-family: var(--ff-serif);
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 1.65;
-    margin: 0;
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.7;
+    margin: 0 0 18px;
     letter-spacing: 0.05em;
     color: var(--text);
-    flex: 1 1 auto;
   }
-  .reason-card__body { font-size: 14px; line-height: 2.05; color: var(--text-body); margin: 0; }
+  .reason-card__body {
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: var(--text-body);
+    margin: 0;
+  }
   .reason-card__body strong { color: var(--text); font-weight: 700; }
+  .reason-card__body + .reason-card__body { margin-top: 14px; }
 
-  /* ===== stat highlight inside reason ===== */
-  .stat {
-    display: block;
-    margin: 14px 0 6px;
-    text-align: center;
-    padding: 16px 12px;
+  .reason-stat {
+    margin-top: 22px;
+    padding: 18px 16px;
     background: var(--accent-pale);
     border-radius: 8px;
+    text-align: center;
   }
-  .stat__num {
+  .reason-stat__num {
     font-family: var(--ff-elegant);
     font-style: italic;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 32px;
     color: var(--accent-deep);
-    line-height: 1.2;
+    line-height: 1.15;
     letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 4px;
   }
-  .stat__label {
-    font-size: 11.5px;
+  .reason-stat__num small {
+    font-family: var(--ff-serif);
+    font-style: normal;
+    font-size: 0.5em;
+    margin-left: 4px;
+    letter-spacing: 0.05em;
+  }
+  .reason-stat__label {
+    font-family: var(--ff-display);
+    font-size: 10.5px;
+    letter-spacing: 0.28em;
     color: var(--text-mute);
-    letter-spacing: 0.12em;
-    margin-top: 4px;
-    line-height: 1.6;
   }
 
   /* ===== certification box ===== */
   .cert-box {
-    border: 1px solid var(--accent-soft);
-    border-radius: 12px;
-    padding: 28px 22px;
+    border-radius: 14px;
+    padding: 36px 24px 28px;
     background: var(--bg-card);
     margin: 32px 0;
-    box-shadow: 0 4px 22px rgba(45,29,29,0.05);
+    box-shadow: 0 6px 28px rgba(45,29,29,0.06);
+    border: 1px solid var(--line-rose);
+    text-align: center;
+  }
+  .cert-box__deco {
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--accent);
+    margin: 0 0 6px;
+    letter-spacing: 0.06em;
   }
   .cert-box__label {
     font-family: var(--ff-display);
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.4em;
-    color: var(--accent);
-    margin: 0 0 18px;
-    text-align: center;
+    color: var(--accent-deep);
+    margin: 0 0 22px;
     font-weight: 500;
   }
   .cert-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
   .cert-list li {
-    text-align: center;
-    padding: 14px 12px;
+    padding: 18px 14px;
     background: var(--accent-pale);
-    border-radius: 6px;
+    border-radius: 8px;
+    text-align: center;
   }
   .cert-list__main {
     display: block;
     font-family: var(--ff-serif);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text);
     letter-spacing: 0.06em;
+    line-height: 1.5;
   }
   .cert-list__sub {
     display: block;
     font-family: var(--ff-display);
-    font-size: 10px;
+    font-size: 9.5px;
     color: var(--accent);
-    margin-top: 4px;
-    letter-spacing: 0.24em;
+    margin-top: 6px;
+    letter-spacing: 0.28em;
     font-weight: 500;
+  }
+
+  /* ===== resume after cert: pro chip list ===== */
+  .pro-list {
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pro-list li {
+    background: var(--bg-card);
+    padding: 18px 20px;
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-body);
+    box-shadow: 0 3px 14px rgba(45,29,29,0.04);
+  }
+  .pro-list li strong {
+    display: block;
+    font-family: var(--ff-serif);
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
   }
 
   /* ===== facility cards ===== */
   .facility {
-    list-style: none;
-    padding: 0;
-    margin: 28px 0 0;
+    margin-top: 32px;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
   .facility li {
-    padding: 22px;
-    border-radius: 10px;
+    padding: 24px;
+    border-radius: 12px;
     background: var(--bg-card);
-    box-shadow: 0 4px 22px rgba(45,29,29,0.04);
-    font-size: 14px;
-    line-height: 2;
-    color: var(--text-body);
+    box-shadow: 0 5px 22px rgba(45,29,29,0.05);
     position: relative;
   }
   .facility li strong {
     display: block;
     font-family: var(--ff-serif);
     color: var(--text);
-    font-weight: 500;
-    font-size: 15.5px;
-    margin-bottom: 6px;
-    letter-spacing: 0.04em;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+  }
+  .facility li p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-body);
+    margin: 0;
   }
 
   /* ===== timeline ===== */
   .timeline {
-    list-style: none;
-    padding: 0;
-    margin: 32px 0 0;
+    margin-top: 36px;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
   .timeline li {
     display: grid;
-    grid-template-columns: 92px 1fr;
+    grid-template-columns: 96px 1fr;
     gap: 18px;
-    padding: 22px 20px;
-    border-radius: 10px;
+    padding: 24px 22px;
+    border-radius: 12px;
     background: var(--bg-card);
-    box-shadow: 0 4px 22px rgba(45,29,29,0.04);
-    position: relative;
+    box-shadow: 0 5px 22px rgba(45,29,29,0.05);
+    align-items: center;
   }
   .timeline__when {
     font-family: var(--ff-elegant);
     font-style: italic;
-    font-size: 17px;
+    font-size: 19px;
     color: var(--accent);
     line-height: 1.4;
     font-weight: 500;
-    align-self: center;
+    text-align: left;
   }
   .timeline__when small {
     display: block;
     font-family: var(--ff-display);
     font-style: normal;
-    font-size: 10px;
+    font-size: 9.5px;
     color: var(--text-mute);
-    letter-spacing: 0.24em;
-    margin-top: 2px;
+    letter-spacing: 0.26em;
+    margin-top: 4px;
     font-weight: 400;
   }
   .timeline__what {
-    font-size: 13.5px;
+    font-size: 14px;
     line-height: 1.95;
     color: var(--text-body);
-    align-self: center;
   }
-  .timeline__what strong { color: var(--text); font-weight: 700; }
+  .timeline__what strong {
+    color: var(--text);
+    font-weight: 700;
+    font-family: var(--ff-serif);
+    font-size: 14.5px;
+  }
 
   /* ===== final CTA ===== */
   .final-cta {
     text-align: center;
-    padding: 80px 0 96px;
+    padding: 96px 0 112px;
     background: var(--accent-pale);
+  }
+  .final-cta__deco {
+    font-family: var(--ff-elegant);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 18px;
+    margin: 0 0 16px;
+    letter-spacing: 0.06em;
   }
   .final-cta__title {
     font-family: var(--ff-serif);
-    font-weight: 500;
-    font-size: 24px;
+    font-weight: 700;
+    font-size: clamp(24px, 7vw, 30px);
     line-height: 1.6;
-    margin: 0 0 22px;
-    letter-spacing: 0.08em;
+    margin: 0 0 28px;
+    letter-spacing: 0.1em;
     color: var(--text);
   }
   .final-cta__lead {
@@ -582,13 +723,13 @@
     line-height: 2.15;
     color: var(--text-body);
     margin: 0 auto 22px;
-    max-width: 540px;
+    max-width: 520px;
   }
   .final-cta__lead strong { color: var(--accent-deep); font-weight: 700; }
   .final-cta__hint {
     font-size: 12px;
     color: var(--text-mute);
-    margin: 28px auto 0;
+    margin: 32px auto 0;
     line-height: 2;
     max-width: 480px;
   }
@@ -596,7 +737,7 @@
   /* ===== footer ===== */
   .lp-footer {
     background: var(--bg-soft);
-    padding: 36px 20px;
+    padding: 40px 20px;
     text-align: center;
     border-top: 1px solid var(--line);
   }
@@ -604,7 +745,7 @@
     font-family: var(--ff-display);
     font-size: 14px;
     letter-spacing: 0.36em;
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     color: var(--text);
     font-weight: 500;
   }
@@ -626,17 +767,18 @@
   /* ===== responsive ===== */
   @media (min-width: 640px) {
     body { font-size: 16px; }
-    .h-section { font-size: 28px; }
-    .h-section--big { font-size: 32px; }
-    .hero__title { font-size: 36px; }
-    .section { padding: 112px 0; }
-    .reason-card__num { font-size: 36px; }
-    .stat__num { font-size: 36px; }
-    .timeline__when { font-size: 19px; }
+    .hero__title { font-size: 42px; }
+    .h-section { font-size: 30px; }
+    .answer-block__big { font-size: 26px; }
+    .section { padding: 120px 0; }
+    .reason-card__num { font-size: 64px; }
+    .reason-card__title { font-size: 21px; }
+    .timeline__when { font-size: 21px; }
   }
   @media (max-width: 380px) {
-    .timeline li { grid-template-columns: 80px 1fr; padding: 18px 16px; }
-    .reason-card { padding: 22px 18px; }
+    .timeline li { grid-template-columns: 84px 1fr; padding: 20px 16px; }
+    .reason-card { padding: 28px 22px; }
+    .pull-quote__q { font-size: 17px; padding: 14px 18px; }
   }
 </style>
 </head>
@@ -666,23 +808,23 @@
 
     <p class="hero__sub">— a gentle place to begin —</p>
 
-    <p class="hero__lead--accent">
+    <p class="hero__lift">
       キックボクシング・ボクシングが、<br />
       女性のシェイプアップに<br />
-      もっとも効率の良い運動形式のひとつ、<br />
-      ということをご存知でしょうか。
+      <strong style="color: var(--accent-deep);">もっとも効率の良い運動形式</strong><br />
+      のひとつ、というのは、ご存知でしょうか。
     </p>
 
     <p class="hero__lead">
-      DŌJŌ JAPAN（福岡市中央区春吉）には、ダイエットやシェイプアップを目的とした女性会員の方も、多くいらっしゃいます。
+      DŌJŌ JAPAN（福岡市中央区春吉）には、<br />ダイエットやシェイプアップを目的とした<br />女性会員の方も、多くいらっしゃいます。
     </p>
 
     <div class="hero__assurance">
+      <p class="hero__assurance__deco">first of all, please be assured —</p>
       <p class="hero__assurance__main">
-        ゴツくは、なりません。<br />
-        初心者でも、大丈夫です。
+        ゴツくは、<br />なりません。
       </p>
-      <p class="hero__assurance__sub">どうぞ、ご安心してお読みください。</p>
+      <p class="hero__assurance__sub">そして、初心者でも大丈夫です。<br />どうぞ、ご安心してお読みください。</p>
     </div>
 
     <div class="cta-stack">
@@ -694,19 +836,23 @@
   </div>
 </section>
 
-<!-- ===== ゴツくならない 真っ先に ===== -->
+<!-- ===== 01. ゴツくならない ===== -->
 <section class="section section--alt">
   <div class="wrap">
-    <p class="ornament">— § —</p>
-    <p class="eyebrow">FIRST ANSWER</p>
-    <h2 class="h-section">いちばん多くいただく、<br /><strong>ご質問から</strong></h2>
-
-    <div class="pull-quote">
-      <p class="pull-quote__q">ゴツくならないか、心配です。</p>
+    <div class="sec-meta">
+      <span class="sec-meta__no">— 01 —</span>
+      <span class="sec-meta__line"></span>
+      <span class="sec-meta__cat">FIRST ANSWER</span>
     </div>
 
-    <p class="lead lead--center" style="max-width: 480px; margin: 0 auto 12px;">
-      女性のお客様から、<br />もっとも多くいただくご質問です。
+    <h2 class="h-section">いちばん多くいただく、<br /><em>ご質問から。</em></h2>
+
+    <div class="pull-quote">
+      <p class="pull-quote__q">ゴツくならないか、<br />心配です。</p>
+    </div>
+
+    <p class="lead lead--center" style="max-width: 460px; margin: 0 auto 8px;">
+      女性のお客様から、もっとも多くいただくご質問です。
     </p>
 
     <div class="answer-block">
@@ -714,120 +860,122 @@
       <p class="answer-block__big">構造上、<br />ほぼ不可能でございます。</p>
     </div>
 
-    <p class="p-body">
+    <p class="p-body p-body--lift">
       筋肉を大きくする主役は、男性ホルモンであるテストステロン。
     </p>
+
+    <div class="big-stat">
+      <span class="big-stat__num">1 / 10 <small>〜</small> 1 / 20</span>
+      <p class="big-stat__label">女性のテストステロン量（男性比）</p>
+    </div>
+
     <p class="p-body">
       女性の体内のテストステロン値は、<strong>男性の 1/10〜1/20 しかございません</strong>。
     </p>
-
-    <span class="stat">
-      <span class="stat__num">1 / 10 〜 1 / 20</span>
-      <span class="stat__label">女性のテストステロン量（男性比）</span>
-    </span>
-
     <p class="p-body">
       そのうえ、筋肉が大きく成長するには、「高負荷の重量トレーニング」「カロリー余剰」「特定のタンパク質摂取」が、3 つそろって初めて起こります。
     </p>
     <p class="p-body">
-      ボクシング・キックボクシングは、その条件と<strong>真逆の運動</strong>です。軽い負荷で、回数を重ねながら、カロリーを消費していく。だからゴツくはならず、しなやかに引き締まっていきます。
+      ボクシング・キックボクシングは、その条件と<strong>真逆の運動</strong>。
     </p>
     <p class="p-body">
-      ボクサーの体型を、思い出してみてください。「ゴツい」のではなく、<strong>しなやかに、整っている</strong>。お客様の身体も、そういう方向に変わっていきます。
+      軽い負荷で、回数を重ねながら、カロリーを消費していく。だからゴツくはならず、<strong>しなやかに引き締まっていきます</strong>。
     </p>
     <p class="p-body">
-      DŌJŌ JAPAN のトレーナーは、お客様の目的に合わせてメニューを毎回調整いたします。「絞りたい」「しなやかに」「ヒップアップだけ」というご希望にも、その方向に合わせて進めてまいります。
+      ボクサーの体型を、思い出してみてください。「ゴツい」のではなく、<strong>しなやかに、整っている</strong>はずです。お客様の身体も、そういう方向に変わっていきます。
+    </p>
+    <p class="p-body">
+      DŌJŌ JAPAN のトレーナーは、お客様の目的に合わせてメニューを毎回調整いたしますので、「絞りたい」「しなやかな印象に」「ヒップアップだけ」というご希望にも、その方向に合わせて進めてまいります。
     </p>
   </div>
 </section>
 
-<!-- ===== なぜシェイプアップに最適か ===== -->
+<!-- ===== 02. なぜ効くのか ===== -->
 <section class="section">
   <div class="wrap">
-    <p class="ornament">— § —</p>
-    <p class="eyebrow">WHY IT WORKS</p>
-    <h2 class="h-section h-section--big">
-      なぜ、<br /><strong>女性のシェイプアップ</strong>に<br />最適なのか
-    </h2>
+    <div class="sec-meta">
+      <span class="sec-meta__no">— 02 —</span>
+      <span class="sec-meta__line"></span>
+      <span class="sec-meta__cat">WHY IT WORKS</span>
+    </div>
+
+    <h2 class="h-section">なぜ、<em>女性の<br />シェイプアップ</em>に<br />最適なのか。</h2>
 
     <p class="lead--large">
       キックボクシング・ボクシングが<br />これほど女性に選ばれる理由を、<br />運動科学の視点から。
     </p>
 
-    <div class="img-ph img-ph--wide" style="margin: 28px 0 8px;">
+    <div class="img-ph img-ph--wide" style="margin: 36px 0 8px;">
       <span class="img-ph__label">[ 女性 × 稽古風景 ]</span>
       <span class="img-ph__hint">明るく健康的なシーン、笑顔の指導（16:10）</span>
     </div>
 
     <ol class="reasons">
       <li class="reason-card">
-        <div class="reason-card__top">
-          <span class="reason-card__num">01</span>
-          <h3 class="reason-card__title">消費カロリーが、<br />ジョギングの 2 倍。</h3>
+        <p class="reason-card__num">01</p>
+        <h3 class="reason-card__title">消費カロリーが、<br />ジョギングの 2 倍。</h3>
+        <p class="reason-card__body">普通のジョギング 60 分の消費カロリーが約 480 kcal なのに対し、キックボクシング 60 分は <strong>およそ 600〜900 kcal</strong>。同じ 1 時間で、約 2 倍のカロリーを燃焼します。</p>
+        <div class="reason-stat">
+          <span class="reason-stat__num">2<small>倍</small></span>
+          <span class="reason-stat__label">SAME HOUR, DOUBLE BURN</span>
         </div>
-        <p class="reason-card__body">普通のジョギング 60 分の消費カロリーが約 480 kcal なのに対し、キックボクシング 60 分は <strong>およそ 600〜900 kcal</strong>。</p>
-        <span class="stat">
-          <span class="stat__num">2 倍</span>
-          <span class="stat__label">同じ 1 時間で、約 2 倍の燃焼</span>
-        </span>
       </li>
 
       <li class="reason-card">
-        <div class="reason-card__top">
-          <span class="reason-card__num">02</span>
-          <h3 class="reason-card__title">運動後、<br />24〜48 時間、脂肪が燃え続ける。</h3>
-        </div>
+        <p class="reason-card__num">02</p>
+        <h3 class="reason-card__title">運動後、<br />24〜48 時間、<br />脂肪が燃え続ける。</h3>
         <p class="reason-card__body">EPOC（運動後過剰酸素消費）という現象です。稽古した日の夜も、翌日も、<strong>身体が脂肪を燃やし続けている状態</strong>になります。</p>
-        <span class="stat">
-          <span class="stat__num">24 - 48 h</span>
-          <span class="stat__label">稽古後も、脂肪燃焼が続く</span>
-        </span>
+        <div class="reason-stat">
+          <span class="reason-stat__num">24-48<small>h</small></span>
+          <span class="reason-stat__label">AFTER-BURN DURATION</span>
+        </div>
       </li>
 
       <li class="reason-card">
-        <div class="reason-card__top">
-          <span class="reason-card__num">03</span>
-          <h3 class="reason-card__title">全身運動で、お腹も<br />ヒップラインも整う。</h3>
-        </div>
+        <p class="reason-card__num">03</p>
+        <h3 class="reason-card__title">全身運動で、<br />お腹もヒップラインも<br />整う。</h3>
         <p class="reason-card__body">パンチ 1 発に、軸足・骨盤・体幹・上半身が連動して動員されます。1 つの動きで、<strong>ぽっこりお腹も、姿勢も、ヒップラインも</strong>整っていきます。</p>
-        <p class="reason-card__body" style="margin-top: 12px;">腹筋運動を 100 回するよりも、ボクシング 30 分の方が体幹に効くと言われる理由が、ここにあります。</p>
+        <p class="reason-card__body">腹筋運動を 100 回するよりも、ボクシング 30 分の方が体幹に効くと言われる理由が、ここにあります。</p>
       </li>
 
       <li class="reason-card">
-        <div class="reason-card__top">
-          <span class="reason-card__num">04</span>
-          <h3 class="reason-card__title">ストレス太りの解消にも、<br />効く。</h3>
-        </div>
+        <p class="reason-card__num">04</p>
+        <h3 class="reason-card__title">ストレス太りの解消にも、<br />効く。</h3>
         <p class="reason-card__body">慢性的なストレスはコルチゾールというホルモンを上げ、内臓脂肪を蓄積します。</p>
-        <p class="reason-card__body" style="margin-top: 12px;">「殴る」「蹴る」動作は、強いストレス発散効果があり、コルチゾール値を下げます。結果として、<strong>ストレス由来の脂肪も落ちやすくなります</strong>。</p>
+        <p class="reason-card__body">「殴る」「蹴る」動作は、強いストレス発散効果があり、コルチゾール値を下げます。結果として、<strong>ストレス由来の脂肪も落ちやすくなります</strong>。</p>
       </li>
     </ol>
   </div>
 </section>
 
-<!-- ===== キツいだけじゃない ===== -->
-<section class="section section--tint">
+<!-- ===== 03. キツいだけじゃない（資格） ===== -->
+<section class="section section--warm">
   <div class="wrap">
-    <p class="ornament">— § —</p>
-    <p class="eyebrow">PROFESSIONAL, NOT BRUTAL</p>
-    <h2 class="h-section">「プロの指導は、<br />私には厳しすぎませんか？」</h2>
+    <div class="sec-meta">
+      <span class="sec-meta__no">— 03 —</span>
+      <span class="sec-meta__line"></span>
+      <span class="sec-meta__cat">PROFESSIONAL, NOT BRUTAL</span>
+    </div>
 
-    <p class="lead lead--center" style="max-width: 480px; margin: 0 auto 24px;">
+    <h2 class="h-section">「プロの指導は、<br /><em>私には厳しすぎませんか？</em>」</h2>
+
+    <p class="lead lead--center" style="max-width: 460px; margin: 0 auto 28px;">
       王者が指導するジムと聞いて、<br />「初心者の私には、厳しすぎるのでは…」<br />とご不安をお感じになる方も、<br />多いかもしれません。
     </p>
 
     <div class="answer-block">
       <p class="answer-block__small">— どうぞ、ご安心ください —</p>
-      <p class="answer-block__big answer-block__big--small">
+      <p class="answer-block__big">
         「キツいだけ」の指導には<br />絶対になりません。
       </p>
     </div>
 
-    <p class="p-body">
+    <p class="p-body p-body--lift">
       DŌJŌ JAPAN の在籍トレーナーには、現役・元のチャンピオンであると同時に、身体に関する<strong>医療系・運動系の国家資格・国際資格を保有しているトレーナー</strong>がおります。
     </p>
 
     <div class="cert-box">
+      <p class="cert-box__deco">— certified —</p>
       <p class="cert-box__label">在籍トレーナー保有資格</p>
       <ul class="cert-list">
         <li>
@@ -845,72 +993,77 @@
       </ul>
     </div>
 
+    <ul class="pro-list">
+      <li><strong>理学療法士</strong>骨格・筋肉・関節を医学的に理解する、リハビリと身体機能のプロフェッショナル。</li>
+      <li><strong>介護福祉士</strong>お一人おひとりの体調・体力に合わせた支援を行う、寄り添いのプロ。</li>
+      <li><strong>RYT 200</strong>柔軟性・呼吸・身体のアライメントを整える、ヨガ国際資格の専門家。</li>
+    </ul>
+
     <p class="p-body">
-      <strong>理学療法士</strong>は、骨格・筋肉・関節を医学的に理解するプロフェッショナル。
-    </p>
-    <p class="p-body">
-      <strong>介護福祉士</strong>は、お一人おひとりの体調・体力に合わせた支援のプロ。
-    </p>
-    <p class="p-body">
-      <strong>RYT 200</strong> は、柔軟性・呼吸・身体のアライメントの専門家でございます。
-    </p>
-    <p class="p-body">
-      ただ「強い」だけのトレーナーではなく、<strong>お客様の身体の状態を医学的に見極めて、安全かつ効率的な指導ができる</strong>トレーナーが、お迎えいたします。
+      つまり、ただ「強い」だけのトレーナーではなく、<strong>お客様の身体の状態を医学的に見極めて、安全かつ効率的な指導ができる</strong>トレーナーが、お迎えいたします。
     </p>
     <p class="p-body">
       運動経験がない方、関節に不安のある方、産後で体力を取り戻したい方、生理周期との兼ね合いを考慮したい方。
     </p>
-    <p class="p-body">
+    <p class="p-body p-body--lift" style="text-align: center;">
       <strong>どなたにも、お一人おひとりに合わせたメニューで、無理なく進めていただけます。</strong>
     </p>
   </div>
 </section>
 
-<!-- ===== 続けやすさのための設計 ===== -->
+<!-- ===== 04. 続けやすさ / 施設 ===== -->
 <section class="section">
   <div class="wrap">
-    <p class="ornament">— § —</p>
-    <p class="eyebrow">FACILITY</p>
-    <h2 class="h-section">続けやすさのための、<br /><strong>設計</strong></h2>
+    <div class="sec-meta">
+      <span class="sec-meta__no">— 04 —</span>
+      <span class="sec-meta__line"></span>
+      <span class="sec-meta__cat">FACILITY</span>
+    </div>
 
-    <p class="lead lead--center" style="max-width: 480px; margin: 0 auto 24px;">
+    <h2 class="h-section">続けやすさのための、<br /><em>設計。</em></h2>
+
+    <p class="lead lead--center" style="max-width: 460px; margin: 0 auto 8px;">
       女性のお客様が安心して<br />お越しいただけるよう、<br />施設面でもご配慮しております。
     </p>
 
-    <div class="img-ph img-ph--wide" style="margin: 28px 0;">
+    <div class="img-ph img-ph--wide" style="margin: 32px 0;">
       <span class="img-ph__label">[ シャワー・パウダールーム ]</span>
       <span class="img-ph__hint">清潔感のあるパウダースペース（16:10）</span>
     </div>
 
     <ul class="facility">
       <li>
-        <strong>個室シャワー・パウダースペース完備</strong>
-        ヘアドライヤー付き洗面台、バスタオルも無料でご用意。稽古後、すっきりした状態でお出かけいただけます。
+        <strong>個室シャワー・<br />パウダースペース完備</strong>
+        <p>ヘアドライヤー付き洗面台、バスタオルも無料でご用意。稽古後、すっきりした状態でお出かけいただけます。</p>
       </li>
       <li>
         <strong>手ぶらで、どうぞ</strong>
-        スポーツウェア、グローブ、レガース、タオル、すべて無料貸出。お化粧道具やお飲み物だけ、ご持参いただければ大丈夫です。
+        <p>スポーツウェア、グローブ、レガース、タオル、すべて無料貸出。お化粧道具やお飲み物だけ、ご持参いただければ大丈夫です。</p>
       </li>
       <li>
-        <strong>お仕事帰り、お出かけ前にも</strong>
-        天神・薬院方面へのご予定がある方も、稽古後すぐにリフレッシュしてお出かけいただけます。
+        <strong>お仕事帰り、<br />お出かけ前にも</strong>
+        <p>天神・薬院方面へのご予定がある方も、稽古後すぐにリフレッシュしてお出かけいただけます。</p>
       </li>
       <li>
         <strong>更衣室・ロッカー完備</strong>
-        ふらっとした立ち寄りも、無理なくお続けいただけます。
+        <p>ふらっとした立ち寄りも、無理なくお続けいただけます。</p>
       </li>
     </ul>
   </div>
 </section>
 
-<!-- ===== タイムライン ===== -->
+<!-- ===== 05. タイムライン ===== -->
 <section class="section section--alt">
   <div class="wrap">
-    <p class="ornament">— § —</p>
-    <p class="eyebrow">TIMELINE</p>
-    <h2 class="h-section">いつから、<br /><strong>どれくらい変わる</strong>のか</h2>
+    <div class="sec-meta">
+      <span class="sec-meta__no">— 05 —</span>
+      <span class="sec-meta__line"></span>
+      <span class="sec-meta__cat">TIMELINE</span>
+    </div>
 
-    <p class="lead lead--center" style="max-width: 480px; margin: 0 auto;">
+    <h2 class="h-section">いつから、<br /><em>どれくらい変わる</em>のか。</h2>
+
+    <p class="lead lead--center" style="max-width: 460px; margin: 0 auto;">
       個人差はございますが、目安として<br />以下のような変化を実感される方が多いです。
     </p>
 
@@ -933,7 +1086,7 @@
       </li>
     </ol>
 
-    <p class="p-body" style="margin-top: 28px; font-size: 12.5px; color: var(--text-mute); text-align: center; line-height: 2;">
+    <p class="p-body" style="margin-top: 32px; font-size: 12.5px; color: var(--text-mute); text-align: center; line-height: 2;">
       ※ 週 2 回以上の通い、極端ではない通常の食事管理を想定しております。<br />個人差はございます。
     </p>
   </div>
@@ -942,20 +1095,23 @@
 <!-- ===== FINAL CTA ===== -->
 <section class="final-cta" id="cta">
   <div class="wrap">
-    <p class="ornament">— § —</p>
+    <p class="final-cta__deco">— a gentle invitation —</p>
     <h2 class="final-cta__title">まずは、<br />無料体験 45 分から。</h2>
 
     <p class="final-cta__lead">
       ご決断は、まだ早くてかまいません。
     </p>
     <p class="final-cta__lead">
-      雰囲気、トレーナー、施設、本当に自分に合うか。これらは、文字でいくら読んでも分かりません。<br />まずは無料体験 45 分（福岡在住の方限定）にお越しいただき、ご自分の目で、ご自分の身体で、お確かめください。
+      雰囲気、トレーナー、施設、本当に自分に合うか。<br />これらは、文字でいくら読んでも分かりません。
+    </p>
+    <p class="final-cta__lead">
+      まずは無料体験 45 分（福岡在住の方限定）にお越しいただき、<br />ご自分の目で、ご自分の身体で、お確かめください。
     </p>
     <p class="final-cta__lead">
       体験はもちろん無料。手ぶらでお越しいただけます。<br />体験後、<strong>無理な勧誘は一切いたしません</strong>。
     </p>
     <p class="final-cta__lead">
-      ご予約は、Instagram DM が一番スムーズです。<br /><strong>「体験希望」と一言</strong>お送りいただければ、女性スタッフから丁寧にご返信いたします。お電話に抵抗のある方も、ご安心くださいませ。
+      ご予約は、Instagram DM が一番スムーズです。<br /><strong>「体験希望」と一言</strong>お送りいただければ、女性スタッフから丁寧にご返信いたします。
     </p>
 
     <div class="cta-stack" style="max-width: 380px; margin: 36px auto 0;">
