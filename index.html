@@ -207,6 +207,113 @@ button{font:inherit}
   </a>
 </section>
 
+<!-- ===== FOR ALL GOALS (4 目的対応) ===== -->
+<section class="for-goals" aria-labelledby="forGoalsHeading">
+  <div class="for-goals__inner">
+    <p class="for-goals__eyebrow">FOR ALL GOALS</p>
+    <h2 class="for-goals__title" id="forGoalsHeading">あらゆる目的に、王者の指導を。</h2>
+    <p class="for-goals__lead">
+      ダイエット・しなやかな体作り・筋肉アップ・プロ格闘家志望まで。<br />
+      ボクシング・キックボクシング × 専用ウェイトトレーニング機材を組み合わせた総合的なご指導を、<br class="for-goals__br" />
+      現役・元のチャンピオン陣が目的別に直接お届けいたします。
+    </p>
+    <ul class="for-goals__list">
+      <li class="for-goals__item"><span class="for-goals__num">01</span><span class="for-goals__name">ダイエット・シェイプアップ</span></li>
+      <li class="for-goals__item"><span class="for-goals__num">02</span><span class="for-goals__name">しなやかな体に仕上げる</span></li>
+      <li class="for-goals__item"><span class="for-goals__num">03</span><span class="for-goals__name">本格的な筋肉づくり</span></li>
+      <li class="for-goals__item"><span class="for-goals__num">04</span><span class="for-goals__name">プロ格闘家を目指す</span></li>
+    </ul>
+    <p class="for-goals__note">
+      会員様の大半は、運動経験ゼロ・格闘技未経験の方でございます。<br />
+      「ジムは敷居が高い」とお感じの方も、ご安心してお越しくださいませ。
+    </p>
+  </div>
+</section>
+<style>
+  .for-goals {
+    padding: 96px 0 80px;
+    background: linear-gradient(180deg, #050608 0%, #0a0c10 100%);
+    color: rgba(255,255,255,0.85);
+  }
+  .for-goals__inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 28px;
+    text-align: center;
+  }
+  .for-goals__eyebrow {
+    font-family: var(--ff-display);
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 18px;
+  }
+  .for-goals__title {
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: clamp(22px, 3.6vw, 30px);
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin: 0 0 26px;
+    line-height: 1.6;
+  }
+  .for-goals__lead {
+    font-size: 14.5px;
+    line-height: 2;
+    color: rgba(255,255,255,0.75);
+    margin: 0 auto 44px;
+    max-width: 760px;
+  }
+  .for-goals__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .for-goals__item {
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 22px 16px;
+    background: rgba(255,255,255,0.025);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .for-goals__item:hover {
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+  }
+  .for-goals__num {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.5);
+  }
+  .for-goals__name {
+    font-weight: 700;
+    font-size: 13.5px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1.7;
+  }
+  .for-goals__note {
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(255,255,255,0.6);
+    margin: 0;
+  }
+  @media (max-width: 720px) {
+    .for-goals { padding: 64px 0 56px; }
+    .for-goals__list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .for-goals__item { padding: 18px 12px; }
+    .for-goals__br { display: none; }
+  }
+</style>
+
 <!-- ===== TRAINER (Character-Select Grid → Detail Pages) ===== -->
 <section class="trainer" id="trainer">
   <header class="section-head">
