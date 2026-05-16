@@ -11,10 +11,12 @@
             │                │                  → stepRental → … visitor info … → stepBeforeBook
             │                └── Returning    → (auto-switched to Visitor ¥3,000)
             │                                   → stepRental → … visitor info … → stepBeforeBook
-            └── Membership → stepMembershipInfo → stepName → stepBeforeBook (name only)
+            ├── Membership → stepMembershipInfo → stepName → stepBeforeBook (name only)
+            └── Tour (JA only) → stepTourInfo → stepName → stepPeople → stepDate
+                                                       → stepTime → stepBeforeBook (no price)
 
      Visitor info collection: stepName → stepPeople → stepDate → stepTime
-       - People: 1〜10
+       - People: 1〜6
        - Date:   next 30 business days, Sundays excluded
        - Time:   7:00〜17:30, 30-min slots
 
@@ -75,6 +77,10 @@
       intentQ: 'ご利用方法をお選びください。',
       wantTrial: '体験を希望',
       wantJoin:  '入会を希望',
+      wantTour:  '見学を希望',
+      tourInfo: 'ありがとうございます。施設見学を承ります。\nDŌJŌ JAPAN の館内・トレーニングエリア・スタッフの雰囲気をご覧いただけます（所要 15〜20 分）。',
+      copyHeaderTour: 'DŌJŌ JAPAN 施設見学のご相談',
+      copyTourBody: 'DŌJŌ JAPAN の施設見学を希望しております。\n下記の希望日時にてご案内が可能か、ご確認をお願いいたします。',
       frequencyQ: '体験のご利用は今回が初めてでしょうか？\n（2回目以降はビジター料金 ¥3,000／60 分でのご案内となります）',
       firstTime: '初めて利用',
       repeatVisit: '2回目以降',
@@ -435,10 +441,10 @@
     return opts;
   };
 
-  // 1〜10名
+  // 1〜6名
   const generatePeopleOptions = (suffix) => {
     const opts = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 6; i++) {
       opts.push({ value: String(i), label: `${i}${suffix}` });
     }
     return opts;
@@ -584,6 +590,24 @@
       return lines.join('\n');
     }
 
+    // Tour inquiry (Japanese only) — schedule only, no price
+    if (state.intent === 'tour') {
+      lines.push(t.copyHeaderTour);
+      lines.push('');
+      if (state.name) lines.push(`${t.copyLabelName}: ${state.name}`);
+      lines.push(`${t.copyLabelPeople}: ${people}${t.peopleSuffix}`);
+      if (state.date) {
+        const d = parseISO(state.date);
+        lines.push(`${t.copyLabelDate}: ${d ? formatDateLabel(d, locale) : state.date}`);
+      }
+      if (state.time) lines.push(`${t.copyLabelTime}: ${state.time}`);
+      lines.push('');
+      lines.push(t.copyTourBody);
+      lines.push('');
+      lines.push(t.copyDisclaimer);
+      return lines.join('\n');
+    }
+
     // Booking with details (free trial OR plan selected)
     lines.push(t.copyHeaderTrial);
     lines.push('');
@@ -700,10 +724,14 @@
 
   const stepIntent = async () => {
     await addMessage($t('intentQ'));
-    setActions([
+    const buttons = [
       { label: $t('wantTrial'), primary: true, then: () => { state.intent = 'trial';  fire('chatbot:intent', 'trial');  stepTrialFrequency(); } },
       { label: $t('wantJoin'),                 then: () => { state.intent = 'member'; fire('chatbot:intent', 'member'); stepMembershipInfo(); } },
-    ]);
+    ];
+    if (lang === 'ja') {
+      buttons.push({ label: $t('wantTour'), then: () => { state.intent = 'tour'; fire('chatbot:intent', 'tour'); stepTourInfo(); } });
+    }
+    setActions(buttons);
   };
 
   // ---- Trial branch: first-time check (free trial) vs returning (paid Visitor)
@@ -757,6 +785,13 @@
   // ---- Membership branch: simple — confirm name then go straight to DM copy
   const stepMembershipInfo = async () => {
     await addMessage($t('memberInfo'));
+    await sleep(320);
+    stepName();
+  };
+
+  // ---- Tour branch (JA only): collect name + schedule, then DM copy without price
+  const stepTourInfo = async () => {
+    await addMessage($t('tourInfo'));
     await sleep(320);
     stepName();
   };

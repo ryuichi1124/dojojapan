@@ -33,11 +33,14 @@
     });
   }, { capture: true });
 
-  // ---- 2. Instagram DM click (CV)
+  // ---- 2. Instagram DM click (CV) + route page CTAs through the chatbot
+  // Tracking always fires; for page CTAs we cancel navigation and open the
+  // chatbot so the user lands in DM with a structured message instead of an
+  // empty thread. The bot's own "Open Instagram DM" link (inside .chatbot)
+  // is left alone — that step is the actual hand-off.
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href*="instagram.com/dojo_japan"]');
     if (!a) return;
-    // Determine context: inside chatbot copy step vs page CTA
     const inChatbot = !!a.closest('.chatbot');
     send('instagram_click', {
       event_category: 'contact',
@@ -45,6 +48,13 @@
       page_path: location.pathname,
       link_text: cleanText(a.textContent),
     });
+    if (inChatbot) return;
+    const txt = a.textContent || '';
+    const isCTA = a.classList.contains('btn') || /\bDM\b/i.test(txt);
+    if (!isCTA) return;                       // SNS profile links (e.g. "Instagram @dojo_japan") stay direct
+    e.preventDefault();
+    const toggle = document.getElementById('chatbotToggle');
+    if (toggle) toggle.click();               // triggers lazy-load + open
   }, { capture: true });
 
   // ---- 3. Free trial CTA click (CV)
