@@ -8,3 +8,25 @@
 .champion-coaches{padding:0;margin:0;background:#050608;overflow:hidden;line-height:0}.champion-coaches__link{display:block;position:relative;width:100%;background:#050608;transition:opacity .3s ease}.champion-coaches__link img{display:block;width:100%;height:auto;object-fit:cover;transition:transform .6s ease}@media (hover:hover) and (pointer:fine){.champion-coaches__link:hover img{transform:scale(1.02)}.champion-coaches__link:hover{opacity:.92}}.champion-coaches__link:focus-visible{outline:2px solid var(--gold);outline-offset:-4px}@media (max-width:768px){.champion-coaches__link img{aspect-ratio:16/9;object-fit:cover}}
 .breadcrumbs{background:#0a0b0f;border-bottom:1px solid var(--line);padding:84px 0 12px}.breadcrumbs__list{display:flex;flex-wrap:wrap;align-items:center;gap:0;list-style:none;padding:0 var(--gutter);max-width:var(--max);margin:0 auto;font-family:var(--ff-display);font-size:11px;font-weight:500;letter-spacing:.18em;color:rgba(255,255,255,.45);text-transform:uppercase;line-height:1.6}.breadcrumbs__list li{display:inline-flex;align-items:center}.breadcrumbs__list li:not(:last-child)::after{content:"";display:inline-block;width:14px;height:1px;background:var(--gold);opacity:.4;margin:0 12px}.breadcrumbs__list a{color:rgba(255,255,255,.5);transition:color .2s ease}.breadcrumbs__list a:hover{color:var(--gold)}.breadcrumbs__list [aria-current="page"]{color:rgba(255,255,255,.85)}@media (max-width:540px){.breadcrumbs{padding:76px 0 10px}.breadcrumbs__list{font-size:10px;letter-spacing:.14em;gap:0}.breadcrumbs__list li:not(:last-child)::after{width:10px;margin:0 8px}}
 .breadcrumbs+.page-hero{padding-top:80px}.breadcrumbs+.t-hero{padding-top:64px}@media(max-width:540px){.breadcrumbs+.page-hero{padding-top:48px}.breadcrumbs+.t-hero{padding-top:40px}}
+
+/* === MASTER INSTAGRAM === */
+.bio-instagram{padding:clamp(56px,9vw,112px) var(--gutter);background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);border-top:1px solid var(--line)}
+.bio-instagram__inner{max-width:880px;margin:0 auto;text-align:center}
+.bio-instagram__kicker{font-family:var(--ff-display);font-size:11px;font-weight:500;letter-spacing:.5em;color:var(--text-mute);margin:0 0 14px;text-transform:uppercase}
+.bio-instagram__title{font-family:var(--ff-display);font-size:clamp(22px,3.2vw,30px);font-weight:600;letter-spacing:.18em;margin:0 0 16px;color:#fff}
+.bio-instagram__lead{color:var(--text-mute);font-size:14px;line-height:1.9;margin:0 0 36px}
+.bio-instagram__body{display:flex;flex-direction:column;align-items:center;gap:24px}
+.bio-instagram__link{display:inline-flex;align-items:center;gap:14px;padding:18px 30px;min-width:260px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#fff;transition:background .25s ease,border-color .25s ease,transform .25s ease}
+@media (hover:hover) and (pointer:fine){.bio-instagram__link:hover{background:rgba(255,255,255,.06);border-color:#fff;color:#fff;transform:translateY(-1px)}}
+.bio-instagram__icon{display:inline-flex;width:26px;height:26px;flex-shrink:0;color:#fff}
+.bio-instagram__icon svg{width:100%;height:100%}
+.bio-instagram__label{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left}
+.bio-instagram__label-main{font-family:var(--ff-display);font-size:14px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+.bio-instagram__label-sub{font-family:var(--ff-body);font-size:12px;letter-spacing:.05em;color:var(--text-mute)}
+.bio-instagram__qr{display:none}
+@media (min-width:769px){
+  .bio-instagram__body{flex-direction:row;justify-content:center;align-items:center;gap:48px}
+  .bio-instagram__qr{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0;padding:14px;background:#fff;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+  .bio-instagram__qr img{width:200px;height:200px;display:block}
+  .bio-instagram__qr figcaption{font-family:var(--ff-display);font-size:10px;font-weight:500;letter-spacing:.2em;color:#333;text-transform:uppercase}
+}
