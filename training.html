@@ -513,17 +513,19 @@
       font-size: clamp(140px, 38vw, 240px);
       margin-bottom: -70px;
     }
-    /* Gallery → stack two photos vertically on mobile */
+    /* Gallery → two photos side-by-side (50/50) on mobile */
     .training-step--gallery .training-step__media {
       padding: 0;
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
+    .training-step--gallery .gallery-primary,
     .training-step--gallery .gallery-secondary {
       position: static;
       width: 100%;
       box-shadow: none;
+      aspect-ratio: 3 / 2;
     }
     .training-step--gallery .training-step__media::before { display: none; }
   }
