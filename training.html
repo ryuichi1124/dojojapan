@@ -8,8 +8,8 @@
 <meta property="og:site_name" content="DŌJŌ JAPAN" />
 <meta property="og:image" content="https://dojo-japan.jp/assets/img/training/02_jumprope_brand.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="TRAINING 稽古の流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム" />
-<meta name="twitter:description" content="DŌJŌ JAPAN（福岡市中央区春吉）の稽古の流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
+<meta name="twitter:title" content="TRAINING トレーニングの流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム" />
+<meta name="twitter:description" content="DŌJŌ JAPAN（福岡市中央区春吉）のトレーニングの流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
 <meta name="twitter:image" content="https://dojo-japan.jp/assets/img/training/02_jumprope_brand.jpg" />
 <meta name="theme-color" content="#050608" />
 <!-- Google Analytics 4 -->
@@ -20,11 +20,11 @@
 <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
-<title>TRAINING 稽古の流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム</title>
-<meta name="description" content="DŌJŌ JAPAN（福岡市中央区春吉）の稽古の流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
+<title>TRAINING トレーニングの流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム</title>
+<meta name="description" content="DŌJŌ JAPAN（福岡市中央区春吉）のトレーニングの流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="TRAINING 稽古の流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム" />
-<meta property="og:description" content="DŌJŌ JAPAN（福岡市中央区春吉）の稽古の流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
+<meta property="og:title" content="TRAINING トレーニングの流れ｜DŌJŌ JAPAN — 福岡市中央区春吉のトレーニングジム" />
+<meta property="og:description" content="DŌJŌ JAPAN（福岡市中央区春吉）のトレーニングの流れ。ストレッチからなわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、マススパー（希望者のみ）、ウェイトトレーニングまで全 7 ステップ。初めての方もご安心の構成でございます。" />
 <meta property="og:locale" content="ja_JP" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,8 +46,8 @@
   "@context": "https://schema.org",
   "@type": "HowTo",
   "@id": "https://dojo-japan.jp/training#howto",
-  "name": "DŌJŌ JAPAN 稽古の流れ",
-  "description": "ストレッチに始まり、なわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、希望者によるマススパー、最後のウェイトトレーニングまで、初めての方にもご安心いただける王道の稽古フローでございます。",
+  "name": "DŌJŌ JAPAN トレーニングの流れ",
+  "description": "ストレッチに始まり、なわとび、パンチ・キックの基本、サンドバッグ・ミット稽古、希望者によるマススパー、最後のウェイトトレーニングまで、初めての方にもご安心いただける王道のトレーニングフローでございます。",
   "inLanguage": "ja-JP",
   "isPartOf": { "@id": "https://dojo-japan.jp/#website" },
   "about": { "@id": "https://dojo-japan.jp/#business" },
@@ -139,15 +139,48 @@
     align-items: center;
     gap: 88px;
     padding: 110px 0;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1.2s ease, transform 1.2s ease;
-  }
-  .training-step.is-in {
-    opacity: 1;
-    transform: translateY(0);
   }
   .training-step:first-child { padding-top: 0; }
+
+  /* ---------- Staggered scroll-reveal ----------
+     Each piece fades & rises with a slight delay
+     so the photo lands first, then label → title → lead → body. */
+  .training-step__media,
+  .training-step__sub,
+  .training-step__title,
+  .training-step__lead,
+  .training-step__desc,
+  .training-step__badge {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+                transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  .training-step.is-in .training-step__media { opacity: 1; transform: none; transition-delay: 0ms; }
+  .training-step.is-in .training-step__sub   { opacity: 1; transform: none; transition-delay: 160ms; }
+  .training-step.is-in .training-step__title { opacity: 1; transform: none; transition-delay: 300ms; }
+  .training-step.is-in .training-step__badge { opacity: 1; transform: none; transition-delay: 400ms; }
+  .training-step.is-in .training-step__lead  { opacity: 1; transform: none; transition-delay: 500ms; }
+  .training-step.is-in .training-step__desc  { opacity: 1; transform: none; transition-delay: 650ms; }
+
+  /* Text-only variants — no photo, so the sub-label leads */
+  .training-step--text.is-in .training-step__sub   { transition-delay: 0ms; }
+  .training-step--text.is-in .training-step__title { transition-delay: 160ms; }
+  .training-step--text.is-in .training-step__lead  { transition-delay: 320ms; }
+  .training-step--text.is-in .training-step__desc  { transition-delay: 480ms; }
+
+  /* Gallery — media wrapper stays put; the two photos stagger inside it */
+  .training-step--gallery .training-step__media { opacity: 1; transform: none; transition: none; }
+  .training-step--gallery .gallery-primary,
+  .training-step--gallery .gallery-secondary {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+                transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .training-step.is-in.training-step--gallery .gallery-primary   { opacity: 1; transform: none; transition-delay: 0ms; }
+  .training-step.is-in.training-step--gallery .gallery-secondary { opacity: 1; transform: none; transition-delay: 240ms; }
 
   /* Connector node */
   .training-step::before {
@@ -558,10 +591,19 @@
   /* ---------- Reduced motion ---------- */
   @media (prefers-reduced-motion: reduce) {
     .training-step,
+    .training-step__media,
+    .training-step__sub,
+    .training-step__title,
+    .training-step__lead,
+    .training-step__desc,
+    .training-step__badge,
+    .training-step--gallery .gallery-primary,
+    .training-step--gallery .gallery-secondary,
     .training-step.is-in .training-step__media img {
-      transition: none;
-      transform: none;
-      opacity: 1;
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      transition-delay: 0ms !important;
     }
   }
 </style>
@@ -605,9 +647,9 @@
   <div class="page-hero__bg" aria-hidden="true"></div>
   <div class="page-hero__inner">
     <p class="page-hero__sub">TRAINING</p>
-    <h1 class="page-hero__title">稽古の流れ</h1>
+    <h1 class="page-hero__title">トレーニングの流れ</h1>
     <p class="page-hero__lead-en">From warm-up to weights — a complete training journey, guided by champions.</p>
-    <p class="page-hero__lead">ストレッチに始まり、最後のウェイトトレーニングまで。チャンピオンと共に進める王道の稽古フロー。</p>
+    <p class="page-hero__lead">ストレッチに始まり、最後のウェイトトレーニングまで。チャンピオンと共に進める王道のトレーニングフロー。</p>
   </div>
 </section>
 
@@ -739,7 +781,7 @@
     </div>
 
     <p class="training-flow__note">
-      ※ 上記は標準的な稽古の流れです。<br />
+      ※ 上記は標準的なトレーニングの流れです。<br />
       ご経験や体調に合わせて、トレーナーが内容を調整します。<br />
       <strong>マススパーリング（STEP 06）は希望者のみ</strong>。無理にお勧めすることはありません。
     </p>

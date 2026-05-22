@@ -392,22 +392,27 @@ button{font:inherit}
 </section>
 
 <!-- ===== GYM SLIDER ===== -->
+<style>
+  /* GYM slider: 3 slides (1枚目は除外) — 18秒周回 */
+  .gym-slider__slide{animation-duration:18s !important}
+  .gym-slider__slide--2{animation-delay:0s !important}
+  .gym-slider__slide--3{animation-delay:6s !important}
+  .gym-slider__slide--4{animation-delay:12s !important}
+  @media (prefers-reduced-motion:reduce){
+    .gym-slider__slide{opacity:0}
+    .gym-slider__slide--2{opacity:1}
+  }
+</style>
 <section class="gym-slider" id="gym">
   <header class="section-head">
     <p class="section-head__sub">GYM</p>
     <h2 class="section-head__title">空間のご案内</h2>
   </header>
   <div class="gym-slider__viewport" aria-roledescription="image carousel">
-    <div class="gym-slider__slide gym-slider__slide--1">
-      <picture>
-        <source srcset="assets/img/gym/slider_1_gym_wide.webp" type="image/webp" />
-        <img src="assets/img/gym/slider_1_gym_wide.jpg" alt="DŌJŌ JAPAN フロア全景 — 和のラウンジとトレーニングエリア" width="1600" height="900" loading="lazy" />
-      </picture>
-    </div>
     <div class="gym-slider__slide gym-slider__slide--2">
       <picture>
         <source srcset="assets/img/gym/slider_2_action.webp" type="image/webp" />
-        <img src="assets/img/gym/slider_2_action.jpg" alt="ヘビーバッグでの稽古 — ハイキック" width="1600" height="900" loading="lazy" />
+        <img src="assets/img/gym/slider_2_action.jpg" alt="ヘビーバッグでのトレーニング — ハイキック" width="1600" height="900" loading="lazy" />
       </picture>
     </div>
     <div class="gym-slider__slide gym-slider__slide--3">
@@ -473,7 +478,7 @@ button{font:inherit}
       </div>
       <div class="explore-card__body">
         <p class="explore-card__sub">TRAINING</p>
-        <h3 class="explore-card__title">稽古の流れ</h3>
+        <h3 class="explore-card__title">トレーニングの流れ</h3>
         <p class="explore-card__desc">ストレッチからウェイトトレーニングまで、初めての方でも迷わない王道の 7 ステップ。</p>
         <span class="explore-card__cta">VIEW <em>→</em></span>
       </div>
