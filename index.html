@@ -333,6 +333,38 @@ button{font:inherit}
   </div>
 </section>
 
+<!-- ===== EXPLORE (Discover more pages) — moved here, under FITNESS EXPERIENCE ===== -->
+<style>
+  /* Brighten the explore-card image (was filter:brightness(.5)) */
+  .explore-card__media picture,
+  .explore-card__media img{filter:brightness(.95) contrast(1.04) saturate(1) !important}
+  .explore-card:hover .explore-card__media img{filter:brightness(1.05) contrast(1.04) saturate(1) !important}
+  /* Soften the bottom-fade overlay so the photo reads cleaner */
+  .explore-card::before{background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.15) 40%,rgba(5,6,8,.82) 100%) !important}
+</style>
+<section class="explore" id="explore">
+  <header class="section-head section-head--center">
+    <p class="section-head__sub">EXPLORE</p>
+    <h2 class="section-head__title">もっと知る</h2>
+  </header>
+  <div class="explore__grid">
+    <a href="training" class="explore-card">
+      <div class="explore-card__media">
+        <picture>
+          <source srcset="assets/img/training/04_bag_work.webp" type="image/webp" />
+          <img src="assets/img/training/04_bag_work.jpg" alt="" loading="lazy" width="1280" height="720" />
+        </picture>
+      </div>
+      <div class="explore-card__body">
+        <p class="explore-card__sub">TRAINING</p>
+        <h3 class="explore-card__title">トレーニングの流れ</h3>
+        <p class="explore-card__desc">ストレッチからウェイトトレーニングまで、初めての方でも迷わない王道の 7 ステップ。</p>
+        <span class="explore-card__cta">VIEW <em>→</em></span>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- ===== MOVIE ===== -->
 <section class="movie" id="movie">
   <header class="section-head">
@@ -459,30 +491,6 @@ button{font:inherit}
       </li>
     </ul>
     <a href="pricing" class="btn-neon"><span>VIEW PRICING</span></a>
-  </div>
-</section>
-
-<!-- ===== EXPLORE (Discover more pages) ===== -->
-<section class="explore" id="explore">
-  <header class="section-head section-head--center">
-    <p class="section-head__sub">EXPLORE</p>
-    <h2 class="section-head__title">もっと知る</h2>
-  </header>
-  <div class="explore__grid">
-    <a href="training" class="explore-card">
-      <div class="explore-card__media">
-        <picture>
-          <source srcset="assets/img/training/04_bag_work.webp" type="image/webp" />
-          <img src="assets/img/training/04_bag_work.jpg" alt="" loading="lazy" width="1280" height="720" />
-        </picture>
-      </div>
-      <div class="explore-card__body">
-        <p class="explore-card__sub">TRAINING</p>
-        <h3 class="explore-card__title">トレーニングの流れ</h3>
-        <p class="explore-card__desc">ストレッチからウェイトトレーニングまで、初めての方でも迷わない王道の 7 ステップ。</p>
-        <span class="explore-card__cta">VIEW <em>→</em></span>
-      </div>
-    </a>
   </div>
 </section>
 
