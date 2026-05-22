@@ -294,6 +294,45 @@ button{font:inherit}
   </div>
 </section>
 
+<!-- ===== FITNESS EXPERIENCE (above MOVIE) ===== -->
+<style>
+  .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#050608}
+  .fitness-exp__header{text-align:center;max-width:880px;margin:0 auto clamp(48px,6vw,72px);padding:0 var(--gutter)}
+  .fitness-exp__eyebrow{font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);margin:0 0 22px;text-transform:uppercase;font-weight:500}
+  .fitness-exp__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(22px,2.8vw,34px);line-height:1.65;letter-spacing:.06em;color:#fff;margin:0}
+  .fitness-exp__title em{font-style:normal;color:var(--gold,#c8a062)}
+  .fitness-exp__grid{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,28px)}
+  .fitness-exp__item{margin:0;overflow:hidden;border:1px solid var(--line);background:#050608;aspect-ratio:3/2;position:relative}
+  .fitness-exp__item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.6s ease}
+  .fitness-exp__item:hover img{transform:scale(1.04)}
+  @media(hover:none){.fitness-exp__item:hover img{transform:none}}
+  @media(max-width:768px){
+    .fitness-exp{padding:80px 0}
+    .fitness-exp__grid{grid-template-columns:1fr;gap:12px}
+    .fitness-exp__title{font-size:21px;line-height:1.7}
+  }
+</style>
+<section class="fitness-exp" aria-labelledby="fitnessExpHeading">
+  <header class="fitness-exp__header">
+    <p class="fitness-exp__eyebrow">FITNESS EXPERIENCE</p>
+    <h2 id="fitnessExpHeading" class="fitness-exp__title">プロの格闘家が教える、<br />洗練された<em>フィットネス体験</em>を。</h2>
+  </header>
+  <div class="fitness-exp__grid">
+    <figure class="fitness-exp__item">
+      <picture>
+        <source srcset="assets/img/training/01a_stretch_split.webp" type="image/webp" />
+        <img src="assets/img/training/01a_stretch_split.jpg" alt="DŌJŌ JAPAN 開脚ストレッチで身体を深く伸ばす女性キックボクサー" loading="lazy" width="1800" height="1200" />
+      </picture>
+    </figure>
+    <figure class="fitness-exp__item">
+      <picture>
+        <source srcset="assets/img/training/01b_stretch_balance.webp" type="image/webp" />
+        <img src="assets/img/training/01b_stretch_balance.jpg" alt="DŌJŌ JAPAN バランスボードに片足立ちでハイキックを放つ女性" loading="lazy" width="1800" height="1200" />
+      </picture>
+    </figure>
+  </div>
+</section>
+
 <!-- ===== MOVIE ===== -->
 <section class="movie" id="movie">
   <header class="section-head">

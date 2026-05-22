@@ -19,6 +19,16 @@
       <image:title>DŌJŌ JAPAN 無料体験 First Day</image:title>
       <image:caption>福岡在住の方限定 無料体験45分</image:caption>
     </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/01a_stretch_split.jpg</image:loc>
+      <image:title>プロの格闘家が教える 開脚ストレッチ</image:title>
+      <image:caption>洗練されたフィットネス体験 — DŌJŌ JAPAN</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/01b_stretch_balance.jpg</image:loc>
+      <image:title>プロの格闘家が教える バランスキック</image:title>
+      <image:caption>洗練されたフィットネス体験 — DŌJŌ JAPAN</image:caption>
+    </image:image>
   </url>
 
   <url>
@@ -98,6 +108,14 @@
       <image:title>ストレッチ・ウォームアップ</image:title>
     </image:image>
     <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/01a_stretch_split.jpg</image:loc>
+      <image:title>開脚ストレッチで身体を伸ばす女性キックボクサー</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/01b_stretch_balance.jpg</image:loc>
+      <image:title>バランスボードでハイキックを放つ女性</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://dojo-japan.jp/assets/img/training/02_jumprope_brand.jpg</image:loc>
       <image:title>縄跳び・心肺強化</image:title>
     </image:image>
@@ -120,6 +138,14 @@
     <image:image>
       <image:loc>https://dojo-japan.jp/assets/img/training/07_weight_finale.jpg</image:loc>
       <image:title>ウェイトトレーニング・締め</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/07a_weight_barbell.jpg</image:loc>
+      <image:title>スミスマシンでバーベルを構える男性トレーニング</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dojo-japan.jp/assets/img/training/07b_weight_cable.jpg</image:loc>
+      <image:title>ケーブルマシンで上半身を追い込む男性トレーニング</image:title>
     </image:image>
   </url>
 

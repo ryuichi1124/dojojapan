@@ -289,6 +289,53 @@
     max-width: 520px;
   }
 
+  /* ---------- GALLERY VARIANT (2 photos, editorial composition) ---------- */
+  .training-step--gallery .training-step__media {
+    aspect-ratio: auto;
+    border: none;
+    background: none;
+    position: relative;
+    padding: 0 36px 64px 0;
+  }
+  .training-step--gallery .gallery-primary,
+  .training-step--gallery .gallery-secondary {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #050608;
+  }
+  .training-step--gallery .gallery-primary {
+    aspect-ratio: 3 / 2;
+  }
+  .training-step--gallery .gallery-secondary {
+    aspect-ratio: 3 / 2;
+    width: 58%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.85);
+  }
+  .training-step--gallery .gallery-primary img,
+  .training-step--gallery .gallery-secondary img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.6s ease;
+  }
+  .training-step.is-in .gallery-primary img,
+  .training-step.is-in .gallery-secondary img { transform: scale(1.04); }
+  /* Decorative accent line behind secondary photo */
+  .training-step--gallery .training-step__media::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    bottom: -10px;
+    width: 60%;
+    height: 1px;
+    background: var(--red);
+    opacity: 0.35;
+  }
+
   /* ---------- Closing image band ---------- */
   .training-flow__closing {
     margin-top: 80px;
@@ -466,6 +513,19 @@
       font-size: clamp(140px, 38vw, 240px);
       margin-bottom: -70px;
     }
+    /* Gallery → stack two photos vertically on mobile */
+    .training-step--gallery .training-step__media {
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .training-step--gallery .gallery-secondary {
+      position: static;
+      width: 100%;
+      box-shadow: none;
+    }
+    .training-step--gallery .training-step__media::before { display: none; }
   }
 
   /* Trainer credit responsive */
@@ -560,14 +620,22 @@
 
     <ol class="training-flow__steps">
 
-      <!-- STEP 01 — TEXT ONLY -->
-      <li class="training-step training-step--text">
+      <!-- STEP 01 — GALLERY (stretch / 2 photos) -->
+      <li class="training-step training-step--image training-step--gallery">
+        <div class="training-step__media">
+          <div class="gallery-primary">
+            <picture><source srcset="assets/img/training/01a_stretch_split.webp" type="image/webp" /><img src="assets/img/training/01a_stretch_split.jpg" alt="DŌJŌ JAPAN 開脚ストレッチで身体を深く伸ばす女性キックボクサー" loading="lazy" /></picture>
+          </div>
+          <div class="gallery-secondary">
+            <picture><source srcset="assets/img/training/01b_stretch_balance.webp" type="image/webp" /><img src="assets/img/training/01b_stretch_balance.jpg" alt="DŌJŌ JAPAN バランスボードに片足立ちでハイキックを放つ女性" loading="lazy" /></picture>
+          </div>
+        </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">01</span>
           <p class="training-step__sub">STEP 01 / STRETCH</p>
           <h2 class="training-step__title">ストレッチ</h2>
           <p class="training-step__lead">怪我防止のための準備運動。</p>
-          <p class="training-step__desc">稽古前に必ず身体をほぐします。姿勢と呼吸を意識しながら、ゆっくり身体を伸ばします。</p>
+          <p class="training-step__desc">稽古前に必ず身体をほぐします。姿勢と呼吸を意識しながら、ゆっくり身体を伸ばします。柔軟性と体幹のバランスを整え、稽古の質を高めてまいります。</p>
         </div>
       </li>
 
@@ -639,14 +707,22 @@
         </div>
       </li>
 
-      <!-- STEP 07 — TEXT ONLY -->
-      <li class="training-step training-step--text">
+      <!-- STEP 07 — GALLERY (weight training / 2 photos) -->
+      <li class="training-step training-step--image training-step--gallery">
+        <div class="training-step__media">
+          <div class="gallery-primary">
+            <picture><source srcset="assets/img/training/07a_weight_barbell.webp" type="image/webp" /><img src="assets/img/training/07a_weight_barbell.jpg" alt="DŌJŌ JAPAN スミスマシンでバーベルを構える男性のウェイトトレーニング" loading="lazy" /></picture>
+          </div>
+          <div class="gallery-secondary">
+            <picture><source srcset="assets/img/training/07b_weight_cable.webp" type="image/webp" /><img src="assets/img/training/07b_weight_cable.jpg" alt="DŌJŌ JAPAN ケーブルマシンで上半身を追い込む男性のトレーニング" loading="lazy" /></picture>
+          </div>
+        </div>
         <div class="training-step__body">
           <span class="training-step__num" aria-hidden="true">07</span>
           <p class="training-step__sub">STEP 07 / WEIGHT TRAINING</p>
           <h2 class="training-step__title">ウェイトトレーニング</h2>
           <p class="training-step__lead">打撃に必要な筋力と体幹を鍛える。</p>
-          <p class="training-step__desc">専用スペースのフリーウェイトで、筋力と体幹を整えます。トレーナーがサポートするので、自分に合った強度で無理なく取り組めます。</p>
+          <p class="training-step__desc">専用スペースのフリーウェイトとマシンで、筋力と体幹を整えます。トレーナーがサポートするので、自分に合った強度で無理なく取り組めます。</p>
         </div>
       </li>
 
