@@ -313,6 +313,25 @@ button{font:inherit}
   .fitness-exp__title em{font-style:normal;color:var(--gold,#c8a062)}
   .fitness-exp__grid{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,28px)}
   .fitness-exp__item{margin:0;overflow:hidden;border:1px solid rgba(0,0,0,.07);background:#F5ECD9;aspect-ratio:3/2;position:relative;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+
+  /* === スクロール時差ポップインアニメ === */
+  .fitness-exp__eyebrow,
+  .fitness-exp__title,
+  .fitness-exp__item{
+    opacity:0;
+    transform:translateY(28px) scale(.94);
+    transition:opacity .75s cubic-bezier(.34,1.56,.64,1), transform .75s cubic-bezier(.34,1.56,.64,1);
+    will-change:opacity,transform;
+  }
+  .fitness-exp.is-in .fitness-exp__eyebrow{opacity:1;transform:none;transition-delay:0ms}
+  .fitness-exp.is-in .fitness-exp__title  {opacity:1;transform:none;transition-delay:180ms}
+  .fitness-exp.is-in .fitness-exp__item:nth-child(1){opacity:1;transform:none;transition-delay:420ms}
+  .fitness-exp.is-in .fitness-exp__item:nth-child(2){opacity:1;transform:none;transition-delay:640ms}
+  @media (prefers-reduced-motion:reduce){
+    .fitness-exp__eyebrow,.fitness-exp__title,.fitness-exp__item{
+      opacity:1 !important; transform:none !important; transition:none !important;
+    }
+  }
   .fitness-exp__item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.6s ease}
   .fitness-exp__item:hover img{transform:scale(1.04)}
   @media(hover:none){.fitness-exp__item:hover img{transform:none}}
@@ -342,6 +361,21 @@ button{font:inherit}
     </figure>
   </div>
 </section>
+<script>
+(function(){
+  var sec = document.querySelector('.fitness-exp');
+  if (!sec) return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sec.classList.add('is-in'); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+  io.observe(sec);
+})();
+</script>
 
 <!-- ===== TRAINER SCHEDULE (DEMO のみ) ===== -->
 <style>
