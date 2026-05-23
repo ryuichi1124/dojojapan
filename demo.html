@@ -298,13 +298,13 @@ button{font:inherit}
 
 <!-- ===== FITNESS EXPERIENCE (above MOVIE) ===== -->
 <style>
-  .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#050608}
+  .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#FAF8F4}
   .fitness-exp__header{text-align:center;max-width:880px;margin:0 auto clamp(48px,6vw,72px);padding:0 var(--gutter)}
   .fitness-exp__eyebrow{font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);margin:0 0 22px;text-transform:uppercase;font-weight:500}
-  .fitness-exp__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(22px,2.8vw,34px);line-height:1.65;letter-spacing:.06em;color:#fff;margin:0}
+  .fitness-exp__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(22px,2.8vw,34px);line-height:1.65;letter-spacing:.06em;color:#1a1a1a;margin:0}
   .fitness-exp__title em{font-style:normal;color:var(--gold,#c8a062)}
   .fitness-exp__grid{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,28px)}
-  .fitness-exp__item{margin:0;overflow:hidden;border:1px solid var(--line);background:#050608;aspect-ratio:3/2;position:relative}
+  .fitness-exp__item{margin:0;overflow:hidden;border:1px solid rgba(0,0,0,.08);background:#fff;aspect-ratio:3/2;position:relative;box-shadow:0 4px 14px rgba(0,0,0,.04)}
   .fitness-exp__item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.6s ease}
   .fitness-exp__item:hover img{transform:scale(1.04)}
   @media(hover:none){.fitness-exp__item:hover img{transform:none}}
@@ -337,16 +337,20 @@ button{font:inherit}
 
 <!-- ===== TRAINER SCHEDULE (DEMO のみ) ===== -->
 <style>
-  .trainer-schedule{padding:clamp(72px,9vw,120px) 0;background:linear-gradient(180deg,#070a0d 0%,#0c1014 100%);position:relative}
+  .trainer-schedule{padding:clamp(72px,9vw,120px) 0;background:#FAF8F4;position:relative}
   .trainer-schedule__head{text-align:center;max-width:880px;margin:0 auto clamp(40px,5vw,60px);padding:0 var(--gutter)}
   .trainer-schedule__head .en{display:block;font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);text-transform:uppercase;margin:0 0 16px;font-weight:500}
-  .trainer-schedule__head h2{font-family:var(--ff-body);font-size:clamp(22px,2.8vw,32px);font-weight:700;letter-spacing:.06em;color:#fff;margin:0;line-height:1.55}
+  .trainer-schedule__head h2{font-family:var(--ff-body);font-size:clamp(22px,2.8vw,32px);font-weight:700;letter-spacing:.06em;color:#1a1a1a;margin:0;line-height:1.55}
   .trainer-schedule__head h2 em{font-style:normal;color:var(--gold,#c8a062)}
-  .trainer-schedule__head p{font-size:13px;color:rgba(255,255,255,.62);margin:14px 0 0;line-height:1.85}
 
   .trainer-schedule__grid{max-width:1080px;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px)}
 
-  .ts-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#050608;aspect-ratio:4/5;display:flex;align-items:flex-end}
+  .ts-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#050608;aspect-ratio:4/5;display:flex;align-items:flex-end;text-decoration:none;color:inherit;cursor:pointer;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+  .ts-card:hover{transform:translateY(-3px);border-color:rgba(201,21,42,.55);box-shadow:0 14px 32px rgba(0,0,0,.18)}
+  .ts-card:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+  .ts-card__cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-display);font-size:11px;letter-spacing:.28em;color:var(--red);margin-top:14px;text-transform:uppercase;font-weight:600}
+  .ts-card__cta em{font-style:normal;transition:transform .25s ease;display:inline-block}
+  .ts-card:hover .ts-card__cta em{transform:translateX(6px)}
   .ts-card__img{position:absolute;inset:0;z-index:0}
   .ts-card__img img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.78) contrast(1.04) saturate(.95);transition:transform 1.4s ease,filter .4s ease}
   .ts-card:hover .ts-card__img img{transform:scale(1.04);filter:brightness(.86) contrast(1.04)}
@@ -354,14 +358,16 @@ button{font:inherit}
   .ts-card__time{position:absolute;top:24px;left:24px;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
   .ts-card__period{font-family:var(--ff-display);font-size:10px;letter-spacing:.32em;color:var(--gold,#c8a062);text-transform:uppercase;background:rgba(0,0,0,.55);padding:5px 10px;border:1px solid rgba(200,160,98,.5);font-weight:500}
   .ts-card__hours{font-family:var(--ff-display);font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:.06em;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.6);line-height:1}
+  .ts-card__days{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-body);font-size:12px;letter-spacing:.08em;color:#fff;background:rgba(0,0,0,.55);padding:5px 10px;border:1px solid rgba(255,255,255,.22);font-weight:600;line-height:1.2}
+  .ts-card__days small{font-size:10px;font-weight:400;color:rgba(255,255,255,.78);letter-spacing:.04em;border-left:1px solid rgba(255,255,255,.25);padding-left:8px}
   .ts-card__body{position:relative;z-index:2;padding:24px;color:#fff;width:100%}
   .ts-card__role{display:inline-block;font-family:var(--ff-display);font-size:10px;letter-spacing:.28em;color:var(--red);background:rgba(0,0,0,.55);padding:4px 10px;margin:0 0 12px;border:1px solid rgba(201,21,42,.5);text-transform:uppercase;font-weight:500}
   .ts-card__name-en{display:block;font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:rgba(255,255,255,.72);margin:0 0 6px;text-transform:uppercase}
   .ts-card__name-ja{display:block;font-family:var(--ff-body);font-size:clamp(20px,2.4vw,26px);font-weight:700;letter-spacing:.06em;color:#fff;margin:0 0 10px;line-height:1.4}
   .ts-card__name-title{display:block;font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.75;margin:0}
 
-  .trainer-schedule__note{max-width:760px;margin:clamp(36px,4vw,48px) auto 0;text-align:center;font-size:12px;line-height:1.95;color:rgba(255,255,255,.55);padding:0 var(--gutter)}
-  .trainer-schedule__note strong{color:rgba(255,255,255,.78);font-weight:600}
+  .trainer-schedule__note{max-width:760px;margin:clamp(36px,4vw,48px) auto 0;text-align:center;font-size:12px;line-height:1.95;color:rgba(26,26,26,.55);padding:0 var(--gutter)}
+  .trainer-schedule__note strong{color:rgba(26,26,26,.78);font-weight:600}
 
   @media (max-width:720px){
     .trainer-schedule__grid{grid-template-columns:1fr;gap:14px}
@@ -373,54 +379,60 @@ button{font:inherit}
 </style>
 <section class="trainer-schedule" aria-labelledby="tsHeading">
   <header class="trainer-schedule__head">
-    <span class="en">Daily Trainer Schedule</span>
-    <h2 id="tsHeading">時間帯ごとに、<em>チャンピオンが</em>フロアに立ちます。</h2>
-    <p>その時間に来館されるお客様を、必ず現役・実績のあるトレーナーが直接指導します。</p>
+    <span class="en">Schedule</span>
+    <h2 id="tsHeading">基本のスケジュール</h2>
   </header>
 
   <div class="trainer-schedule__grid">
 
-    <article class="ts-card">
+    <a class="ts-card" href="trainer/satoru" aria-label="SATORU 成合 のプロフィールページへ">
       <div class="ts-card__img">
         <img src="assets/img/trainers/03_nariai_satoru_photo.jpg" alt="SATORU 成合 — 朝〜午前担当トレーナー" loading="lazy" />
       </div>
       <div class="ts-card__time">
         <span class="ts-card__period">Morning</span>
         <span class="ts-card__hours">7:00 – 12:00</span>
+        <span class="ts-card__days">月〜土<small>※第1土曜のみ休</small></span>
       </div>
       <div class="ts-card__body">
         <span class="ts-card__role">担当トレーナー</span>
         <span class="ts-card__name-en">SATORU NARIAI</span>
         <span class="ts-card__name-ja">SATORU 成合</span>
         <span class="ts-card__name-title">元 K-1 ファイター／キックボクシング指導</span>
+        <span class="ts-card__cta">VIEW PROFILE <em>→</em></span>
       </div>
-    </article>
+    </a>
 
-    <article class="ts-card">
+    <a class="ts-card" href="trainer/matsushima" aria-label="松島 勲也（イザヤ）のプロフィールページへ">
       <div class="ts-card__img">
         <img src="assets/img/trainers/02_matsushima_izaya_photo.jpg" alt="松島 勲也（イザヤ） — 午後担当トレーナー" loading="lazy" />
       </div>
       <div class="ts-card__time">
         <span class="ts-card__period">Afternoon</span>
         <span class="ts-card__hours">12:00 – 18:00</span>
+        <span class="ts-card__days">月〜土</span>
       </div>
       <div class="ts-card__body">
         <span class="ts-card__role">担当トレーナー</span>
         <span class="ts-card__name-en">IZAYA MATSUSHIMA</span>
         <span class="ts-card__name-ja">松島 勲也<small style="font-size:13px;letter-spacing:.04em;color:rgba(255,255,255,.55);font-weight:400;"> (イザヤ)</small></span>
         <span class="ts-card__name-title">IMC INTERNATIONAL ムエタイ世界王者／J-NETWORK 日本ミドル級王者</span>
+        <span class="ts-card__cta">VIEW PROFILE <em>→</em></span>
       </div>
-    </article>
+    </a>
 
   </div>
 
   <p class="trainer-schedule__note">
-    ※ 曜日・スケジュールにより担当が変更となる場合がございます。<strong>無料体験時にもご案内いたします。</strong>
+    ※ 上記は <strong>月曜〜土曜の基本スケジュール</strong> です。<strong>SATORU は毎月第1土曜のみお休み</strong> となります。日程・トレーナーのご指定はお気軽にお問い合わせください。
   </p>
 </section>
 
 <!-- ===== EXPLORE (Discover more pages) — moved here, under FITNESS EXPERIENCE ===== -->
 <style>
+  /* DEMO: 白背景化（FITNESS EXPERIENCE → TRAINER SCHEDULE → EXPLORE の3連白） */
+  .explore{background:#FAF8F4 !important;padding-top:clamp(40px,5vw,72px) !important}
+  .explore__grid{margin-top:0 !important}
   /* Brighten the explore-card image (was filter:brightness(.5)) */
   .explore-card__media picture,
   .explore-card__media img{filter:brightness(.95) contrast(1.04) saturate(1) !important}
@@ -429,10 +441,6 @@ button{font:inherit}
   .explore-card::before{background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.15) 40%,rgba(5,6,8,.82) 100%) !important}
 </style>
 <section class="explore" id="explore">
-  <header class="section-head section-head--center">
-    <p class="section-head__sub">EXPLORE</p>
-    <h2 class="section-head__title">もっと知る</h2>
-  </header>
   <div class="explore__grid">
     <a href="training" class="explore-card">
       <div class="explore-card__media">
