@@ -296,6 +296,14 @@ button{font:inherit}
   </div>
 </section>
 
+<!-- ===== LIGHT ZONE (FITNESS EXPERIENCE + TRAINER SCHEDULE + EXPLORE を白〜薄グレーの斜めグラデーションで包む) ===== -->
+<style>
+  .demo-light-zone{background:linear-gradient(135deg,#F8F6F1 0%,#F0EEE7 38%,#DDDBD3 100%)}
+  .demo-light-zone .fitness-exp,
+  .demo-light-zone .trainer-schedule,
+  .demo-light-zone .explore{background:transparent !important}
+</style>
+<div class="demo-light-zone">
 <!-- ===== FITNESS EXPERIENCE (above MOVIE) ===== -->
 <style>
   .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#EFECE4}
@@ -458,6 +466,7 @@ button{font:inherit}
     </a>
   </div>
 </section>
+</div><!-- /.demo-light-zone -->
 
 <!-- ===== MOVIE ===== -->
 <section class="movie" id="movie">
