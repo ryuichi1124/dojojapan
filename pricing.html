@@ -167,102 +167,10 @@
     .pricing-flow-link__cta { font-size: 13.5px; }
   }
 
-  /* ============================================================
-     料金ページ全体をブラウン背景に統一（demo と同じトーン）
-     ============================================================ */
-  body { background: #B69374; }
-  /* HERO もブラウンで統一 */
-  .page-hero {
-    background: linear-gradient(135deg,#BD9D7E 0%,#B69374 50%,#A88663 100%) !important;
-    min-height: auto !important;
-    padding: 140px 0 80px !important;
-  }
-  .page-hero__bg { display: none !important; }
-  .page-hero__sub { color: #FFD66B !important; }
-  .page-hero__sub::before { background: #FFD66B !important; }
-  .page-hero__title { color: #FFFFFF !important; }
-  .page-hero__lead-en { color: rgba(255,255,255,.85) !important; }
-  .page-hero__lead { color: rgba(255,255,255,.92) !important; }
-
-  .pricing-page__trial,
-  .pricing-page__plans,
-  .pricing-page__notes {
-    background: linear-gradient(135deg,#BD9D7E 0%,#B69374 50%,#A88663 100%) !important;
-  }
-  /* pricing-flow-link：白半透明カードに刷新 */
-  .pricing-flow-link__inner {
-    background: rgba(255,255,255,.12) !important;
-    border-color: rgba(255,255,255,.3) !important;
-    color: #FFFFFF !important;
-  }
-  .pricing-flow-link__inner:hover {
-    background: rgba(255,255,255,.2) !important;
-    border-color: rgba(255,255,255,.5) !important;
-  }
-  .pricing-flow-link__label { color: rgba(255,255,255,.7) !important; }
-  .pricing-flow-link__cta { color: #FFFFFF !important; }
-  .pricing-flow-link__arrow { color: #FFFFFF !important; }
-
-  /* 見出し */
-  .pricing-page__h2 {
-    color: #FFFFFF !important;
-
-  }
-  .pricing-page__h2 span {
-    color: rgba(255,255,255,.78) !important;
-
-  }
-
-  /* プランカード：暗背景 → 半透明ホワイト＋ガラス感 */
-  .plan {
-    background: rgba(255,255,255,.1) !important;
-    border-color: rgba(255,255,255,.28) !important;
-    backdrop-filter: blur(6px);
-  }
-  .plan:hover {
-    border-color: #FFFFFF !important;
-    background: rgba(255,255,255,.15) !important;
-  }
-  .plan--prime {
-    background: linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.08)) !important;
-    border-color: #FFD66B !important;
-    box-shadow: 0 10px 40px rgba(60,30,10,.25);
-  }
-  .plan--prime::before {
-    background: #FFD66B !important;
-    color: #3a2a1a !important;
-  }
-  .plan__no { color: #FFD66B !important; }
-  .plan__name { color: #FFFFFF !important; }
-  .plan__name-ja { color: rgba(255,255,255,.82) !important; }
-  .plan__rows { border-top-color: rgba(255,255,255,.28) !important; }
-  .plan__rows li { border-bottom-color: rgba(255,255,255,.18) !important; color: #FFFFFF; }
-  .plan__rows li span { color: rgba(255,255,255,.78); }
-  .plan__rows li b { color: #FFFFFF !important; }
-  .plan__rows li small { color: rgba(255,255,255,.7) !important; }
-  .plan__note { color: rgba(255,255,255,.82) !important; }
-
-  /* レンタル：赤プライスを白＋ゴールドに置換 */
-  .rental-list { border-top-color: rgba(255,255,255,.32) !important; }
-  .rental-list li { border-bottom-color: rgba(255,255,255,.22) !important; }
-  .rental-list__name { color: #FFFFFF !important; }
-  /* 「無料」(rental全体) → 暖光ゴールド、際立ち過ぎず一貫したトーン */
-  .rental-list__price { color: #FFD66B !important; }
-  /* 最初のアイテム(first-child)も同じゴールドに揃える */
-  .rental-list li:first-child .rental-list__price { color: #FFD66B !important; }
-  /* 道着（¥2,000）= 4番目だけ白で「有料」を区別 */
+  /* レンタル料金：赤プライスをトーン統一（無料=ゴールド、有料1件=白） */
+  .rental-list__price { color: var(--gold,#c8a062) !important; }
+  .rental-list li:first-child .rental-list__price { color: var(--gold,#c8a062) !important; }
   .rental-list li:last-child .rental-list__price { color: #FFFFFF !important; }
-  .rental-list__note { color: rgba(255,255,255,.82) !important; }
-  .rental-list__note strong { color: #FFFFFF !important; }
-
-  /* ご利用にあたって（NOTES） */
-  .pricing-page__notes-list { border-top-color: rgba(255,255,255,.32) !important; }
-  .pricing-page__notes-list > div { border-bottom-color: rgba(255,255,255,.22) !important; }
-  .pricing-page__notes-list dt { color: #FFD66B !important; }
-  .pricing-page__notes-list dd { color: rgba(255,255,255,.92) !important; }
-  .pricing-page__notes-list dd small { color: rgba(255,255,255,.7) !important; }
-  .pricing-page__notes-list dd strong { color: #FFFFFF !important; }
-  .pricing-page__notes-list dd a { color: #FFD66B !important; }
 </style>
 
 <!-- TRIAL CALLOUT -->
