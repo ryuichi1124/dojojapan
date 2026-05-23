@@ -298,7 +298,18 @@ button{font:inherit}
 
 <!-- ===== LIGHT ZONE (FITNESS EXPERIENCE + TRAINER SCHEDULE + EXPLORE を白〜薄グレーの斜めグラデーションで包む) ===== -->
 <style>
-  .demo-light-zone{background:linear-gradient(135deg,#DEE1E5 0%,#C9CDD1 28%,#D6D9DD 48%,#B8BCC0 78%,#A6AAAE 100%)}
+  .demo-light-zone{
+    background-color:#C5C8CC;
+    background-image:
+      /* 細かい白いヘアライン */
+      repeating-linear-gradient(90deg,rgba(255,255,255,.6) 0,rgba(255,255,255,0) 1px,rgba(255,255,255,0) 2.5px),
+      /* 細かい暗いヘアライン（線間に深みを入れる） */
+      repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0,rgba(0,0,0,0) 1px,rgba(0,0,0,0) 4px),
+      /* やや太めの中間ライン（ランダム感） */
+      repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0,rgba(255,255,255,0) 2px,rgba(255,255,255,0) 9px),
+      /* 中央ハイライト＋上下シャドウのベースライティング */
+      linear-gradient(180deg,#BCBFC3 0%,#CFD2D6 22%,#DEE1E5 50%,#CACDD1 78%,#ACAFB3 100%);
+  }
   .demo-light-zone .fitness-exp,
   .demo-light-zone .trainer-schedule,
   .demo-light-zone .explore{background:transparent !important}
@@ -631,7 +642,34 @@ button{font:inherit}
 })();
 </script>
 
-<!-- ===== PRICING OVERVIEW ===== -->
+<!-- ===== PRICING OVERVIEW (DEMO: シルバーヘアライン背景＋ダーク文字) ===== -->
+<style>
+  .pricing-mini{
+    background-color:#C5C8CC !important;
+    background-image:
+      repeating-linear-gradient(90deg,rgba(255,255,255,.6) 0,rgba(255,255,255,0) 1px,rgba(255,255,255,0) 2.5px),
+      repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0,rgba(0,0,0,0) 1px,rgba(0,0,0,0) 4px),
+      repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0,rgba(255,255,255,0) 2px,rgba(255,255,255,0) 9px),
+      linear-gradient(180deg,#BCBFC3 0%,#CFD2D6 22%,#DEE1E5 50%,#CACDD1 78%,#ACAFB3 100%) !important;
+  }
+  .pricing-mini .section-head__sub{color:#1a1a1a !important;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+  .pricing-mini .section-head__title{color:#4a4a4a !important}
+  .pricing-mini__rows{border-top-color:rgba(0,0,0,.18) !important;border-bottom-color:rgba(0,0,0,.18) !important}
+  .pricing-mini__rows li{border-right-color:rgba(0,0,0,.14) !important}
+  .pricing-mini__rows li:hover{background:rgba(0,0,0,.05) !important}
+  .pricing-mini__label{color:#8a6f3e !important;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+  .pricing-mini__label em{color:#666 !important}
+  .pricing-mini__value{color:#1a1a1a !important;text-shadow:0 1px 0 rgba(255,255,255,.3)}
+  .pricing-mini__value small{color:#5a5a5a !important}
+  .pricing-mini .btn-neon{color:#1a1a1a !important;border:1px solid rgba(0,0,0,.55) !important;background:rgba(255,255,255,.5) !important;box-shadow:0 4px 14px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.5) !important;backdrop-filter:blur(3px);transition:all .3s ease}
+  .pricing-mini .btn-neon::before,.pricing-mini .btn-neon::after{display:none !important}
+  .pricing-mini .btn-neon span{color:#1a1a1a !important;background:transparent !important}
+  .pricing-mini .btn-neon:hover{background:#1a1a1a !important;border-color:#1a1a1a !important;color:#fff !important;box-shadow:0 6px 18px rgba(0,0,0,.18) !important}
+  .pricing-mini .btn-neon:hover span{color:#fff !important}
+  @media (max-width:860px){
+    .pricing-mini__rows li{border-right:0 !important;border-bottom-color:rgba(0,0,0,.14) !important}
+  }
+</style>
 <section class="pricing-mini" id="pricing">
   <header class="section-head section-head--center">
     <p class="section-head__sub">PRICING</p>
