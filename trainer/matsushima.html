@@ -237,61 +237,56 @@
   </div>
 </section>
 
-<!-- ===== QUALIFICATIONS & BODY CARE ===== -->
+<!-- ===== QUALIFICATIONS（白背景・安心感） ===== -->
 <style>
-  .t-credentials{padding:clamp(72px,9vw,120px) 0;background:linear-gradient(180deg,#070a0d 0%,#0c1014 100%);border-top:1px solid rgba(255,255,255,.08)}
-  .t-credentials__inner{max-width:1080px;margin:0 auto;padding:0 clamp(20px,3.2vw,40px)}
-  .t-credentials__head{text-align:center;margin-bottom:clamp(40px,5vw,64px)}
+  .t-credentials{padding:clamp(64px,8vw,100px) 0;background:#FAF8F4;color:#1a1a1a}
+  .t-credentials__inner{max-width:980px;margin:0 auto;padding:0 clamp(20px,3.2vw,40px)}
+  .t-credentials__head{text-align:center;margin-bottom:clamp(36px,4.4vw,52px)}
   .t-credentials__head .en{display:block;font-family:"Oswald","Noto Sans JP",sans-serif;font-size:11px;letter-spacing:.36em;color:#c8a062;text-transform:uppercase;margin:0 0 14px;font-weight:500}
-  .t-credentials__head h2{font-family:"Noto Sans JP",sans-serif;font-size:clamp(22px,2.8vw,32px);font-weight:700;letter-spacing:.06em;color:#fff;margin:0;line-height:1.55}
-  .t-credentials__head h2 em{font-style:normal;color:#c8a062}
-  .t-credentials__list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:0 0 clamp(40px,5vw,56px);padding:0;list-style:none}
-  .t-credentials__item{background:linear-gradient(180deg,rgba(255,255,255,.045) 0%,rgba(255,255,255,.015) 100%);border:1px solid rgba(255,255,255,.1);padding:28px 24px 26px;position:relative;border-radius:2px;transition:border-color .35s ease,transform .35s ease;overflow:hidden}
-  .t-credentials__item::before{content:"";position:absolute;top:0;left:0;width:32px;height:2px;background:#c8a062}
-  .t-credentials__item:hover{border-color:rgba(200,160,98,.45);transform:translateY(-2px)}
-  .t-credentials__badge{display:inline-block;font-family:"Oswald","Noto Sans JP",sans-serif;font-size:10px;letter-spacing:.24em;color:#c8a062;border:1px solid rgba(200,160,98,.5);padding:3px 9px;margin:0 0 16px;font-weight:500;text-transform:uppercase}
-  .t-credentials__item h3{font-family:"Noto Sans JP",sans-serif;font-size:20px;font-weight:700;letter-spacing:.04em;color:#fff;margin:0 0 14px;line-height:1.45}
-  .t-credentials__item h3 small{display:block;font-size:11px;font-weight:400;letter-spacing:.16em;color:rgba(255,255,255,.55);margin-top:4px;font-family:"Oswald",sans-serif;text-transform:uppercase}
-  .t-credentials__item p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.72);margin:0}
-  .t-credentials__note{max-width:780px;margin:0 auto;text-align:center;font-size:14.5px;line-height:2.1;color:rgba(255,255,255,.86);letter-spacing:.04em}
-  .t-credentials__note strong{color:#c8a062;font-weight:700}
-  .t-credentials__note .lead{display:block;font-size:13px;letter-spacing:.32em;color:#c9152a;margin-bottom:18px;font-weight:600}
-  @media (max-width:860px){
-    .t-credentials__list{grid-template-columns:1fr;gap:14px;margin-bottom:40px}
-    .t-credentials__item{padding:24px 20px 22px}
-    .t-credentials__note{font-size:13.5px;line-height:2;text-align:left}
-    .t-credentials__note .lead{text-align:center}
+  .t-credentials__head h2{font-family:"Noto Sans JP",sans-serif;font-size:clamp(19px,2.3vw,26px);font-weight:700;letter-spacing:.06em;color:#1a1a1a;margin:0;line-height:1.65}
+  .t-credentials__list{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;list-style:none;padding:0;margin:0}
+  .t-credentials__item{background:#fff;border:1px solid rgba(26,26,26,.08);padding:30px 18px 26px;text-align:center;border-radius:2px;box-shadow:0 4px 14px rgba(26,26,26,.04);transition:transform .3s ease,box-shadow .3s ease}
+  .t-credentials__item:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(26,26,26,.08)}
+  .t-credentials__badge{display:inline-block;font-family:"Oswald","Noto Sans JP",sans-serif;font-size:10px;letter-spacing:.24em;color:#c8a062;border:1px solid rgba(200,160,98,.55);padding:3px 10px;margin:0 0 18px;font-weight:500;text-transform:uppercase;background:#fff}
+  .t-credentials__name{font-family:"Noto Sans JP",sans-serif;font-size:20px;font-weight:700;letter-spacing:.03em;color:#1a1a1a;margin:0 0 6px;line-height:1.4}
+  .t-credentials__en{font-family:"Oswald","Noto Sans JP",sans-serif;font-size:10.5px;letter-spacing:.16em;color:#7a7a7a;margin:0;text-transform:uppercase;font-weight:400}
+  .t-credentials__msg{max-width:720px;margin:clamp(32px,4vw,44px) auto 0;text-align:center;font-size:14.5px;line-height:2;color:#3a3a3a;letter-spacing:.04em}
+  @media (max-width:560px){
+    .t-credentials__list{gap:8px}
+    .t-credentials__item{padding:22px 6px 18px}
+    .t-credentials__badge{font-size:9px;padding:2px 7px;letter-spacing:.18em;margin-bottom:12px}
+    .t-credentials__name{font-size:14px;letter-spacing:.02em;margin-bottom:4px}
+    .t-credentials__en{font-size:9px;letter-spacing:.08em}
+    .t-credentials__msg{font-size:13.5px;line-height:1.95;text-align:left;margin-top:28px}
   }
 </style>
 <section class="t-credentials" aria-labelledby="credentialsHeading">
   <div class="t-credentials__inner">
     <header class="t-credentials__head">
-      <span class="en">Qualifications &amp; Body Care</span>
-      <h2 id="credentialsHeading">国家資格と身体ケアの知見で、<em>あなたを支える</em>。</h2>
+      <span class="en">Qualifications</span>
+      <h2 id="credentialsHeading">確かな知見で、安心してお任せいただけます。</h2>
     </header>
 
     <ul class="t-credentials__list">
       <li class="t-credentials__item">
         <span class="t-credentials__badge">国家資格</span>
-        <h3>理学療法士<small>Physical Therapist</small></h3>
-        <p>身体の機能回復・運動療法の国家資格。痛みやケガを抱える方への安全な負荷設定、リハビリ視点でのフォーム指導が可能です。</p>
+        <p class="t-credentials__name">理学療法士</p>
+        <p class="t-credentials__en">Physical Therapist</p>
       </li>
       <li class="t-credentials__item">
         <span class="t-credentials__badge">国家資格</span>
-        <h3>介護福祉士<small>Certified Care Worker</small></h3>
-        <p>体力に不安のある方や高齢の方への支援を学んだ国家資格。「無理をさせない」「一人ひとりに合わせる」指導の土台になっています。</p>
+        <p class="t-credentials__name">介護福祉士</p>
+        <p class="t-credentials__en">Certified Care Worker</p>
       </li>
       <li class="t-credentials__item">
         <span class="t-credentials__badge">国際資格</span>
-        <h3>YOGA RYT200<small>Registered Yoga Teacher 200h</small></h3>
-        <p>全米ヨガアライアンス認定の200時間養成課程修了。柔軟性・呼吸・姿勢制御の知見で、ウォームアップとクールダウンの質を底上げします。</p>
+        <p class="t-credentials__name">YOGA RYT200</p>
+        <p class="t-credentials__en">Registered Yoga Teacher 200h</p>
       </li>
     </ul>
 
-    <p class="t-credentials__note">
-      <span class="lead">STRONG & SUPPORTIVE</span>
-      松島は <strong>世界王者の打撃</strong> に加え、<strong>身体ケア・回復・呼吸法の専門知識</strong> を併せ持つ稀有なトレーナーです。<br />
-      「強くなりたい方」だけでなく、<strong>運動経験ゼロの方・身体に不安のある方・産後の方</strong> まで、無理なく丁寧にサポートいたします。
+    <p class="t-credentials__msg">
+      国家資格を取得しておりますので、身体のケアや負荷をかけすぎずに、目的に合ったトレーニングのご提案が可能です。安心してトレーニングにお越しくださいね。
     </p>
   </div>
 </section>
