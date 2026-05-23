@@ -431,9 +431,6 @@ button{font:inherit}
 
   </div>
 
-  <p class="trainer-schedule__note">
-    ※ 上記は <strong>月曜〜土曜の基本スケジュール</strong> です。<strong>SATORU は毎月第1土曜のみお休み</strong> となります。日程・トレーナーのご指定はお気軽にお問い合わせください。
-  </p>
 </section>
 
 <!-- ===== EXPLORE (Discover more pages) — moved here, under FITNESS EXPERIENCE ===== -->
@@ -692,6 +689,155 @@ button{font:inherit}
     </div>
   </div>
 </div>
+
+<!-- ===== QUIZ POPUP (DEMO 専用 / BOOK と干渉しないよう open 中は chatbot を hide) ===== -->
+<style>
+  .quiz-popup{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;font-family:var(--ff-body)}
+  .quiz-popup.is-open{display:flex}
+  .quiz-popup__overlay{position:absolute;inset:0;background:rgba(7,10,13,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qpFade .35s ease}
+  @keyframes qpFade{from{opacity:0}to{opacity:1}}
+  @keyframes qpRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .quiz-popup__panel{position:relative;width:min(640px,100%);max-height:90vh;overflow-y:auto;background:#FBF9F3;color:#1a1a1a;border:1px solid rgba(0,0,0,.08);box-shadow:0 30px 80px rgba(0,0,0,.45);border-radius:4px;padding:clamp(32px,4vw,48px) clamp(28px,3.6vw,44px);animation:qpRise .45s cubic-bezier(.2,.7,.2,1)}
+  .quiz-popup__close{position:absolute;top:14px;right:14px;width:36px;height:36px;background:none;border:none;color:#1a1a1a;font-size:24px;cursor:pointer;line-height:1;opacity:.55;transition:opacity .2s;font-family:inherit}
+  .quiz-popup__close:hover{opacity:1}
+  .quiz-popup__eyebrow{font-family:var(--ff-display);font-size:10px;letter-spacing:.36em;color:#c8a062;margin:0 0 14px;text-transform:uppercase;font-weight:500}
+  .quiz-popup__title{font-size:clamp(15px,1.6vw,17px);font-weight:700;line-height:1.7;margin:0 0 10px;letter-spacing:.04em;color:#1a1a1a}
+  .quiz-popup__lead{font-size:13px;line-height:1.85;color:#5a5a5a;margin:0 0 clamp(24px,3vw,32px)}
+  .quiz-popup__steps{display:flex;justify-content:center;gap:8px;margin:0 0 clamp(20px,2.6vw,28px)}
+  .quiz-popup__steps .dot{width:7px;height:7px;border-radius:50%;background:rgba(26,26,26,.15);transition:background .25s ease}
+  .quiz-popup__steps .dot.is-active{background:#c8a062}
+  .quiz-step__title{font-size:13px;color:#5a5a5a;text-align:center;margin:0 0 18px;font-weight:500;letter-spacing:.06em}
+  .quiz-options--2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .quiz-option{background:#fff;border:1.5px solid rgba(0,0,0,.08);padding:26px 16px;cursor:pointer;font-family:inherit;color:#1a1a1a;transition:all .25s ease;display:flex;flex-direction:column;align-items:center;gap:10px;border-radius:3px}
+  .quiz-option:hover{border-color:#c8a062;background:#FBF9F3;transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+  .quiz-option__icon{font-size:34px;color:#c8a062;line-height:1;font-weight:300}
+  .quiz-option__label{font-size:15px;font-weight:700;letter-spacing:.08em}
+  .quiz-options--cards{display:grid;grid-template-columns:1fr;gap:14px}
+  .quiz-card{background:#fff;border:1.5px solid rgba(0,0,0,.08);padding:22px 22px 24px;border-radius:3px;text-align:left;transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease}
+  .quiz-card:hover{border-color:#c8a062;transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.08)}
+  .quiz-card__badge{display:inline-block;font-family:var(--ff-display);font-size:10px;letter-spacing:.28em;color:#c8a062;border:1px solid rgba(200,160,98,.5);padding:3px 10px;margin:0 0 12px;font-weight:500;text-transform:uppercase}
+  .quiz-card__title{font-size:16px;font-weight:700;letter-spacing:.04em;color:#1a1a1a;margin:0 0 10px;line-height:1.5}
+  .quiz-card__desc{font-size:13px;line-height:1.9;color:#5a5a5a;margin:0 0 16px}
+  .quiz-card__desc strong{color:#1a1a1a;font-weight:700}
+  .quiz-card__cta{display:inline-flex;align-items:center;gap:8px;background:#c9152a;color:#fff !important;text-decoration:none;font-family:var(--ff-display);font-size:11px;letter-spacing:.24em;padding:12px 20px;text-transform:uppercase;font-weight:600;border-radius:2px;transition:background .25s ease,transform .25s ease}
+  .quiz-card__cta:hover{background:#a8121f;transform:translateX(3px);color:#fff !important}
+  .quiz-popup__back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:#5a5a5a;font-family:inherit;font-size:12px;cursor:pointer;margin-top:20px;padding:0;letter-spacing:.04em}
+  .quiz-popup__back:hover{color:#1a1a1a}
+  body.quiz-locked{overflow:hidden}
+  @media (max-width:520px){
+    .quiz-popup{padding:12px}
+    .quiz-popup__panel{padding:32px 22px 28px;max-height:94vh}
+    .quiz-popup__title{font-size:14.5px;letter-spacing:.02em}
+    .quiz-card{padding:20px 18px 22px}
+    .quiz-option{padding:22px 12px}
+    .quiz-option__icon{font-size:28px}
+  }
+</style>
+<div class="quiz-popup" id="quizPopup" role="dialog" aria-modal="true" aria-labelledby="quizTitle" aria-hidden="true">
+  <div class="quiz-popup__overlay" data-quiz-close></div>
+  <div class="quiz-popup__panel">
+    <button type="button" class="quiz-popup__close" data-quiz-close aria-label="閉じる">×</button>
+    <p class="quiz-popup__eyebrow">Welcome to DŌJŌ JAPAN</p>
+    <h2 class="quiz-popup__title" id="quizTitle">DOJO の公式 Web サイトをご覧いただき、ありがとうございます。</h2>
+    <p class="quiz-popup__lead">お客様は現在、どのような目的で DOJO のご利用をご検討されていますか？</p>
+    <div class="quiz-popup__steps" aria-hidden="true">
+      <span class="dot is-active"></span>
+      <span class="dot"></span>
+    </div>
+    <div class="quiz-step" data-quiz-step="1">
+      <h3 class="quiz-step__title">まずは、性別を教えてください</h3>
+      <div class="quiz-options quiz-options--2">
+        <button type="button" class="quiz-option" data-quiz-gender="male">
+          <span class="quiz-option__icon" aria-hidden="true">♂</span>
+          <span class="quiz-option__label">男性</span>
+        </button>
+        <button type="button" class="quiz-option" data-quiz-gender="female">
+          <span class="quiz-option__icon" aria-hidden="true">♀</span>
+          <span class="quiz-option__label">女性</span>
+        </button>
+      </div>
+    </div>
+    <div class="quiz-step" data-quiz-step="2" hidden>
+      <h3 class="quiz-step__title">目的を教えてください</h3>
+      <div class="quiz-options quiz-options--cards">
+        <article class="quiz-card">
+          <span class="quiz-card__badge">Martial Arts</span>
+          <h4 class="quiz-card__title">格闘技がしたい方</h4>
+          <p class="quiz-card__desc">本格的な格闘技を、現役・元チャンピオンから直接指導を <strong>追加料金なし</strong> で受けることが可能です。</p>
+          <a href="training" class="quiz-card__cta" data-quiz-goal="martial">こちらをご覧ください →</a>
+        </article>
+        <article class="quiz-card">
+          <span class="quiz-card__badge">Fitness</span>
+          <h4 class="quiz-card__title">トレーニング・フィットネス目的の方</h4>
+          <p class="quiz-card__desc">DOJO ではキックボクシング・ムエタイなど全身有酸素運動と、マシンを使った筋力トレーニングを基本メニューとしております。</p>
+          <a href="training" class="quiz-card__cta" data-quiz-goal="fitness">こちらをご覧ください →</a>
+        </article>
+      </div>
+      <button type="button" class="quiz-popup__back" data-quiz-back>← 性別を選び直す</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var popup = document.getElementById('quizPopup');
+  if (!popup) return;
+  if (sessionStorage.getItem('dojoQuizShown')) return;
+
+  var gender = null;
+  var armed = true;
+
+  function getChatbot(){ return document.getElementById('chatbot'); }
+
+  function maybeShow(){
+    if (!armed) return;
+    if (window.scrollY > 1500) { armed = false; open(); }
+  }
+  setTimeout(function(){ if (armed) { armed = false; open(); } }, 25000);
+  window.addEventListener('scroll', maybeShow, { passive: true });
+
+  function open(){
+    popup.classList.add('is-open');
+    popup.setAttribute('aria-hidden','false');
+    document.body.classList.add('quiz-locked');
+    var cb = getChatbot();
+    if (cb) cb.style.visibility = 'hidden';
+    sessionStorage.setItem('dojoQuizShown','1');
+    var first = popup.querySelector('[data-quiz-gender]');
+    if (first) setTimeout(function(){ first.focus(); }, 100);
+  }
+  function close(){
+    popup.classList.remove('is-open');
+    popup.setAttribute('aria-hidden','true');
+    document.body.classList.remove('quiz-locked');
+    var cb = getChatbot();
+    if (cb) cb.style.visibility = '';
+  }
+  function gotoStep(n){
+    popup.querySelectorAll('[data-quiz-step]').forEach(function(s){ s.hidden = (s.dataset.quizStep !== String(n)); });
+    popup.querySelectorAll('.quiz-popup__steps .dot').forEach(function(d,i){ d.classList.toggle('is-active', i < n); });
+  }
+  function updateLinks(){
+    var routes = {
+      'male-martial':   'training',
+      'male-fitness':   'training',
+      'female-martial': 'test/women',
+      'female-fitness': 'demo/women-fitness'
+    };
+    popup.querySelectorAll('[data-quiz-goal]').forEach(function(a){
+      a.href = routes[gender + '-' + a.dataset.quizGoal] || 'training';
+    });
+  }
+  popup.addEventListener('click', function(e){
+    if (e.target.matches('[data-quiz-close]')) { close(); return; }
+    var g = e.target.closest('[data-quiz-gender]');
+    if (g) { gender = g.dataset.quizGender; updateLinks(); gotoStep(2); return; }
+    if (e.target.closest('[data-quiz-back]')) { gender = null; gotoStep(1); return; }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && popup.classList.contains('is-open')) close();
+  });
+})();
+</script>
 
 <!-- ===== CHATBOT ===== -->
 <div class="chatbot" id="chatbot" data-base="">
