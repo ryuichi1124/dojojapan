@@ -433,6 +433,82 @@
     .flow-steps::before { left: 20px; }
     .flow-contact { padding: 36px 22px; margin-top: 56px; }
   }
+
+  /* ============================================================
+     お申し込み・ご利用の流れページ ブラウン背景 + 白寄り文字
+     ============================================================ */
+  body { background: #B69374; }
+  .flow-hero {
+    background: linear-gradient(180deg,#BD9D7E 0%,#B69374 100%) !important;
+  }
+  .flow-hero__eyebrow { color: rgba(255,255,255,.78) !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .flow-hero__title { color: #FFFFFF !important; text-shadow: 0 2px 6px rgba(60,30,10,.3); }
+
+  /* タブ（sticky）— ダーク背景は維持しつつブラウン寄りに */
+  .flow-tabs {
+    background: rgba(70,45,25,.88) !important;
+    border-bottom-color: rgba(255,255,255,.18) !important;
+  }
+  .flow-tab { color: rgba(255,255,255,.65) !important; }
+  .flow-tab[aria-selected="true"] { color: #FFFFFF !important; }
+  .flow-tab__sub { color: rgba(255,255,255,.55) !important; }
+  .flow-tab[aria-selected="true"] .flow-tab__sub { color: rgba(255,255,255,.85) !important; }
+  .flow-tab:hover { color: #FFFFFF !important; }
+
+  /* パネル全体（ブラウンが透過） */
+  .flow-panels { background: linear-gradient(180deg,#B69374 0%,#A88663 100%) !important; }
+  .flow-panel__num { color: rgba(255,255,255,.72) !important; }
+  .flow-panel__title { color: #FFFFFF !important; text-shadow: 0 2px 6px rgba(60,30,10,.3); }
+  .flow-panel__lead { color: rgba(255,255,255,.88) !important; }
+
+  /* タイムラインの縦線 */
+  .flow-steps::before {
+    background: linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.15)) !important;
+  }
+  /* ステップ番号バッジ */
+  .flow-step__num {
+    background: rgba(255,255,255,.15) !important;
+    border-color: rgba(255,255,255,.65) !important;
+    color: #FFFFFF !important;
+    backdrop-filter: blur(4px);
+  }
+  .flow-step__title { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .flow-step__body { color: rgba(255,255,255,.9) !important; }
+  .flow-step__body a {
+    color: #FFD66B !important;
+    border-bottom-color: rgba(255,214,107,.5) !important;
+  }
+  .flow-step__body a:hover { border-bottom-color: #FFD66B !important; }
+  .flow-step__note {
+    background: rgba(255,255,255,.12) !important;
+    border-color: rgba(255,255,255,.3) !important;
+    color: #FFFFFF !important;
+  }
+  .flow-step__link {
+    border-color: rgba(255,255,255,.5) !important;
+    color: #FFFFFF !important;
+  }
+  .flow-step__link:hover {
+    background: rgba(255,255,255,.15) !important;
+    border-color: #FFFFFF !important;
+  }
+
+  /* カラム末尾 callout */
+  .flow-callout {
+    background: rgba(255,255,255,.08) !important;
+    border-color: rgba(255,255,255,.35) !important;
+  }
+  .flow-callout__title { color: #FFD66B !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .flow-callout__body { color: rgba(255,255,255,.92) !important; }
+  .flow-callout__body strong { color: #FFFFFF !important; }
+
+  /* 連絡ブロック */
+  .flow-contact {
+    background: rgba(255,255,255,.08) !important;
+    border-color: rgba(255,255,255,.35) !important;
+  }
+  .flow-contact__title { color: #FFD66B !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .flow-contact__lead { color: rgba(255,255,255,.92) !important; }
 </style>
 </head>
 <body>
