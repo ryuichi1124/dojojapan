@@ -781,7 +781,6 @@ button{font:inherit}
 (function(){
   var popup = document.getElementById('quizPopup');
   if (!popup) return;
-  if (sessionStorage.getItem('dojoQuizShown')) return;
 
   var gender = null;
   var armed = true;
@@ -801,7 +800,6 @@ button{font:inherit}
     document.body.classList.add('quiz-locked');
     var cb = getChatbot();
     if (cb) cb.style.visibility = 'hidden';
-    sessionStorage.setItem('dojoQuizShown','1');
     var first = popup.querySelector('[data-quiz-gender]');
     if (first) setTimeout(function(){ first.focus(); }, 100);
   }
