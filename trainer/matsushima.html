@@ -291,6 +291,29 @@
   </div>
 </section>
 
+<!-- ===== SCHEDULE ===== -->
+<style>
+  .t-schedule{background:linear-gradient(180deg,#0a0b0e 0%,#050608 100%);padding:clamp(60px,7vw,100px) 0;border-top:1px solid var(--line)}
+  .t-schedule__inner{max-width:760px;margin:0 auto;padding:0 var(--gutter);text-align:center}
+  .t-schedule__sub{font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);margin:0 0 14px;text-transform:uppercase;font-weight:500}
+  .t-schedule__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(20px,2.4vw,26px);letter-spacing:.06em;color:#fff;margin:0 0 36px}
+  .t-schedule__card{background:rgba(255,255,255,.04);border:1px solid var(--line);padding:clamp(28px,4vw,40px) clamp(36px,5vw,56px);display:inline-flex;flex-direction:column;align-items:center;gap:18px;min-width:280px}
+  .t-schedule__days{font-family:var(--ff-body);font-size:13px;letter-spacing:.18em;padding:7px 18px;border:1px solid var(--gold);color:var(--gold);font-weight:600;text-transform:uppercase}
+  .t-schedule__hours{font-family:var(--ff-display);font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:.06em;color:#fff;line-height:1}
+  .t-schedule__note{font-size:11.5px;color:rgba(255,255,255,.55);letter-spacing:.04em;margin:18px 0 0;line-height:1.8}
+</style>
+<section class="t-schedule" aria-labelledby="scheduleTitle">
+  <div class="t-schedule__inner">
+    <p class="t-schedule__sub">Schedule</p>
+    <h2 id="scheduleTitle" class="t-schedule__title">基本の出勤スケジュール</h2>
+    <div class="t-schedule__card">
+      <span class="t-schedule__days">月〜土曜日</span>
+      <span class="t-schedule__hours">12:00 – 18:00</span>
+    </div>
+    <p class="t-schedule__note">※ スケジュールは予告なく変更となる場合がございます。</p>
+  </div>
+</section>
+
 <section class="t-body">
   <div class="t-body__inner">
     <blockquote class="t-body__msg">
