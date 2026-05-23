@@ -299,7 +299,12 @@
   .t-schedule__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(20px,2.4vw,26px);letter-spacing:.06em;color:#fff;margin:0 0 36px}
   .t-schedule__cards{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
   .t-schedule__card{background:rgba(255,255,255,.04);border:1px solid var(--line);padding:clamp(28px,4vw,40px) clamp(28px,4vw,44px);display:inline-flex;flex-direction:column;align-items:center;gap:14px;min-width:240px}
-  .t-schedule__period{font-family:var(--ff-display);font-size:10px;letter-spacing:.32em;color:var(--red);text-transform:uppercase;font-weight:500;line-height:1}
+.t-schedule__period{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border-radius:99px;font-family:var(--ff-body);font-weight:700;font-size:15px;letter-spacing:.08em;line-height:1.1;border:1.5px solid;background:rgba(255,255,255,.04);margin:0 0 4px}
+  .t-schedule__period::before{content:"";width:9px;height:9px;border-radius:50%;flex-shrink:0;background:currentColor;box-shadow:0 0 8px currentColor}
+  .t-schedule__period em{font-style:normal;font-family:var(--ff-display);font-size:9px;letter-spacing:.28em;opacity:.65;text-transform:uppercase;font-weight:500;border-left:1px solid currentColor;padding-left:10px}
+  .t-schedule__period--morning{color:#F4C952;border-color:rgba(244,201,82,.5)}
+  .t-schedule__period--afternoon{color:#F4A047;border-color:rgba(244,160,71,.5)}
+  .t-schedule__period--evening{color:#FF7B6B;border-color:rgba(255,123,107,.5)}
   .t-schedule__days{font-family:var(--ff-body);font-size:13px;letter-spacing:.18em;padding:7px 18px;border:1px solid var(--gold);color:var(--gold);font-weight:600;text-transform:uppercase}
   .t-schedule__hours{font-family:var(--ff-display);font-size:clamp(26px,3.4vw,34px);font-weight:700;letter-spacing:.06em;color:#fff;line-height:1}
   .t-schedule__note{font-size:11.5px;color:rgba(255,255,255,.55);letter-spacing:.04em;margin:24px 0 0;line-height:1.8}
@@ -310,12 +315,12 @@
     <h2 id="scheduleTitle" class="t-schedule__title">スケジュール</h2>
     <div class="t-schedule__cards">
       <div class="t-schedule__card">
-        <span class="t-schedule__period">Afternoon — 昼の部</span>
+        <span class="t-schedule__period t-schedule__period--afternoon">午後の部 <em>Afternoon</em></span>
         <span class="t-schedule__days">月〜土曜日</span>
         <span class="t-schedule__hours">12:00 – 18:00</span>
       </div>
       <div class="t-schedule__card">
-        <span class="t-schedule__period">Evening — 夜の部</span>
+        <span class="t-schedule__period t-schedule__period--evening">夜の部 <em>Evening</em></span>
         <span class="t-schedule__days">月〜木曜日</span>
         <span class="t-schedule__hours">18:00 – 21:00</span>
       </div>

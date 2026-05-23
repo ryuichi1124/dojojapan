@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<title>【テスト】ダイエット LP｜DŌJŌ JAPAN</title>
+<meta name="description" content="（テストページ）ダイエット目的の男性向け説得ページ。" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f7f8f8;
+    --bg-tint: #f0f5f3;
+    --line: rgba(0,0,0,0.08);
+    --line-strong: rgba(0,0,0,0.16);
+    --text: #1a1a1a;
+    --text-body: #3d3d3d;
+    --text-mute: #6a6a6a;
+    --text-soft: #9a9a9a;
+    --accent: #2d6a4f;
+    --accent-soft: #4a8a6e;
+    --accent-tint: #e8f1ed;
+    --accent-deep: #1d4d39;
+    --warn: #c9152a;
+    --ff-display: "Oswald","Noto Sans JP",sans-serif;
+    --ff-body: "Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: var(--ff-body);
+    font-size: 15px;
+    line-height: 1.95;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; height: auto; }
+
+  /* ===== test banner ===== */
+  .test-banner {
+    background: var(--warn);
+    color: #fff;
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-family: var(--ff-display);
+    letter-spacing: 0.32em;
+  }
+
+  /* ===== slim header ===== */
+  .lp-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .lp-header__brand {
+    font-family: var(--ff-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    color: var(--text);
+  }
+  .lp-header__back {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    color: var(--text-mute);
+    padding: 6px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+  }
+
+  /* ===== image placeholder ===== */
+  .img-ph {
+    width: 100%;
+    background: linear-gradient(135deg, var(--bg-soft) 0%, #ebeded 100%);
+    border: 1px dashed var(--line-strong);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mute);
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-align: center;
+    padding: 24px 16px;
+    gap: 6px;
+  }
+  .img-ph--hero    { aspect-ratio: 4 / 5; }
+  .img-ph--wide    { aspect-ratio: 16 / 9; }
+  .img-ph--card    { aspect-ratio: 4 / 3; }
+  .img-ph--square  { aspect-ratio: 1 / 1; }
+  .img-ph__label   { color: var(--text); font-weight: 600; }
+  .img-ph__hint    {
+    font-family: var(--ff-body);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-soft);
+    max-width: 80%;
+    line-height: 1.7;
+  }
+
+  /* ===== layout ===== */
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .section { padding: 64px 0; }
+  .section--alt { background: var(--bg-soft); }
+  .section--tint { background: var(--accent-tint); }
+
+  .eyebrow {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin: 0 0 14px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .h-section {
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.65;
+    letter-spacing: 0.04em;
+    margin: 0 0 24px;
+    text-align: center;
+    color: var(--text);
+  }
+  .h-section strong { color: var(--accent); font-weight: 700; }
+  .lead {
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-body);
+    margin: 0 0 16px;
+  }
+  .lead--center { text-align: center; }
+  .p-body {
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-body);
+    margin: 0 0 18px;
+  }
+  .p-body strong { color: var(--text); font-weight: 700; }
+  .accent-mark { color: var(--accent); font-weight: 700; }
+
+  /* ===== hero ===== */
+  .hero { padding: 32px 0 56px; }
+  .hero__inner { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  .hero__eyebrow {
+    font-family: var(--ff-display);
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    color: var(--accent);
+    margin: 28px 0 16px;
+    font-weight: 600;
+  }
+  .hero__title {
+    font-family: var(--ff-body);
+    font-weight: 900;
+    font-size: clamp(26px, 7vw, 34px);
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+    margin: 0 0 22px;
+    color: var(--text);
+  }
+  .hero__problems {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+  .hero__problems li {
+    font-size: 15px;
+    line-height: 1.85;
+    padding: 12px 0 12px 28px;
+    color: var(--text);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .hero__problems li::before {
+    content: '＞';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .hero__problems li:first-child { padding-top: 0; }
+  .hero__problems li:first-child::before { top: 0; }
+  .hero__problems li:last-child { border-bottom: 0; }
+  .hero__lead {
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-body);
+    margin: 24px 0;
+  }
+
+  /* ===== CTA buttons ===== */
+  .cta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: 14px 24px;
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 1.4;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(45,106,79,0.18);
+  }
+  .btn--primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+  .btn--ghost {
+    background: #fff;
+    color: var(--text);
+    border: 1px solid var(--line-strong);
+  }
+  .btn--ghost:hover { border-color: var(--accent); }
+  .btn__sub {
+    display: block;
+    font-family: var(--ff-display);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+  }
+  .btn--ghost .btn__sub { color: var(--text-mute); }
+
+  /* ===== reasons list ===== */
+  .reasons { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+  .reason {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 18px;
+  }
+  .reason__num {
+    font-family: var(--ff-display);
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    color: var(--accent);
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .reason__title {
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 0 0 12px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  .reason__body { font-size: 14.5px; line-height: 2; color: var(--text-body); margin: 0; }
+  .reason__body strong { color: var(--text); }
+
+  /* ===== trainers ===== */
+  .trainers { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+  .trainer-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    align-items: center;
+    background: #fff;
+  }
+  .trainer-card .img-ph { padding: 0; aspect-ratio: 1; }
+  .trainer-card__role {
+    font-family: var(--ff-display);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--accent);
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+  .trainer-card__name {
+    font-family: var(--ff-display);
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    margin: 0 0 2px;
+    color: var(--text);
+  }
+  .trainer-card__nameja {
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .trainer-card__title {
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ===== certification box ===== */
+  .cert-box {
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 24px 18px;
+    background: var(--accent-tint);
+    margin: 22px 0;
+  }
+  .cert-box__label {
+    font-family: var(--ff-display);
+    font-size: 10px;
+    letter-spacing: 0.36em;
+    color: var(--accent-deep);
+    margin: 0 0 14px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .cert-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  .cert-list li {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.8;
+    padding: 6px 0;
+    letter-spacing: 0.04em;
+  }
+  .cert-list li small {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--accent);
+    margin-top: 2px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== timeline ===== */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+  }
+  .timeline__when {
+    font-family: var(--ff-display);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .timeline__what {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-body);
+  }
+  .timeline__what strong { color: var(--text); }
+
+  /* ===== conclusion banners ===== */
+  .conclusion {
+    text-align: center;
+    padding: 24px 22px;
+    background: var(--accent-tint);
+    border-radius: 8px;
+    margin: 24px 0 28px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+  }
+  .conclusion .accent-mark { color: var(--accent); }
+
+  /* ===== final CTA ===== */
+  .final-cta {
+    text-align: center;
+    padding: 64px 0 80px;
+    background: var(--accent-tint);
+  }
+  .final-cta__title {
+    font-family: var(--ff-body);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+  }
+  .final-cta__lead {
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-body);
+    margin: 0 auto 22px;
+    max-width: 560px;
+  }
+  .final-cta__hint {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin: 22px auto 0;
+    line-height: 1.85;
+    max-width: 480px;
+  }
+
+  /* ===== footer ===== */
+  .lp-footer {
+    background: var(--bg-soft);
+    padding: 32px 20px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .lp-footer__brand {
+    font-family: var(--ff-display);
+    font-size: 14px;
+    letter-spacing: 0.36em;
+    margin: 0 0 12px;
+    color: var(--text);
+  }
+  .lp-footer__info {
+    font-size: 11px;
+    color: var(--text-mute);
+    line-height: 1.8;
+    margin: 0 0 14px;
+  }
+  .lp-footer__nav {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+
+  /* ===== responsive tweaks ===== */
+  @media (min-width: 640px) {
+    body { font-size: 16px; }
+    .hero__title { font-size: 38px; }
+    .h-section { font-size: 26px; }
+    .section { padding: 88px 0; }
+  }
+  @media (max-width: 380px) {
+    .trainer-card { grid-template-columns: 72px 1fr; padding: 14px; }
+    .timeline li { grid-template-columns: 80px 1fr; padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="test-banner">TEST PREVIEW — DIET LP / NOT INDEXED</div>
+
+<header class="lp-header">
+  <a href="/" class="lp-header__brand">DŌJŌ JAPAN</a>
+  <a href="/" class="lp-header__back">サイトに戻る</a>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero__inner">
+
+    <div class="img-ph img-ph--hero">
+      <span class="img-ph__label">[ HERO 画像 ]</span>
+      <span class="img-ph__hint">男性会員のミット打ち or ジムシルエット（縦長 4:5・明るめが◎）</span>
+    </div>
+
+    <p class="hero__eyebrow">FOR MEN — DIET / SHAPE-UP</p>
+    <h1 class="hero__title">40 代、50 代でも、<br />変われます。</h1>
+
+    <ul class="hero__problems">
+      <li>お腹だけ、出てしまった</li>
+      <li>ジムは続かない。結果も出ない</li>
+      <li>短期間で、見た目を変えたい</li>
+    </ul>
+
+    <p class="hero__lead">
+      そんなお気持ちを抱えてご来館される男性のお客様が、DŌJŌ JAPAN（福岡市中央区春吉）には、多くいらっしゃいます。
+    </p>
+    <p class="hero__lead">
+      ボクシング・キックボクシング × 専用ウェイトトレーニング機材を組み合わせた、王者から直接ご指導いただける総合的なトレーニング。同年代の方々が、3 ヶ月で「変わったね」と言われる結果を実感されています。
+    </p>
+
+    <div class="cta-stack">
+      <a href="#cta" class="btn btn--primary">
+        無料体験 45 分のご予約
+        <span class="btn__sub">FREE TRIAL · 福岡在住の方限定</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 効率的な理由 ===== -->
+<section class="section section--alt">
+  <div class="wrap">
+    <p class="eyebrow">WHY IT WORKS</p>
+    <h2 class="h-section">なぜ、これだけ<br /><strong>効率的に痩せられる</strong>のか</h2>
+
+    <p class="lead">
+      ジョギング、筋トレ、糖質制限。いろいろ試してこられた方も多いと思います。それでも続かない、結果が出ない。これには、運動生理学から見た明確な理由がございます。
+    </p>
+
+    <div class="img-ph img-ph--wide" style="margin: 24px 0;">
+      <span class="img-ph__label">[ 稽古風景画像 ]</span>
+      <span class="img-ph__hint">ミット打ち or サンドバッグの動的な1枚（16:9・明るめ）</span>
+    </div>
+
+    <ol class="reasons">
+      <li class="reason">
+        <p class="reason__num">REASON 01</p>
+        <h3 class="reason__title">消費カロリーが、圧倒的に高い</h3>
+        <p class="reason__body">普通のジョギング（時速 8 km・60 分）の消費カロリーが約 480 kcal なのに対し、ボクシング・キックボクシング 60 分の消費カロリーは、<strong>およそ 600〜900 kcal</strong>。同じ 1 時間で、2 倍近いカロリーを燃焼することができます。</p>
+      </li>
+      <li class="reason">
+        <p class="reason__num">REASON 02</p>
+        <h3 class="reason__title">運動後 24〜48 時間、脂肪が燃え続ける</h3>
+        <p class="reason__body">「EPOC（運動後過剰酸素消費）」という現象です。高強度の運動の後、身体は酸素を多く消費しながら回復します。その間、基礎代謝が高い状態が続き、<strong>稽古した日の夜も、翌日も、脂肪が燃え続けている状態</strong>になります。</p>
+      </li>
+      <li class="reason">
+        <p class="reason__num">REASON 03</p>
+        <h3 class="reason__title">全身運動で、お腹も内臓脂肪も落ちる</h3>
+        <p class="reason__body">パンチ 1 発に、軸足の踏み込み、骨盤の回旋、体幹のひねり、腕の連動、と、<strong>7〜9 種類のコア筋群が同時に動員</strong>されます。腹筋運動を 100 回やるよりも、ボクシング 30 分の方が体幹に効くと言われる理由が、ここにあります。</p>
+      </li>
+      <li class="reason">
+        <p class="reason__num">REASON 04</p>
+        <h3 class="reason__title">ストレス太りも、解消できる</h3>
+        <p class="reason__body">慢性的なストレスは、コルチゾールというホルモンを上昇させ、内臓脂肪を蓄積します。ボクシングの「殴る」「蹴る」動作は強力なストレス発散効果があり、<strong>コルチゾール値を下げ、内臓脂肪も落ちやすくなります</strong>。</p>
+      </li>
+      <li class="reason">
+        <p class="reason__num">REASON 05</p>
+        <h3 class="reason__title">筋肉を維持しながら痩せる（リバウンドしない）</h3>
+        <p class="reason__body">食事制限のみのダイエットでは、脂肪と一緒に筋肉も落ち、基礎代謝が下がり、リバウンドします。ボクシング × ウェイトトレーニングを組み合わせれば、<strong>筋肉量を維持・適度に増加させながら脂肪を落とせる</strong>ため、太りにくい体質に変わっていきます。</p>
+      </li>
+      <li class="reason">
+        <p class="reason__num">REASON 06</p>
+        <h3 class="reason__title">毎回違う動き。だから、続く</h3>
+        <p class="reason__body">ダイエット成功のもっとも大きな要因は、「続けられること」。毎回違う動き、上達実感、ストレス発散。3 つが揃うので、<strong>半年・1 年と続けられる方が多くいらっしゃいます</strong>。</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== 王者から直接 ===== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">TRAINED BY CHAMPIONS</p>
+    <h2 class="h-section"><strong>王者から、直接</strong><br />ご指導をいただけます</h2>
+
+    <p class="lead">
+      これだけ効率的な運動でも、正しいフォームを知らずに自己流でやれば、効果は半減し、怪我のリスクも高まります。DŌJŌ JAPAN では、現役・元のチャンピオン陣が、稽古に直接立ち会い、お一人おひとりのフォームを丁寧にお伝えいたします。
+    </p>
+
+    <div class="trainers">
+      <article class="trainer-card">
+        <div class="img-ph img-ph--square"><span class="img-ph__label">[ 八尋 ]</span></div>
+        <div>
+          <p class="trainer-card__role">BOXING</p>
+          <p class="trainer-card__name">YAHIRO</p>
+          <p class="trainer-card__nameja">八尋 史朗</p>
+          <p class="trainer-card__title">日本王者 / 東洋太平洋王者</p>
+        </div>
+      </article>
+      <article class="trainer-card">
+        <div class="img-ph img-ph--square"><span class="img-ph__label">[ 松島 ]</span></div>
+        <div>
+          <p class="trainer-card__role">MUAY THAI</p>
+          <p class="trainer-card__name">MATSUSHIMA</p>
+          <p class="trainer-card__nameja">松島 イザヤ</p>
+          <p class="trainer-card__title">世界チャンピオン / 日本チャンピオン</p>
+        </div>
+      </article>
+      <article class="trainer-card">
+        <div class="img-ph img-ph--square"><span class="img-ph__label">[ 成合 ]</span></div>
+        <div>
+          <p class="trainer-card__role">KICKBOXING</p>
+          <p class="trainer-card__name">SATORU</p>
+          <p class="trainer-card__nameja">成合 さとる</p>
+          <p class="trainer-card__title">元 K-1 ファイター / 地下格闘技 4 団体王者</p>
+        </div>
+      </article>
+      <article class="trainer-card">
+        <div class="img-ph img-ph--square"><span class="img-ph__label">[ ルーク ]</span></div>
+        <div>
+          <p class="trainer-card__role">MARTIAL ARTS</p>
+          <p class="trainer-card__name">HOLLOWAY</p>
+          <p class="trainer-card__nameja">ルークホロウェイ</p>
+          <p class="trainer-card__title">UFC 打撃 2019 世界記録 / 7 武術黒帯以上</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="p-body" style="margin-top: 24px;">本物の技術を、これほど近くで受けられる場は、なかなかございません。</p>
+  </div>
+</section>
+
+<!-- ===== キツいだけじゃない ===== -->
+<section class="section section--tint">
+  <div class="wrap">
+    <p class="eyebrow">PROFESSIONAL, NOT BRUTAL</p>
+    <h2 class="h-section">「プロの指導って、<br />ただキツいだけじゃないですか？」</h2>
+
+    <p class="lead">
+      ここまでお読みになって、「でも、本格的なジムで王者の指導なんて、ただキツいだけじゃないのか…」とお感じになる方も、多いかもしれません。
+    </p>
+    <p class="conclusion">
+      結論から申し上げます。<br />
+      <span class="accent-mark">「キツいだけ」のレッスンには絶対になりません。</span>
+    </p>
+
+    <p class="p-body">
+      DŌJŌ JAPAN の在籍トレーナーには、現役・元のチャンピオンであると同時に、身体に関する医療系・運動系の国家資格・国際資格を保有しているトレーナーがおります。
+    </p>
+
+    <div class="cert-box">
+      <p class="cert-box__label">在籍トレーナー保有資格</p>
+      <ul class="cert-list">
+        <li>理学療法士<small>国家資格</small></li>
+        <li>介護福祉士<small>国家資格</small></li>
+        <li>全米ヨガアライアンス RYT 200<small>国際資格</small></li>
+      </ul>
+    </div>
+
+    <p class="p-body">
+      理学療法士は、骨格・筋肉の構造、リハビリ、怪我の予防など、人の身体を医学的に理解するプロフェッショナルです。介護福祉士は、お一人おひとりの体力・健康状態に合わせた支援を行うプロフェッショナル。全米ヨガアライアンス RYT 200 は、柔軟性・呼吸法・身体のアライメントの専門家でございます。
+    </p>
+    <p class="p-body">
+      つまり、ただ「強い」「速い」だけのトレーナーではなく、<strong>お客様の身体の状態を医学的に見極めて、安全かつ効率的な指導ができる</strong>トレーナーが、在籍しているということです。
+    </p>
+    <p class="p-body">
+      「腰を痛めた経験がある」「肩が上がりにくい」「運動経験がほぼない」「中高年で関節への負担を最小限にしたい」「太りすぎていて、いきなりは動けない」。これらの不安をお持ちの方にも、お一人おひとりの状態に応じたメニューで、無理なく進めることが可能です。
+    </p>
+    <p class="p-body">
+      「キツくする」ことが目的ではございません。お客様の身体を整える論理に基づいて、強度を毎回その場で見極めて調整いたします。<strong>体育会系の「とにかくキツくする」「根性論」とは、真逆の指導</strong>をご提供いたします。
+    </p>
+  </div>
+</section>
+
+<!-- ===== ゴツくならない ===== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">NO BULKING</p>
+    <h2 class="h-section">「ゴツくなりませんか？」</h2>
+
+    <p class="lead">
+      「ボクシングジムって、ガッチリした人になりそう…」というご不安も、よく頂戴いたします。
+    </p>
+    <p class="conclusion">
+      結論として、<span class="accent-mark">ゴツくはなりません。</span>
+    </p>
+    <p class="p-body">
+      筋肉が大きく成長するには、「高負荷の重量トレーニング」「カロリー余剰」「特定のタンパク質摂取」が、3 つそろって初めて起こります。ボクシング・キックボクシングは、その条件と真逆の<strong>「軽負荷・高回数・カロリー消費」の運動</strong>です。
+    </p>
+    <p class="p-body">
+      ボクサーの体型を思い出してください。ガッチリではなく、しなやかに引き締まっている。一般の方が通われた場合も、そういうシルエットに近づいていきます。
+    </p>
+    <p class="p-body">
+      DŌJŌ JAPAN のトレーナーは、お客様の目的に応じて毎回メニューを調整いたしますので、「絞りたい」「シャープなシルエットにしたい」というご希望どおりに進めてまいります。
+    </p>
+  </div>
+</section>
+
+<!-- ===== タイムライン ===== -->
+<section class="section section--alt">
+  <div class="wrap">
+    <p class="eyebrow">TIMELINE</p>
+    <h2 class="h-section">いつから、<br /><strong>どれくらい変わる</strong>のか</h2>
+
+    <p class="lead lead--center">
+      個人差はございますが、目安として以下のような変化を実感される方が多いです。
+    </p>
+
+    <ol class="timeline">
+      <li>
+        <span class="timeline__when">2 WEEKS<br />4-6 回</span>
+        <span class="timeline__what"><strong>体力アップ、姿勢の変化、寝つきの改善</strong>を実感されます。</span>
+      </li>
+      <li>
+        <span class="timeline__when">1 MONTH<br />8-12 回</span>
+        <span class="timeline__what"><strong>体重 1〜3 kg 減、お腹周りの変化</strong>が出てまいります。</span>
+      </li>
+      <li>
+        <span class="timeline__when">3 MONTHS<br />24-36 回</span>
+        <span class="timeline__what">周囲から「<strong>痩せた？」「変わったね</strong>」と言われるレベルの変化が見えてまいります。</span>
+      </li>
+      <li>
+        <span class="timeline__when">6 MONTHS</span>
+        <span class="timeline__what">体組成（体脂肪率）が明確に変化し、<strong>リバウンドしにくい体</strong>に変わっていきます。</span>
+      </li>
+    </ol>
+
+    <p class="p-body" style="margin-top: 24px; font-size: 13px; color: var(--text-mute);">
+      ※ 前提として、週 2 回以上の通い、極端ではない通常の食事管理を想定しております。個人差はございます。
+    </p>
+  </div>
+</section>
+
+<!-- ===== お仕事忙しい方も ===== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">FOR BUSY MEN</p>
+    <h2 class="h-section">お仕事が忙しい方も、<br />続けやすい設計</h2>
+
+    <div class="img-ph img-ph--wide" style="margin: 0 0 24px;">
+      <span class="img-ph__label">[ 21時以降の自主トレ風景 ]</span>
+      <span class="img-ph__hint">夜のジム、ひとりでサンドバッグ等（16:9）</span>
+    </div>
+
+    <p class="p-body">
+      DŌJŌ JAPAN の営業時間は <strong>Mon–Sat 7:00〜21:00</strong> でございますが、<strong>会員様には、21:00 以降のフリー利用も可能</strong>でございます。お仕事終わりの遅い時間にも、自主トレーニングをお続けいただけます。
+    </p>
+    <p class="p-body">
+      体験は事前のご予約をいただきますが、月会員の方は予約不要で、お好きなタイミングでご来館いただけます。「仕事の忙しさ」を言い訳にしなくて済む、続けやすい設計でございます。
+    </p>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta" id="cta">
+  <div class="wrap">
+    <h2 class="final-cta__title">まずは、無料体験 45 分から</h2>
+    <p class="final-cta__lead">
+      ご決断は、まだ早くてかまいません。雰囲気、トレーナー、施設、本当に自分に合うか。これらは、文字でいくら読んでも分かりません。まずは無料体験 45 分（福岡在住の方限定）にお越しいただき、ご自分の目で、ご自分の身体で、お確かめください。
+    </p>
+    <p class="final-cta__lead">
+      体験はもちろん無料。当日キャンセルは前日までのご連絡で承ります。手ぶらでお越しいただけます。<br />体験後、無理な勧誘は一切いたしません。
+    </p>
+    <div class="cta-stack" style="max-width: 360px; margin: 0 auto;">
+      <a href="https://www.instagram.com/dojo_japan/" class="btn btn--primary" target="_blank" rel="noopener">
+        Instagram DM で予約する
+        <span class="btn__sub">「体験希望」と一言で OK</span>
+      </a>
+      <a href="tel:0927533029" class="btn btn--ghost">
+        お電話で予約
+        <span class="btn__sub">092-753-3029</span>
+      </a>
+    </div>
+    <p class="final-cta__hint">
+      福岡市中央区春吉 2-12-5 1F<br />
+      地下鉄 天神南駅 徒歩約 2 分／渡辺通駅 徒歩約 5 分<br />
+      Mon–Sat 7:00–21:00（日曜は完全予約制）
+    </p>
+  </div>
+</section>
+
+<footer class="lp-footer">
+  <p class="lp-footer__brand">DŌJŌ JAPAN</p>
+  <p class="lp-footer__info">MARTIAL ARTS GYM<br />〒810-0003 福岡県福岡市中央区春吉 2-12-5 1F</p>
+  <div class="lp-footer__nav">
+    <a href="/">TOP</a>
+    <a href="/pricing">料金</a>
+    <a href="/access">アクセス</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -405,16 +405,41 @@ button{font:inherit}
     grid-row:1;
   }
   .ts-card__period{
-    font-family:var(--ff-display);
-    font-size:11px;
-    letter-spacing:.32em;
-    color:var(--gold,#c8a062);
-    text-transform:uppercase;
-    padding:6px 14px;
-    border:1px solid rgba(200,160,98,.5);
-    font-weight:500;
-    line-height:1;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 16px;
+    border-radius:99px;
+    font-family:var(--ff-body);
+    font-weight:700;
+    font-size:14.5px;
+    letter-spacing:.08em;
+    line-height:1.1;
+    border:1.5px solid;
+    background:rgba(255,255,255,.04);
   }
+  .ts-card__period::before{
+    content:"";
+    width:9px;height:9px;
+    border-radius:50%;
+    flex-shrink:0;
+    background:currentColor;
+    box-shadow:0 0 8px currentColor;
+  }
+  .ts-card__period em{
+    font-style:normal;
+    font-family:var(--ff-display);
+    font-size:9px;
+    letter-spacing:.28em;
+    opacity:.65;
+    text-transform:uppercase;
+    font-weight:500;
+    border-left:1px solid currentColor;
+    padding-left:10px;
+  }
+  .ts-card__period--morning{color:#F4C952;border-color:rgba(244,201,82,.5)}
+  .ts-card__period--afternoon{color:#F4A047;border-color:rgba(244,160,71,.5)}
+  .ts-card__period--evening{color:#FF7B6B;border-color:rgba(255,123,107,.5)}
   .ts-card__hours{
     font-family:var(--ff-display);
     font-size:clamp(30px,4.4vw,46px);
@@ -530,7 +555,7 @@ button{font:inherit}
         <img src="assets/img/trainers/03_nariai_satoru_photo.jpg" alt="SATORU 成合 — 朝〜午前担当トレーナー" loading="lazy" />
       </div>
       <div class="ts-card__time">
-        <span class="ts-card__period">Morning</span>
+        <span class="ts-card__period ts-card__period--morning">朝の部 <em>Morning</em></span>
         <span class="ts-card__hours">7:00 – 12:00</span>
         <span class="ts-card__days">月〜土<small>※第1土曜のみ休</small></span>
       </div>
@@ -546,10 +571,10 @@ button{font:inherit}
         <img src="assets/img/trainers/02_matsushima_izaya_photo.jpg" alt="松島 勲也（イザヤ） — 昼〜夜担当トレーナー" loading="lazy" />
       </div>
       <div class="ts-card__time">
-        <span class="ts-card__period">Afternoon</span>
+        <span class="ts-card__period ts-card__period--afternoon">午後の部 <em>Afternoon</em></span>
         <span class="ts-card__hours">12:00 – 18:00</span>
         <span class="ts-card__days">月〜土</span>
-        <span class="ts-card__period" style="margin-top:6px;">Evening</span>
+        <span class="ts-card__period ts-card__period--evening" style="margin-top:6px;">夜の部 <em>Evening</em></span>
         <span class="ts-card__hours">18:00 – 21:00</span>
         <span class="ts-card__days">月〜木</span>
       </div>
@@ -565,7 +590,7 @@ button{font:inherit}
         <img src="assets/img/trainers/01_yahiro_shiro_photo.jpg" alt="八尋 史朗 — 夜担当ボクシングトレーナー" loading="lazy" />
       </div>
       <div class="ts-card__time">
-        <span class="ts-card__period">Evening</span>
+        <span class="ts-card__period ts-card__period--evening">夜の部 <em>Evening</em></span>
         <span class="ts-card__hours">18:00 – 21:00</span>
         <span class="ts-card__days">金・土曜日</span>
       </div>
