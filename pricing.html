@@ -171,6 +171,19 @@
      料金ページ全体をブラウン背景に統一（demo と同じトーン）
      ============================================================ */
   body { background: #B69374; }
+  /* HERO もブラウンで統一 */
+  .page-hero {
+    background: linear-gradient(135deg,#BD9D7E 0%,#B69374 50%,#A88663 100%) !important;
+    min-height: auto !important;
+    padding: 140px 0 80px !important;
+  }
+  .page-hero__bg { display: none !important; }
+  .page-hero__sub { color: #FFD66B !important; }
+  .page-hero__sub::before { background: #FFD66B !important; }
+  .page-hero__title { color: #FFFFFF !important; }
+  .page-hero__lead-en { color: rgba(255,255,255,.85) !important; }
+  .page-hero__lead { color: rgba(255,255,255,.92) !important; }
+
   .pricing-page__trial,
   .pricing-page__plans,
   .pricing-page__notes {
@@ -193,11 +206,11 @@
   /* 見出し */
   .pricing-page__h2 {
     color: #FFFFFF !important;
-    text-shadow: 0 2px 6px rgba(60,30,10,.35);
+
   }
   .pricing-page__h2 span {
     color: rgba(255,255,255,.78) !important;
-    text-shadow: none;
+
   }
 
   /* プランカード：暗背景 → 半透明ホワイト＋ガラス感 */
@@ -219,13 +232,13 @@
     background: #FFD66B !important;
     color: #3a2a1a !important;
   }
-  .plan__no { color: #FFD66B !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
-  .plan__name { color: #FFFFFF !important; text-shadow: 0 2px 6px rgba(60,30,10,.3); }
+  .plan__no { color: #FFD66B !important; }
+  .plan__name { color: #FFFFFF !important; }
   .plan__name-ja { color: rgba(255,255,255,.82) !important; }
   .plan__rows { border-top-color: rgba(255,255,255,.28) !important; }
   .plan__rows li { border-bottom-color: rgba(255,255,255,.18) !important; color: #FFFFFF; }
   .plan__rows li span { color: rgba(255,255,255,.78); }
-  .plan__rows li b { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .plan__rows li b { color: #FFFFFF !important; }
   .plan__rows li small { color: rgba(255,255,255,.7) !important; }
   .plan__note { color: rgba(255,255,255,.82) !important; }
 
@@ -234,7 +247,7 @@
   .rental-list li { border-bottom-color: rgba(255,255,255,.22) !important; }
   .rental-list__name { color: #FFFFFF !important; }
   /* 「無料」(rental全体) → 暖光ゴールド、際立ち過ぎず一貫したトーン */
-  .rental-list__price { color: #FFD66B !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .rental-list__price { color: #FFD66B !important; }
   /* 最初のアイテム(first-child)も同じゴールドに揃える */
   .rental-list li:first-child .rental-list__price { color: #FFD66B !important; }
   /* 道着（¥2,000）= 4番目だけ白で「有料」を区別 */
@@ -245,7 +258,7 @@
   /* ご利用にあたって（NOTES） */
   .pricing-page__notes-list { border-top-color: rgba(255,255,255,.32) !important; }
   .pricing-page__notes-list > div { border-bottom-color: rgba(255,255,255,.22) !important; }
-  .pricing-page__notes-list dt { color: #FFD66B !important; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .pricing-page__notes-list dt { color: #FFD66B !important; }
   .pricing-page__notes-list dd { color: rgba(255,255,255,.92) !important; }
   .pricing-page__notes-list dd small { color: rgba(255,255,255,.7) !important; }
   .pricing-page__notes-list dd strong { color: #FFFFFF !important; }
@@ -253,24 +266,6 @@
 </style>
 
 <!-- TRIAL CALLOUT -->
-<section class="pricing-page__trial" id="trial">
-  <div class="pricing-page__inner">
-    <div class="pricing-page__trial-card">
-      <p class="pricing-page__trial-sub">FREE TRIAL · 福岡在住の方限定</p>
-      <h2 class="pricing-page__trial-title">無料体験 45 分</h2>
-      <p class="pricing-page__trial-lead">
-        ※ 無料体験は <strong>福岡在住の方限定</strong>でございます。<br />
-        観光・出張でお越しの方は、下記のビジタープラン（¥3,000 / 60 分）をご利用くださいませ。<br />
-        <span class="pricing-page__trial-en">Free trial is for Fukuoka residents only. Visitors please choose the Visitor plan below.</span>
-      </p>
-      <div class="pricing-page__trial-cta">
-        <a href="tel:0927533029" class="btn btn--primary btn--lg">092-753-3029</a>
-        <a href="https://www.instagram.com/dojo_japan/" class="btn btn--ghost btn--lg" target="_blank" rel="noopener">Instagram DM</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PLANS -->
 <section class="pricing-page__plans">
   <div class="pricing-page__inner">
@@ -391,6 +386,25 @@
         </dd>
       </div>
     </dl>
+  </div>
+</section>
+
+<!-- TRIAL CALLOUT (移動済：ページ末尾近く) -->
+<section class="pricing-page__trial" id="trial">
+  <div class="pricing-page__inner">
+    <div class="pricing-page__trial-card">
+      <p class="pricing-page__trial-sub">FREE TRIAL · 福岡在住の方限定</p>
+      <h2 class="pricing-page__trial-title">無料体験 45 分</h2>
+      <p class="pricing-page__trial-lead">
+        ※ 無料体験は <strong>福岡在住の方限定</strong>でございます。<br />
+        観光・出張でお越しの方は、上記のビジタープラン（¥3,000 / 60 分）をご利用くださいませ。<br />
+        <span class="pricing-page__trial-en">Free trial is for Fukuoka residents only. Visitors please choose the Visitor plan above.</span>
+      </p>
+      <div class="pricing-page__trial-cta">
+        <a href="tel:0927533029" class="btn btn--primary btn--lg">092-753-3029</a>
+        <a href="https://www.instagram.com/dojo_japan/" class="btn btn--ghost btn--lg" target="_blank" rel="noopener">Instagram DM</a>
+      </div>
+    </div>
   </div>
 </section>
 

@@ -296,23 +296,15 @@ button{font:inherit}
   </div>
 </section>
 
-<!-- ===== LIGHT ZONE (FITNESS EXPERIENCE + TRAINER SCHEDULE + EXPLORE を白〜薄グレーの斜めグラデーションで包む) ===== -->
-<style>
-  .demo-light-zone{background:linear-gradient(135deg,#BD9D7E 0%,#B69374 50%,#A88663 100%)}
-  .demo-light-zone .fitness-exp,
-  .demo-light-zone .trainer-schedule,
-  .demo-light-zone .explore{background:transparent !important}
-</style>
-<div class="demo-light-zone">
 <!-- ===== FITNESS EXPERIENCE (above MOVIE) ===== -->
 <style>
-  .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#EFECE4}
+  .fitness-exp{padding:clamp(96px,11vw,160px) 0;background:#050608}
   .fitness-exp__header{text-align:center;max-width:880px;margin:0 auto clamp(48px,6vw,72px);padding:0 var(--gutter)}
-  .fitness-exp__eyebrow{font-family:var(--ff-display);font-size:12px;letter-spacing:.4em;color:#FFFFFF;margin:0 0 22px;text-transform:uppercase;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-  .fitness-exp__title{font-family:var(--ff-body);font-weight:800;font-size:clamp(22px,2.8vw,34px);line-height:1.65;letter-spacing:.06em;color:#FFFFFF;margin:0;text-shadow:0 2px 8px rgba(60,30,10,.4),0 1px 1px rgba(0,0,0,.3)}
-  .fitness-exp__title em{font-style:normal;color:#FFD66B;text-shadow:0 2px 8px rgba(60,30,10,.45),0 1px 1px rgba(0,0,0,.3)}
+  .fitness-exp__eyebrow{font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);margin:0 0 22px;text-transform:uppercase;font-weight:500}
+  .fitness-exp__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(22px,2.8vw,34px);line-height:1.65;letter-spacing:.06em;color:#fff;margin:0}
+  .fitness-exp__title em{font-style:normal;color:var(--gold,#c8a062)}
   .fitness-exp__grid{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,28px)}
-  .fitness-exp__item{margin:0;overflow:hidden;border:1px solid rgba(0,0,0,.07);background:#F5ECD9;aspect-ratio:3/2;position:relative;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+  .fitness-exp__item{margin:0;overflow:hidden;border:1px solid var(--line);background:#050608;aspect-ratio:3/2;position:relative}
 
   /* === スクロール時差ポップインアニメ === */
   .fitness-exp__eyebrow,
@@ -379,11 +371,11 @@ button{font:inherit}
 
 <!-- ===== TRAINER SCHEDULE (DEMO のみ) ===== -->
 <style>
-  .trainer-schedule{padding:clamp(72px,9vw,120px) 0;background:#EFECE4;position:relative}
+  .trainer-schedule{padding:clamp(72px,9vw,120px) 0;background:linear-gradient(180deg,#070a0d 0%,#0c1014 100%);position:relative}
   .trainer-schedule__head{text-align:center;max-width:880px;margin:0 auto clamp(40px,5vw,60px);padding:0 var(--gutter)}
-  .trainer-schedule__head .en{display:block;font-family:var(--ff-display);font-size:12px;letter-spacing:.4em;color:#FFFFFF;text-transform:uppercase;margin:0 0 16px;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-  .trainer-schedule__head h2{font-family:var(--ff-body);font-size:clamp(22px,2.8vw,32px);font-weight:800;letter-spacing:.06em;color:#FFFFFF;margin:0;line-height:1.55;text-shadow:0 2px 8px rgba(60,30,10,.4),0 1px 1px rgba(0,0,0,.3)}
-  .trainer-schedule__head h2 em{font-style:normal;color:#FFD66B;text-shadow:0 2px 8px rgba(60,30,10,.45),0 1px 1px rgba(0,0,0,.3)}
+  .trainer-schedule__head .en{display:block;font-family:var(--ff-display);font-size:11px;letter-spacing:.36em;color:var(--red);text-transform:uppercase;margin:0 0 16px;font-weight:500}
+  .trainer-schedule__head h2{font-family:var(--ff-body);font-size:clamp(22px,2.8vw,32px);font-weight:700;letter-spacing:.06em;color:#fff;margin:0;line-height:1.55}
+  .trainer-schedule__head h2 em{font-style:normal;color:var(--gold,#c8a062)}
 
   .trainer-schedule__grid{max-width:1080px;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px)}
 
@@ -470,7 +462,7 @@ button{font:inherit}
 <!-- ===== EXPLORE (Discover more pages) — moved here, under FITNESS EXPERIENCE ===== -->
 <style>
   /* DEMO: 白背景化（FITNESS EXPERIENCE → TRAINER SCHEDULE → EXPLORE の3連白） */
-  .explore{background:#EFECE4 !important;padding-top:clamp(40px,5vw,72px) !important}
+  .explore{padding-top:clamp(40px,5vw,72px) !important}
   .explore__grid{margin-top:0 !important}
   /* Brighten the explore-card image (was filter:brightness(.5)) */
   .explore-card__media picture,
@@ -497,7 +489,6 @@ button{font:inherit}
     </a>
   </div>
 </section>
-</div><!-- /.demo-light-zone -->
 
 <!-- ===== MOVIE ===== -->
 <section class="movie" id="movie">
@@ -665,27 +656,7 @@ button{font:inherit}
 })();
 </script>
 
-<!-- ===== PRICING OVERVIEW (DEMO: シルバーヘアライン背景＋ダーク文字) ===== -->
-<style>
-  .pricing-mini{background:linear-gradient(135deg,#BD9D7E 0%,#B69374 50%,#A88663 100%) !important}
-  .pricing-mini .section-head__sub{color:#FFFFFF !important;text-shadow:0 2px 8px rgba(60,30,10,.4),0 1px 1px rgba(0,0,0,.3);font-weight:800 !important}
-  .pricing-mini .section-head__title{color:#FFFFFF !important;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-  .pricing-mini__rows{border-top-color:rgba(255,255,255,.42) !important;border-bottom-color:rgba(255,255,255,.42) !important}
-  .pricing-mini__rows li{border-right-color:rgba(255,255,255,.3) !important}
-  .pricing-mini__rows li:hover{background:rgba(255,255,255,.1) !important}
-  .pricing-mini__label{color:#FFD66B !important;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-  .pricing-mini__label em{color:rgba(255,255,255,.85) !important}
-  .pricing-mini__value{color:#FFFFFF !important;text-shadow:0 2px 8px rgba(60,30,10,.4),0 1px 1px rgba(0,0,0,.3)}
-  .pricing-mini__value small{color:rgba(255,255,255,.85) !important}
-  .pricing-mini .btn-neon{color:#FAF5EB !important;border:1px solid rgba(255,255,255,.6) !important;background:rgba(255,255,255,.12) !important;box-shadow:0 4px 14px rgba(0,0,0,.1) !important;transition:all .3s ease}
-  .pricing-mini .btn-neon::before,.pricing-mini .btn-neon::after{display:none !important}
-  .pricing-mini .btn-neon span{color:#FAF5EB !important;background:transparent !important}
-  .pricing-mini .btn-neon:hover{background:#FAF5EB !important;border-color:#FAF5EB !important;color:#3a2a1a !important;box-shadow:0 6px 18px rgba(0,0,0,.2) !important}
-  .pricing-mini .btn-neon:hover span{color:#3a2a1a !important}
-  @media (max-width:860px){
-    .pricing-mini__rows li{border-right:0 !important;border-bottom-color:rgba(255,255,255,.22) !important}
-  }
-</style>
+<!-- ===== PRICING OVERVIEW ===== -->
 <section class="pricing-mini" id="pricing">
   <header class="section-head section-head--center">
     <p class="section-head__sub">PRICING</p>
