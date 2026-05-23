@@ -118,13 +118,64 @@
   </ol>
 </nav>
 
-<!-- CONCEPT — logo + video only -->
+<!-- CONCEPT — video stage + intro copy -->
 <main class="concept-stage">
   <img src="assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" class="concept-stage__logo" />
   <video class="concept-stage__video" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="metadata" poster="assets/movies/poster_25s.jpg" aria-label="DŌJŌ JAPAN コンセプト映像">
     <source src="assets/movies/dojo_25s.mp4" type="video/mp4" />
   </video>
 </main>
+
+<style>
+  .concept-intro{background:linear-gradient(180deg,#050608 0%,#0a0c10 100%);padding:clamp(80px,10vw,140px) 0;border-top:1px solid var(--line)}
+  .concept-intro__inner{max-width:880px;margin:0 auto;padding:0 clamp(20px,3.2vw,40px);text-align:center}
+  .concept-intro__sub{font-family:var(--ff-display);font-size:11px;letter-spacing:.42em;color:var(--red);margin:0 0 18px;text-transform:uppercase;font-weight:500}
+  .concept-intro__title{font-family:var(--ff-body);font-weight:700;font-size:clamp(22px,3.2vw,36px);line-height:1.6;letter-spacing:.08em;color:#fff;margin:0 0 36px}
+  .concept-intro__title em{font-style:normal;color:var(--gold)}
+  .concept-intro__lead{max-width:720px;margin:0 auto;font-size:15px;line-height:2.1;color:rgba(255,255,255,.82);letter-spacing:.04em;text-align:left}
+  .concept-intro__lead + .concept-intro__lead{margin-top:22px}
+  .concept-intro__lead strong{color:#fff;font-weight:700}
+  .concept-intro__pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,28px);margin:clamp(44px,5vw,64px) 0 0;list-style:none;padding:0}
+  .concept-intro__pillar{background:rgba(255,255,255,.03);border:1px solid var(--line);padding:24px 22px;text-align:left}
+  .concept-intro__pillar h2{font-family:var(--ff-display);font-size:11px;letter-spacing:.32em;color:var(--gold);margin:0 0 10px;text-transform:uppercase;font-weight:500}
+  .concept-intro__pillar p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.78);margin:0}
+  .concept-intro__pillar h3{font-family:var(--ff-body);font-weight:700;font-size:15px;color:#fff;margin:0 0 8px;letter-spacing:.04em}
+  @media (max-width:720px){.concept-intro__pillars{grid-template-columns:1fr;gap:12px}.concept-intro__lead{font-size:14px;line-height:2}}
+</style>
+<section class="concept-intro" aria-labelledby="conceptHeading">
+  <div class="concept-intro__inner">
+    <p class="concept-intro__sub">Concept — NEO JAPANESE</p>
+    <h1 id="conceptHeading" class="concept-intro__title">日本武道の<em>精神性</em>を、<br />現代のトレーニング体験へ。</h1>
+
+    <p class="concept-intro__lead">
+      <strong>DŌJŌ JAPAN</strong> は、福岡市中央区春吉に居を構えるトレーニングジムです。ボクシング・ムエタイ・キックボクシング・武術といった格闘技を、それぞれの分野で <strong>現役および元のチャンピオン、世界記録保持者</strong> から直接ご指導いただける環境を提供しております。
+    </p>
+    <p class="concept-intro__lead">
+      私どもが目指しているのは、勝つための強さだけではなく、<strong>身体を整え、姿勢を正し、呼吸を取り戻す</strong>という、日本武道が古来より大切にしてきた一連の所作です。技術的な熟達と、自己と向き合う静かな時間の両方を、毎回の稽古に組み込んでおります。
+    </p>
+    <p class="concept-intro__lead">
+      初心者の方も、運動経験がない方も、体力に不安のある方も、<strong>お一人おひとりに合わせたペース</strong> でご案内いたします。「強くなること」と「整えること」の両立を、私どもと共にお目指しいただけますと幸いです。
+    </p>
+
+    <ul class="concept-intro__pillars">
+      <li class="concept-intro__pillar">
+        <h2>01 / Coaches</h2>
+        <h3>王者からの直接指導</h3>
+        <p>OPBF東洋太平洋・J-NETWORK・IMC世界・元K-1・UFC打撃世界記録保持者 — タイトル経験を持つ指導陣が、追加料金なしで担当いたします。</p>
+      </li>
+      <li class="concept-intro__pillar">
+        <h2>02 / Space</h2>
+        <h3>整えられた空間</h3>
+        <p>清潔なメインフロア・個室シャワー・パウダールーム完備。お仕事帰りや次のご予定がある方も快適にお過ごしいただけます。</p>
+      </li>
+      <li class="concept-intro__pillar">
+        <h2>03 / Care</h2>
+        <h3>身体ケアの専門知識</h3>
+        <p>理学療法士・介護福祉士・YOGA RYT200 保有のトレーナーが在籍。無理のない負荷設定で、運動経験ゼロの方も安心して始められます。</p>
+      </li>
+    </ul>
+  </div>
+</section>
 
 <footer class="site-footer">
   <img src="assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" class="site-footer__logo" />

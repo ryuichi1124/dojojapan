@@ -926,8 +926,8 @@ button{font:inherit}
       "paymentAccepted": "現金, PayPay, 銀行振込 / Cash, PayPay, Bank Transfer",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "春吉 2-12-5 1F",
-        "addressLocality": "中央区",
+        "streetAddress": "中央区春吉2-12-5 1F",
+        "addressLocality": "福岡市",
         "addressRegion": "福岡県",
         "addressCountry": "JP",
         "postalCode": "810-0003"
@@ -937,7 +937,11 @@ button{font:inherit}
       "openingHoursSpecification": [
         { "@type": "OpeningHoursSpecification",
           "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-          "opens": "07:00", "closes": "21:00" }
+          "opens": "07:00", "closes": "21:00" },
+        { "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "07:00", "closes": "21:00",
+          "description": "完全予約制 / By appointment only" }
       ],
       "publicAccess": true,
       "isAccessibleForFree": false,
