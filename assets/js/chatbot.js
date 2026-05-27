@@ -7,9 +7,9 @@
             ├── Trial    → stepTrialFrequency
             │                ├── First time   → stepResident
             │                │                    ├── Local   (free trial 45min)
-            │                │                    └── Tourist (auto-switched to Visitor ¥3,000)
+            │                │                    └── Tourist (auto-switched to Visitor first visit ¥3,000)
             │                │                  → stepRental → … visitor info … → stepBeforeBook
-            │                └── Returning    → (auto-switched to Visitor ¥3,000)
+            │                └── Returning    → (auto-switched to Visitor repeat ¥5,000)
             │                                   → stepRental → … visitor info … → stepBeforeBook
             ├── Membership → stepMembershipInfo → stepName → stepBeforeBook (name only)
             └── Tour (JA only) → stepTourInfo → stepName → stepPeople → stepDate
@@ -60,7 +60,8 @@
   // ------- Pricing (rental + plans) — client confirmed ------------------
   const PRICE = {
     trial:   0,
-    visitor: 3000,
+    visitorFirst: 3000,
+    visitorRepeat: 5000,
     member:  10000,    // 準会員 entry tier (monthly)
     prime:   33000,    // 正会員 (monthly, unlimited)
     dogi:    2000,  // レンタル道着
@@ -81,19 +82,19 @@
       tourInfo: 'ありがとうございます。施設見学を承ります。\nDŌJŌ JAPAN の館内・トレーニングエリア・スタッフの雰囲気をご覧いただけます（所要 15〜20 分）。',
       copyHeaderTour: 'DŌJŌ JAPAN 施設見学のご相談',
       copyTourBody: 'DŌJŌ JAPAN の施設見学を希望しております。\n下記の希望日時にてご案内が可能か、ご確認をお願いいたします。',
-      frequencyQ: '体験のご利用は今回が初めてでしょうか？\n（2回目以降はビジター料金 ¥3,000／60 分でのご案内となります）',
+      frequencyQ: '体験のご利用は今回が初めてでしょうか？\n（初回体験は無料、2回目以降はビジター料金 ¥5,000／60 分でのご案内となります）',
       firstTime: '初めて利用',
       repeatVisit: '2回目以降',
       residentQ: 'お客様について教えてください。\n（無料体験は福岡在住の方限定です）',
       residentLocal:   '福岡にお住まい',
       residentTourist: '観光で来訪',
       residentNoteLocal:   '在住の方として承りました。無料体験 45 分のご案内をいたします。',
-      residentNoteTourist: '恐れ入ります。無料体験は福岡在住の方限定でございます。\n観光のお客様にはビジタープラン（¥3,000 / 60 分）をご案内しております。',
+      residentNoteTourist: '恐れ入ります。無料体験は福岡在住の方限定でございます。\n観光のお客様にはビジター1回目（¥3,000 / 60 分）をご案内しております。',
       planQ: 'ご希望のプランをお選びください。',
-      planVisitor: 'ビジター（1回利用）',
+      planVisitor: 'ビジター（1回目）',
       planMember:  '準会員（月会員）',
       planPrime:   '正会員（無制限）',
-      planSubVisitor: '¥3,000 / 60 分',
+      planSubVisitor: '1回目 ¥3,000 / 2回目以降 ¥5,000',
       planSubMember:  '¥10,000〜 / 月',
       planSubPrime:   '¥33,000 / 月',
       rentalQ: 'レンタルはご希望ですか？\n（スポーツウェア・グローブ・レガース・タオル全て無料 / 道着のみ ¥2,000）',
@@ -102,7 +103,8 @@
       rentalNone: '不要',
       summary: 'ご選択内容',
       lineTrial:   '無料体験 45 分',
-      lineVisitor: 'ビジター 利用',
+      lineVisitor: 'ビジター 1回目',
+      lineVisitorRepeat: 'ビジター 2回目以降',
       lineMember:  '準会員 月額',
       linePrime:   '正会員 月額',
       lineDogi:    '道着レンタル',
@@ -133,19 +135,19 @@
       copyMemberBody: 'DŌJŌ JAPAN への入会を検討しております。プランの詳細とご来館の日程についてご案内をお願いいたします。',
       copyPaymentNote: '※ お支払いは当日、施設にて現金または PayPay でお願いいたします。',
       copyPaymentNoteMonthly: '※ 月会員のお支払いは毎月、現金・PayPay・銀行振込のいずれかからお選びいただけます。',
-      copyDisclaimer: '※ ご予約状況によりご希望に添えない場合がございます。詳細は Instagram DM にてご相談くださいませ。',
+      copyDisclaimer: '※ 初回体験・ビジター予約は翌日以降で承ります。お急ぎの場合や当日予約のご相談は、営業時間内にお電話（092-753-3029）・LINE・Instagram DMでご連絡ください。ご予約状況によりご希望に添えない場合がございます。',
       perPerson: '／人',
       nameQ: 'ご予約者様のお名前をお聞かせください。',
       namePlaceholder: '例: 山田 太郎',
       peopleQ: 'ご来所人数をお選びください。',
       choosePeople: '人数を選択',
       peopleSuffix: '名',
-      dateQ: 'ご来所希望日をお選びください。\n（営業日: 月〜土）',
+      dateQ: '初回体験・ビジター予約は翌日以降で承ります。\nご来所希望日をお選びください。\n（営業日: 月〜土）\nお急ぎの場合や当日予約のご相談は、営業時間内にお電話（092-753-3029）・LINE・Instagram DMでご連絡ください。',
       chooseDate: '日付を選択',
       timeQ: 'ご来所希望時間をお選びください。\n（営業時間: 7:00〜21:00／日曜完全予約制）',
       chooseTime: '時間を選択',
       submit: '送信',
-      disclaimerNotice: '※ ご予約状況によりご希望に添えない場合がございます。詳しくは Instagram DM にてやりとりさせていただきます。',
+      disclaimerNotice: '※ 初回体験・ビジター予約は翌日以降で承ります。お急ぎの場合や当日予約のご相談は、営業時間内にお電話（092-753-3029）・LINE・Instagram DMでご連絡ください。ご予約状況によりご希望に添えない場合がございます。',
       thanks: 'ありがとうございます。スタッフよりご対応させていただきます。',
       restart: '最初に戻る',
     },
@@ -156,19 +158,19 @@
       intentQ: 'How would you like to use the dojo?',
       wantTrial: 'Try a session',
       wantJoin:  'Become a member',
-      frequencyQ: 'Is this your first visit?\n(Returning guests pay the standard Visitor rate ¥3,000 / 60 min.)',
+      frequencyQ: 'Is this your first visit?\n(First trial is free. Returning guests pay the Visitor rate ¥5,000 / 60 min.)',
       firstTime: 'First time',
       repeatVisit: 'Returning visitor',
       residentQ: 'Could you tell us a bit about yourself?\n(Free trial is for Fukuoka residents only.)',
       residentLocal:   'I live in Fukuoka',
       residentTourist: 'Visiting / on a trip',
       residentNoteLocal:   'Noted — local resident. We will set up your free 45-minute trial.',
-      residentNoteTourist: 'We\'re sorry — the free trial is for Fukuoka residents only.\nFor visitors, we recommend the Visitor plan (¥3,000 / 60 min).',
+      residentNoteTourist: 'We\'re sorry — the free trial is for Fukuoka residents only.\nFor visitors, we recommend the first Visitor session (¥3,000 / 60 min).',
       planQ: 'Which plan would you like?',
       planVisitor: 'Visitor (single visit)',
       planMember:  'Member (monthly)',
       planPrime:   'Prime (unlimited)',
-      planSubVisitor: '¥3,000 / 60 min',
+      planSubVisitor: 'First ¥3,000 / returning ¥5,000',
       planSubMember:  'from ¥10,000 / mo',
       planSubPrime:   '¥33,000 / mo',
       rentalQ: 'Would you like to rent any items?\n(Sportswear, gloves, shin pads, towel — all free / Gi only ¥2,000)',
@@ -177,7 +179,8 @@
       rentalNone: 'No rental',
       summary: 'Your selection',
       lineTrial:   'Free trial — 45 min',
-      lineVisitor: 'Visitor session',
+      lineVisitor: 'First visitor session',
+      lineVisitorRepeat: 'Returning visitor session',
       lineMember:  'Member monthly',
       linePrime:   'Prime monthly',
       lineDogi:    'Gi rental',
@@ -231,19 +234,19 @@
       intentQ: '이용 방법을 선택해 주세요.',
       wantTrial: '체험 희망',
       wantJoin:  '입회 희망',
-      frequencyQ: '이번이 처음 방문이신가요?\n(재방문은 일반 비지터 요금 ¥3,000 / 60분이 적용됩니다.)',
+      frequencyQ: '이번이 처음 방문이신가요?\n(첫 체험은 무료, 재방문은 비지터 요금 ¥5,000 / 60분이 적용됩니다.)',
       firstTime: '처음 방문',
       repeatVisit: '재방문',
       residentQ: '간단히 알려주세요.\n(무료 체험은 후쿠오카 거주자 한정입니다.)',
       residentLocal:   '후쿠오카 거주',
       residentTourist: '관광 / 여행 중',
       residentNoteLocal:   '거주자분으로 확인했습니다. 45분 무료 체험을 안내해 드리겠습니다.',
-      residentNoteTourist: '죄송합니다. 무료 체험은 후쿠오카 거주자 한정입니다.\n방문객 분들께는 비지터 플랜 (¥3,000 / 60 분)을 안내드립니다.',
+      residentNoteTourist: '죄송합니다. 무료 체험은 후쿠오카 거주자 한정입니다.\n방문객 분들께는 비지터 1회차 (¥3,000 / 60 분)을 안내드립니다.',
       planQ: '원하시는 플랜을 선택해 주세요.',
       planVisitor: '비지터 (1회)',
       planMember:  '준회원 (월 회원)',
       planPrime:   '정회원 (무제한)',
-      planSubVisitor: '¥3,000 / 60 분',
+      planSubVisitor: '1회차 ¥3,000 / 재방문 ¥5,000',
       planSubMember:  '¥10,000〜 / 월',
       planSubPrime:   '¥33,000 / 월',
       rentalQ: '대여를 원하십니까?\n(스포츠웨어・글러브・레가스・타올 모두 무료 / 도복만 ¥2,000)',
@@ -252,7 +255,8 @@
       rentalNone: '필요 없음',
       summary: '선택 내용',
       lineTrial:   '무료 체험 45 분',
-      lineVisitor: '비지터 이용',
+      lineVisitor: '비지터 1회차',
+      lineVisitorRepeat: '재방문 비지터 이용',
       lineMember:  '준회원 월액',
       linePrime:   '정회원 월액',
       lineDogi:    '도복 대여',
@@ -306,19 +310,19 @@
       intentQ: '请选择您希望的服务方式。',
       wantTrial: '体验',
       wantJoin:  '加入会员',
-      frequencyQ: '这是您第一次到访吗？\n（再次到访按照普通访客方案 ¥3,000 / 60 分钟收费）',
+      frequencyQ: '这是您第一次到访吗？\n（首次体验免费，再次到访按访客方案 ¥5,000 / 60 分钟收费）',
       firstTime: '首次到访',
       repeatVisit: '再次到访',
       residentQ: '请简单告诉我们您的情况。\n（免费体验仅限福冈居民）',
       residentLocal:   '居住于福冈',
       residentTourist: '观光 / 旅行中',
       residentNoteLocal:   '已确认为本地居民。将为您安排 45 分钟免费体验。',
-      residentNoteTourist: '抱歉，免费体验仅限福冈居民。\n观光访问的客户，我们推荐访客方案（¥3,000 / 60 分钟）。',
+      residentNoteTourist: '抱歉，免费体验仅限福冈居民。\n观光访问的客户，我们推荐首次访客方案（¥3,000 / 60 分钟）。',
       planQ: '请选择您希望的方案。',
       planVisitor: '访客 (单次)',
       planMember:  '准会员 (月度)',
       planPrime:   '正式会员 (不限次数)',
-      planSubVisitor: '¥3,000 / 60 分钟',
+      planSubVisitor: '首次 ¥3,000 / 再次 ¥5,000',
       planSubMember:  '¥10,000〜 / 月',
       planSubPrime:   '¥33,000 / 月',
       rentalQ: '是否需要租借？\n（运动服・拳套・护胫・毛巾 全部免费 / 仅道服 ¥2,000）',
@@ -327,7 +331,8 @@
       rentalNone: '不需要',
       summary: '您的选择',
       lineTrial:   '免费体验 45 分钟',
-      lineVisitor: '访客单次',
+      lineVisitor: '首次访客',
+      lineVisitorRepeat: '再次访客',
       lineMember:  '准会员月费',
       linePrime:   '正式会员月费',
       lineDogi:    '道服租借',
@@ -383,6 +388,7 @@
   const state = {
     intent:   null,    // 'trial' | 'member'
     plan:     null,    // 'visitor' | 'member' | 'prime'  (only for intent='member')
+    visitorVisit: null, // 'first' | 'repeat'
     resident: null,    // 'local' | 'tourist'              (only for intent='trial')
     dogi:     false,
     wear:     false,
@@ -392,7 +398,7 @@
     time:     '',
   };
   const resetState = () => Object.assign(state, {
-    intent: null, plan: null, resident: null,
+    intent: null, plan: null, visitorVisit: null, resident: null,
     dogi: false, wear: false,
     name: '', people: 1, date: '', time: '',
   });
@@ -623,7 +629,11 @@
     let baseLabel = t.lineTrial;
     let basePrice = PRICE.trial;
     if (state.intent === 'trial')             { baseLabel = t.lineTrial;   basePrice = PRICE.trial; }
-    else if (state.plan === 'visitor')        { baseLabel = t.planVisitor; basePrice = PRICE.visitor; }
+    else if (state.plan === 'visitor')        {
+      const visitor = visitorLineForState();
+      baseLabel = visitor.label;
+      basePrice = visitor.price;
+    }
     else if (state.plan === 'member')         { baseLabel = t.planMember;  basePrice = PRICE.member; }
     else if (state.plan === 'prime')          { baseLabel = t.planPrime;   basePrice = PRICE.prime; }
     lines.push(`${t.copyLabelPlan}: ${baseLabel}${basePrice ? ' (' + fmtJPY(basePrice) + t.perPerson + ')' : ''}`);
@@ -743,6 +753,7 @@
           // 2nd+ visit pays the standard Visitor rate
           state.intent = 'member';
           state.plan   = 'visitor';
+          state.visitorVisit = 'repeat';
           state.resident = null;
           fire('chatbot:frequency', 'returning');
           stepRental();
@@ -767,6 +778,7 @@
       // Free trial unavailable for tourists — switch to Visitor paid plan
       state.intent = 'member';
       state.plan   = 'visitor';
+      state.visitorVisit = 'first';
     }
     stepRental();
   };
@@ -863,10 +875,17 @@
 
   const baseLineForState = () => {
     if (state.intent === 'trial')           return { label: $t('lineTrial'),   price: PRICE.trial };
-    if (state.plan   === 'visitor')         return { label: $t('lineVisitor'), price: PRICE.visitor };
+    if (state.plan   === 'visitor')         return visitorLineForState();
     if (state.plan   === 'member')          return { label: $t('lineMember'),  price: PRICE.member };
     if (state.plan   === 'prime')           return { label: $t('linePrime'),   price: PRICE.prime };
     return { label: $t('lineTrial'), price: 0 };
+  };
+
+  const visitorLineForState = () => {
+    if (state.visitorVisit === 'repeat') {
+      return { label: $t('lineVisitorRepeat'), price: PRICE.visitorRepeat };
+    }
+    return { label: $t('lineVisitor'), price: PRICE.visitorFirst };
   };
 
   // Summary block — does not auto-advance.
