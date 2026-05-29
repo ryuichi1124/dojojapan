@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>会員予約 | DŌJŌ JAPAN</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+<link rel="stylesheet" href="../assets/css/member-reserve.css" />
+</head>
+<body class="is-locked is-checking-auth">
+<section class="login-view" id="loginView">
+  <form class="login-card" id="loginForm">
+    <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    <p class="eyebrow">MEMBER RESERVATION</p>
+    <h1>会員予約</h1>
+    <p class="login-help" id="loginHelp">個別URLから開いた場合はPINのみ、公式LINEメニューから直接開いた場合は会員コードとPINを入力してください。</p>
+    <p class="login-checking" id="loginChecking">ログイン状態を確認しています。</p>
+    <p class="login-error" id="loginError" aria-live="polite"></p>
+    <label class="member-code-field" id="memberCodeField" hidden>
+      <span>会員コード</span>
+      <input id="memberCodeInput" type="text" autocomplete="username" maxlength="24" placeholder="DJ-001" />
+    </label>
+    <label>
+      <span>PIN</span>
+      <input id="pinInput" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required />
+    </label>
+    <label class="remember-field">
+      <input id="rememberInput" type="checkbox" />
+      <span>この端末で次回から入力を省略</span>
+    </label>
+    <button type="submit" id="loginButton">ログイン</button>
+  </form>
+</section>
+
+<div class="app-shell" id="appShell">
+  <header class="topbar">
+    <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    <div class="topbar__actions">
+      <button type="button" id="profileButton">登録情報</button>
+      <button type="button" id="logoutButton">ログアウト</button>
+    </div>
+  </header>
+
+  <main class="member-layout">
+    <section class="member-head">
+      <p class="eyebrow">RESERVE</p>
+      <h1 id="memberName">会員予約</h1>
+      <p id="memberMeta"></p>
+    </section>
+
+    <div class="member-tabs" role="tablist" aria-label="予約メニュー">
+      <button class="member-tab is-active" type="button" id="reservationStatusToggle" role="tab" aria-selected="true" aria-controls="reservationStatusContent">予約状況・キャンセル</button>
+      <button class="member-tab" type="button" id="newReservationToggle" role="tab" aria-selected="false" aria-controls="newReservationContent">新規予約</button>
+    </div>
+
+    <section class="panel tab-panel is-open" id="reservationStatusPanel">
+      <div class="tab-content" id="reservationStatusContent" role="tabpanel" aria-labelledby="reservationStatusToggle">
+        <div class="panel-head">
+          <h2>自分の予約</h2>
+          <button type="button" id="reloadButton">更新</button>
+        </div>
+        <div class="monthly-summary" id="monthlySummary"></div>
+        <div class="reservation-list" id="reservationList"></div>
+        <div class="monthly-history" id="monthlyHistory"></div>
+      </div>
+    </section>
+
+    <section class="panel tab-panel" id="newReservationPanel" hidden>
+      <div class="tab-content" id="newReservationContent" role="tabpanel" aria-labelledby="newReservationToggle">
+        <div class="panel-head panel-head--week">
+          <button type="button" id="prevWeek">‹</button>
+          <div>
+            <h2>空き枠</h2>
+            <p id="weekLabel"></p>
+          </div>
+          <button type="button" id="nextWeek">›</button>
+        </div>
+        <p class="mode-note" id="modeNote"></p>
+        <div class="rare-reservation-actions">
+          <button class="referral-mode-button" type="button" id="referralModeButton">
+            <small>キャンペーン中</small>
+            <span>紹介同伴予約</span>
+          </button>
+          <button class="referral-info-button" type="button" id="referralInfoButton" hidden>紹介同伴予約とは？</button>
+        </div>
+        <div class="day-tabs" id="dayTabs" aria-label="日付を選択"></div>
+        <div class="slot-list" id="slotList"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="profile-modal" id="profileModal" aria-hidden="true">
+  <div class="profile-modal__backdrop" id="profileBackdrop"></div>
+  <section class="profile-modal__panel" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <div class="profile-head">
+      <div>
+        <p class="eyebrow">PROFILE</p>
+        <h2 id="profileTitle">登録情報</h2>
+      </div>
+      <button type="button" id="closeProfile" aria-label="閉じる">×</button>
+    </div>
+    <form class="profile-form" id="profileForm">
+      <div class="profile-readonly">
+        <span><small>会員コード</small><b id="profileMemberCode"></b></span>
+        <span><small>会員プラン</small><b id="profileMemberType"></b></span>
+      </div>
+      <label>
+        <span>お名前</span>
+        <input id="profileDisplayNameInput" type="text" autocomplete="name" placeholder="山田 太郎" required />
+      </label>
+      <label>
+        <span>ふりがな</span>
+        <input id="profileMemberKanaInput" type="text" autocomplete="off" placeholder="やまだ たろう" />
+      </label>
+      <label>
+        <span>電話番号下4桁</span>
+        <input id="profilePhoneLast4Input" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="1234" />
+      </label>
+      <label>
+        <span>誕生日 MMDD</span>
+        <input id="profileBirthMmddInput" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="0501" />
+      </label>
+      <p class="profile-note" id="profileNote" aria-live="polite"></p>
+      <button type="submit" id="profileSaveButton">保存</button>
+    </form>
+  </section>
+</div>
+
+<div class="referral-modal" id="referralModal" aria-hidden="true">
+  <div class="referral-modal__backdrop" id="referralBackdrop"></div>
+  <section class="referral-modal__panel" role="dialog" aria-modal="true" aria-labelledby="referralTitle">
+    <div class="profile-head">
+      <div>
+        <p class="eyebrow">REFERRAL</p>
+        <h2 id="referralTitle">紹介同伴予約</h2>
+      </div>
+      <button type="button" id="closeReferral" aria-label="閉じる">×</button>
+    </div>
+    <form class="profile-form referral-form" id="referralForm">
+      <p class="profile-note" id="referralSessionLabel"></p>
+      <label>
+        <span>体験者の人数</span>
+        <select id="referralGuestCountInput">
+          <option value="1">1名</option>
+          <option value="2">2名</option>
+        </select>
+      </label>
+      <label>
+        <span>体験者1のお名前</span>
+        <input id="referralGuestNameInput" type="text" autocomplete="off" placeholder="山田 太郎" />
+      </label>
+      <label id="referralGuestName2Label" hidden>
+        <span>体験者2のお名前</span>
+        <input id="referralGuestName2Input" type="text" autocomplete="off" placeholder="佐藤 花子" />
+      </label>
+      <label class="referral-check">
+        <input id="referralResidentInput" type="checkbox" />
+        <span>体験者は福岡在住です</span>
+      </label>
+      <p class="profile-note" id="referralNote">初回体験の方をご紹介いただける会員様向けのキャンペーンです。会員様の月の回数は消費されません。</p>
+      <button type="submit" id="referralSubmitButton">紹介同伴で予約する</button>
+    </form>
+  </section>
+</div>
+
+<div class="referral-info-modal" id="referralInfoModal" aria-hidden="true">
+  <div class="referral-info-modal__backdrop" id="referralInfoBackdrop"></div>
+  <section class="referral-info-modal__panel" role="dialog" aria-modal="true" aria-labelledby="referralInfoTitle">
+    <div class="profile-head">
+      <div>
+        <p class="eyebrow">CAMPAIGN</p>
+        <h2 id="referralInfoTitle">紹介同伴予約とは</h2>
+      </div>
+      <button type="button" id="closeReferralInfo" aria-label="閉じる">×</button>
+    </div>
+    <div class="referral-info-body">
+      <p>初回体験の方をご紹介いただける会員様向けのキャンペーンです。</p>
+      <p>この予約では、会員様の月の回数は消費されません。</p>
+      <div class="referral-info-example">
+        <b>例</b>
+        <span>月8回会員様がご友人を紹介して一緒に来館される場合、その日の会員様分は月8回の回数に含まれません。</span>
+      </div>
+      <p class="referral-info-note">体験者のお名前と、福岡在住であることの確認が必要です。</p>
+    </div>
+  </section>
+</div>
+
+<div class="confirm-modal" id="confirmModal" aria-hidden="true">
+  <div class="confirm-modal__backdrop" id="confirmBackdrop"></div>
+  <section class="confirm-modal__panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <p class="eyebrow">CONFIRM</p>
+    <h2 id="confirmTitle">確認</h2>
+    <p id="confirmMessage"></p>
+    <div class="confirm-actions">
+      <button type="button" id="cancelConfirm">戻る</button>
+      <button type="button" id="runConfirm">実行</button>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/js/member-reserve.js"></script>
+</body>
+</html>

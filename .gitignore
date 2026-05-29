@@ -20,6 +20,7 @@ assets/img/gym/_pre_compress/
 npm-debug.log*
 node_modules/
 *.tmp
+.wrangler/
 
 # QA artifacts
 _qa/
@@ -27,3 +28,4 @@ _qa/
 # Local env files
 .env
 .env.local
+.dev.vars

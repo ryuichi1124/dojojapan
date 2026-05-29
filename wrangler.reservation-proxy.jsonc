@@ -1,0 +1,61 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dojo-reservation-proxy",
+  "main": "workers/dojo-reservation-proxy/worker.js",
+  "compatibility_date": "2025-01-01",
+  "account_id": "1e99f5782b6bc64ff9afd44d92ec3e91",
+  "routes": [
+    {
+      "pattern": "dojo-japan.jp/dj-member-rsv-8f3k2q*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/dj-line-menu-admin*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/dj-ops-6271-kuroobi*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/api/reservations*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/api/member*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/api/line*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/css/member-reserve.css",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/js/member-reserve.js",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/css/line-menu-admin.css",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/js/line-menu-admin.js",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/css/staff-reservations.css",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/js/staff-reservations.js",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/line/dojo-member-richmenu.jpg",
+      "zone_name": "dojo-japan.jp"
+    }
+  ]
+}

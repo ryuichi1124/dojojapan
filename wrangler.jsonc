@@ -2,10 +2,20 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dojojapan",
   "compatibility_date": "2025-01-01",
-  "assets": {
-    "directory": "./",
-    "not_found_handling": "404-page"
-  },
+  "pages_build_output_dir": ".",
+  "kv_namespaces": [
+    {
+      "binding": "LINE_BOT_SESSIONS",
+      "id": "621594ecc3b843ca8fb1be480fcd391e"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "RESERVATIONS_DB",
+      "database_name": "reservations-db",
+      "database_id": "1f06ffe1-f481-4297-a93e-ca0f38a158da"
+    }
+  ],
   "observability": {
     "enabled": true
   }

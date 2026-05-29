@@ -1,0 +1,939 @@
+:root {
+  --bg: #08090b;
+  --panel: #111318;
+  --panel-2: #171a21;
+  --line: rgba(255, 255, 255, .1);
+  --line-strong: rgba(255, 255, 255, .18);
+  --text: #f6f3ed;
+  --muted: #a6a3a0;
+  --gold: #c8a062;
+  --green: #36c084;
+  --red: #c9152a;
+  --radius: 8px;
+  --font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button, input { font: inherit; }
+input { font-size: 16px; }
+button { color: inherit; cursor: pointer; }
+
+#logoutButton { display: none; }
+
+.is-locked .app-shell,
+.is-locked .confirm-modal,
+.is-locked .profile-modal,
+.is-locked .referral-modal { display: none; }
+
+.login-view {
+  display: none;
+  min-height: 100vh;
+  padding: 22px;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(rgba(8, 9, 11, .82), rgba(8, 9, 11, .92)),
+    url("../img/bg/exterior_night.webp") center / cover no-repeat;
+}
+
+.is-locked .login-view { display: flex; }
+
+.login-checking {
+  display: none;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.is-checking-auth .login-help,
+.is-checking-auth .login-error,
+.is-checking-auth .member-code-field,
+.is-checking-auth .login-card label,
+.is-checking-auth .login-card button {
+  display: none;
+}
+
+.is-checking-auth .login-checking {
+  display: block;
+}
+
+.login-card {
+  width: min(100%, 390px);
+  padding: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: rgba(17, 19, 24, .96);
+}
+
+.login-card img {
+  display: block;
+  width: 170px;
+  height: auto;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.login-card h1,
+.member-head h1,
+.panel h2 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.login-error {
+  min-height: 20px;
+  color: #ff8c98;
+}
+
+.login-help {
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.login-card label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.login-card .remember-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.login-card input {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #0b0d11;
+  color: var(--text);
+}
+
+.login-card .remember-field input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
+
+.login-card button,
+.panel-head button,
+.slot-card button,
+.reservation-card button,
+.confirm-actions button,
+.topbar button {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  font-weight: 800;
+}
+
+.login-card button {
+  width: 100%;
+  height: 48px;
+  margin-top: 14px;
+  background: var(--gold);
+  color: #111;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 9, 11, .94);
+}
+
+.topbar img {
+  width: 126px;
+  height: auto;
+}
+
+.topbar button,
+.panel-head button {
+  height: 36px;
+  padding: 0 11px;
+  color: var(--muted);
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.member-layout {
+  display: grid;
+  gap: 14px;
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.member-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.member-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.member-tab {
+  min-height: 48px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #101217;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.member-tab.is-active {
+  border-color: rgba(200, 160, 98, .78);
+  background: rgba(200, 160, 98, .16);
+  color: var(--text);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-head--week {
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+}
+
+.panel-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reservation-list,
+.slot-list {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.monthly-summary {
+  display: grid;
+  gap: 10px;
+  padding: 14px 14px 0;
+}
+
+.monthly-summary__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.monthly-summary__head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.monthly-summary__head b {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.monthly-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.monthly-summary__grid span {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0b0d11;
+}
+
+.monthly-summary__grid small,
+.monthly-history small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.monthly-summary__grid b {
+  display: block;
+  margin-top: 2px;
+  font-size: 15px;
+}
+
+.monthly-history {
+  padding: 0 14px 14px;
+}
+
+.monthly-history__section {
+  padding-top: 2px;
+  border-top: 1px solid var(--line);
+}
+
+.monthly-history h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.monthly-history__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.monthly-history__head span {
+  min-width: 0;
+}
+
+.history-range-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.history-range-actions button {
+  min-height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.history-range-actions button.is-active {
+  border-color: rgba(200, 160, 98, .65);
+  background: rgba(200, 160, 98, .14);
+  color: var(--gold);
+}
+
+.monthly-history__list {
+  display: grid;
+  gap: 8px;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0b0d11;
+}
+
+.history-row b,
+.history-row small {
+  overflow-wrap: anywhere;
+}
+
+.history-row em {
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.history-row em.is-upcoming {
+  border-color: rgba(200, 160, 98, .45);
+  color: var(--gold);
+}
+
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.day-tabs::-webkit-scrollbar { display: none; }
+
+.day-tabs button {
+  flex: 0 0 74px;
+  min-height: 58px;
+  padding: 8px 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #0b0d11;
+  color: var(--muted);
+  text-align: center;
+}
+
+.day-tabs button.is-active {
+  border-color: var(--gold);
+  background: rgba(200, 160, 98, .16);
+  color: var(--text);
+}
+
+.day-tabs span,
+.day-tabs b {
+  display: block;
+}
+
+.day-tabs span {
+  margin-bottom: 3px;
+  font-size: 12px;
+}
+
+.day-tabs b {
+  font-size: 14px;
+}
+
+.reservation-card,
+.slot-card {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0b0d11;
+}
+
+.slot-card {
+  grid-template-columns: minmax(0, 1fr) minmax(112px, 150px);
+  align-items: center;
+  gap: 12px;
+}
+
+.slot-card.is-morning {
+  background: linear-gradient(180deg, rgba(200, 160, 98, .07), #0b0d11);
+}
+
+.slot-card.is-afternoon {
+  background: linear-gradient(180deg, rgba(108, 168, 255, .065), #0b0d11);
+}
+
+.slot-card.is-closed {
+  border-color: rgba(255, 255, 255, .14);
+}
+
+.reservation-card__top,
+.slot-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reservation-card b,
+.slot-card b { font-size: 16px; }
+
+.reservation-card small,
+.slot-card small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+}
+
+.reservation-card em,
+.slot-card em {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.reservation-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reservation-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.reservation-card button,
+.slot-card button {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.slot-card button {
+  background: var(--gold);
+  color: #111;
+  width: 100%;
+}
+
+.slot-card__actions {
+  display: grid;
+  gap: 6px;
+}
+
+.slot-card__personal {
+  min-height: 32px !important;
+  padding: 0 8px !important;
+  border-color: rgba(255, 255, 255, .14) !important;
+  background: transparent !important;
+  color: var(--muted) !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.slot-card__personal:not(:disabled):hover {
+  border-color: rgba(200, 160, 98, .45) !important;
+  color: var(--gold) !important;
+}
+
+.slot-card__referral {
+  min-height: 36px !important;
+  padding: 0 8px !important;
+  border-color: rgba(255, 214, 102, .42) !important;
+  background: rgba(255, 214, 102, .12) !important;
+  color: var(--gold) !important;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.slot-card.is-disabled {
+  opacity: .52;
+}
+
+.slot-card.is-disabled button {
+  background: var(--panel-2);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.slot-card button:disabled {
+  background: var(--panel-2);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+@media (max-width: 520px) {
+  .monthly-summary__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .monthly-history__head {
+    grid-template-columns: 1fr;
+  }
+
+  .slot-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mode-note {
+  margin: 0;
+  padding: 12px 14px 0;
+  color: var(--gold);
+  font-weight: 800;
+}
+
+.rare-reservation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 0;
+}
+
+.rare-reservation-actions button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.referral-mode-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-color: rgba(255, 214, 102, .42) !important;
+  background: rgba(255, 214, 102, .10) !important;
+  color: var(--gold) !important;
+}
+
+.referral-mode-button small {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ff4f86;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.referral-mode-button span {
+  white-space: nowrap;
+}
+
+.referral-mode-button.is-active {
+  border-color: rgba(255, 214, 102, .42);
+  background: rgba(255, 214, 102, .18) !important;
+  color: var(--gold);
+}
+
+.referral-info-button {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.empty-note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: none;
+}
+
+.confirm-modal.is-open { display: block; }
+
+.confirm-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .62);
+}
+
+.confirm-modal__panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(calc(100% - 32px), 390px);
+  transform: translate(-50%, -50%);
+  padding: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.confirm-modal.is-personal .confirm-modal__panel {
+  border-color: rgba(255, 86, 86, .72);
+  background: linear-gradient(180deg, rgba(255, 86, 86, .16), rgba(18, 12, 14, .98));
+  box-shadow: 0 0 0 1px rgba(255, 86, 86, .18), 0 22px 70px rgba(255, 60, 60, .18);
+}
+
+.confirm-modal.is-personal .eyebrow,
+.confirm-modal.is-personal h2 {
+  color: #ff8f8f;
+}
+
+.confirm-modal.is-personal #confirmMessage {
+  color: #ffdede;
+  font-weight: 800;
+}
+
+.confirm-modal__panel p:last-of-type {
+  color: var(--muted);
+  white-space: pre-line;
+}
+
+.confirm-modal.is-personal .confirm-modal__panel p:last-of-type {
+  color: #ffdede;
+}
+
+.profile-modal,
+.referral-modal,
+.referral-info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  display: none;
+  overflow: auto;
+}
+
+.profile-modal.is-open,
+.referral-modal.is-open,
+.referral-info-modal.is-open { display: block; }
+
+.profile-modal__backdrop,
+.referral-modal__backdrop,
+.referral-info-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .62);
+}
+
+.profile-modal__panel,
+.referral-modal__panel,
+.referral-info-modal__panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(calc(100% - 32px), 430px);
+  transform: translate(-50%, -50%);
+  padding: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.referral-info-body {
+  display: grid;
+  gap: 12px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.referral-info-body p {
+  margin: 0;
+}
+
+.referral-info-example {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border: 1px solid rgba(255, 214, 102, .28);
+  border-radius: var(--radius);
+  background: rgba(255, 214, 102, .08);
+  color: var(--text);
+}
+
+.referral-info-example b {
+  color: var(--gold);
+}
+
+.referral-info-note {
+  font-size: 12px;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.profile-head h2 {
+  margin: 0;
+}
+
+.profile-head button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.profile-form {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-readonly {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.profile-readonly span {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0b0d11;
+}
+
+.profile-readonly small,
+.profile-form label span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.profile-readonly b {
+  display: block;
+  overflow: hidden;
+  margin-top: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-form label {
+  display: grid;
+  gap: 7px;
+}
+
+.profile-form input,
+.profile-form select {
+  width: 100%;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #0b0d11;
+  color: var(--text);
+}
+
+.profile-form label[hidden] {
+  display: none !important;
+}
+
+.referral-check {
+  display: flex !important;
+  align-items: center;
+  grid-template-columns: none !important;
+  gap: 9px !important;
+}
+
+.referral-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
+
+.profile-note {
+  min-height: 20px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.profile-note.is-error {
+  color: #ff8c98;
+}
+
+#profileSaveButton,
+#referralSubmitButton {
+  min-height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--gold);
+  color: #111;
+  font-weight: 900;
+}
+
+.confirm-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.confirm-actions button {
+  min-height: 46px;
+}
+
+#runConfirm {
+  background: var(--gold);
+  color: #111;
+}
+
+.confirm-modal.is-personal #runConfirm {
+  border-color: rgba(255, 86, 86, .72);
+  background: #ff5656;
+  color: #111;
+}
+
+@media (min-width: 760px) {
+  .member-layout {
+    grid-template-columns: 320px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .member-head {
+    grid-column: 1 / -1;
+  }
+
+  .slot-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-modal {
+    padding: calc(72px + env(safe-area-inset-top)) 12px 16px;
+  }
+
+  .profile-modal__panel {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-height: calc(100dvh - 88px - env(safe-area-inset-top));
+    overflow: auto;
+    transform: none;
+  }
+
+  .profile-readonly {
+    grid-template-columns: 1fr;
+  }
+}

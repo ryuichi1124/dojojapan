@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>LINEメニュー管理 | DŌJŌ JAPAN</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+<link rel="stylesheet" href="../assets/css/line-menu-admin.css" />
+</head>
+<body class="auth-locked">
+<section class="auth-gate" id="authGate">
+  <form class="auth-card" id="authForm">
+    <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    <p class="eyebrow">STAFF ONLY</p>
+    <h1>LINEメニュー管理</h1>
+    <p class="auth-error" id="authError" aria-live="polite"></p>
+    <label>管理ID<input id="adminUserInput" type="text" autocomplete="username" required /></label>
+    <label>パスワード<input id="adminPasswordInput" type="password" autocomplete="current-password" required /></label>
+    <button type="submit" id="authSubmit">ログイン</button>
+  </form>
+</section>
+
+<main class="app-shell">
+  <header class="topbar">
+    <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    <div>
+      <span id="statusLabel">未接続</span>
+      <button type="button" id="logoutButton">ログアウト</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">LINE RICH MENU</p>
+    <h1>LINEメニュー管理</h1>
+    <p>会員タブ・非会員タブのリンクと画像設定を確認し、LINEへ反映します。</p>
+  </section>
+
+  <section class="grid">
+    <form class="panel" id="linkForm">
+      <div class="panel-head">
+        <h2>タブ別設定</h2>
+        <p id="richMenuMeta">読み込み中</p>
+      </div>
+      <div class="segmented" role="tablist" aria-label="管理するタブ">
+        <button type="button" class="is-active" id="memberTabButton" data-menu-key="member">会員タブ</button>
+        <button type="button" id="guestTabButton" data-menu-key="guest">非会員タブ</button>
+      </div>
+      <label id="primaryUrlLabel">予約
+        <input id="primaryUrlInput" type="url" required />
+      </label>
+      <label id="secondaryUrlLabel">予約キャンセル・確認
+        <input id="secondaryUrlInput" type="url" required />
+      </label>
+      <label>公式Instagram
+        <input id="instagramUrlInput" type="url" required />
+      </label>
+      <label>DOJO公式サイト
+        <input id="officialUrlInput" type="url" required />
+      </label>
+      <div class="image-setting">
+        <div>
+          <label>画像ファイル
+            <input id="imagePathInput" type="text" inputmode="url" required />
+          </label>
+          <p id="imageMeta">2500 x 1686 / JPEG</p>
+        </div>
+        <img id="menuImagePreview" src="../assets/line/dojo-member-richmenu.jpg" alt="リッチメニュー画像プレビュー" />
+      </div>
+      <div class="actions">
+        <button type="button" id="reloadButton">再読み込み</button>
+        <button type="submit" class="primary" id="syncButton">LINEへ反映</button>
+      </div>
+    </form>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>プレビュー</h2>
+        <p>レイアウトは固定です</p>
+      </div>
+      <div class="rich-preview" id="richMenuPreview" aria-label="LINEリッチメニュープレビュー">
+        <button type="button" class="rich-preview__area rich-preview__area--tab rich-preview__area--member" data-menu-key="member"><span>会員の方専用</span></button>
+        <button type="button" class="rich-preview__area rich-preview__area--tab rich-preview__area--guest" data-menu-key="guest"><span>初めて・非会員の方</span></button>
+        <button type="button" class="rich-preview__area rich-preview__area--primary" data-field="primaryUrlInput"><span id="primaryPreviewButton">予約</span></button>
+        <button type="button" class="rich-preview__area rich-preview__area--secondary" data-field="secondaryUrlInput"><span id="secondaryPreviewButton">予約キャンセル・確認</span></button>
+        <button type="button" class="rich-preview__area rich-preview__area--instagram" data-field="instagramUrlInput"><span>公式Instagram</span></button>
+        <button type="button" class="rich-preview__area rich-preview__area--official" data-field="officialUrlInput"><span>DOJO公式サイト</span></button>
+      </div>
+      <p class="note">画像は指定したファイルをLINEへアップロードします。新しい画像を使う場合は、先に <code>/assets/line/</code> に画像を配置してください。</p>
+    </section>
+  </section>
+</main>
+
+<div class="confirm-modal" id="confirmModal" aria-hidden="true">
+  <div class="confirm-modal__backdrop" id="confirmBackdrop"></div>
+  <section class="confirm-modal__panel">
+    <p class="eyebrow">CONFIRM</p>
+    <h2 id="confirmTitle">確認</h2>
+    <p id="confirmMessage"></p>
+    <div class="confirm-actions">
+      <button type="button" id="cancelConfirm">戻る</button>
+      <button type="button" id="runConfirm" class="danger">反映する</button>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/js/line-menu-admin.js"></script>
+</body>
+</html>

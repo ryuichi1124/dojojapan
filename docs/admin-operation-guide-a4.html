@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DŌJŌ JAPAN 管理者専用マニュアル</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #e9e2d6;
+      color: #151515;
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", Arial, sans-serif;
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      position: relative;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 13mm;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 92% 8%, rgba(188, 33, 44, .12), transparent 25%),
+        linear-gradient(145deg, rgba(201, 160, 95, .14), transparent 38%),
+        #f7f2e8;
+      page-break-after: always;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 8mm;
+      border: 1px solid rgba(22, 22, 22, .15);
+      pointer-events: none;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12mm;
+      align-items: start;
+      min-height: 48mm;
+      padding: 7mm 8mm;
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(7, 8, 10, .94), rgba(7, 8, 10, .78)),
+        url("../assets/img/gym/slider_3_training.jpg") center / cover;
+      border-radius: 3mm;
+      box-shadow: 0 7mm 20mm rgba(0, 0, 0, .18);
+    }
+
+    .logo { width: 34mm; margin-bottom: 6mm; }
+    .eyebrow {
+      margin: 0 0 2mm;
+      color: #c9a05f;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .22em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.22;
+      letter-spacing: .04em;
+    }
+
+    .hero p {
+      max-width: 118mm;
+      margin: 3mm 0 0;
+      color: rgba(255, 255, 255, .86);
+      font-size: 10.5px;
+    }
+
+    .page-no {
+      display: grid;
+      place-items: center;
+      width: 18mm;
+      height: 18mm;
+      border: 1px solid rgba(255, 255, 255, .32);
+      border-radius: 50%;
+      color: #c9a05f;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .section {
+      position: relative;
+      z-index: 1;
+      margin-top: 7mm;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+      margin: 0 0 4mm;
+      font-size: 16px;
+      letter-spacing: .04em;
+    }
+
+    .bar {
+      width: 1.5mm;
+      height: 7mm;
+      background: #b9222d;
+      border-radius: 999px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+    }
+
+    .steps {
+      display: grid;
+      gap: 3.5mm;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 10mm 1fr;
+      gap: 3.5mm;
+      padding: 4.4mm;
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(20, 20, 20, .1);
+      border-radius: 2mm;
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 9mm;
+      height: 9mm;
+      color: #fff;
+      background: #b9222d;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .step h2,
+    .card h2 {
+      margin: 0 0 1.4mm;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .step p,
+    .card p,
+    .card li {
+      margin: 0;
+      color: #464646;
+      font-size: 9.4px;
+    }
+
+    .card {
+      padding: 4.5mm;
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(20, 20, 20, .1);
+      border-radius: 2mm;
+    }
+
+    .card.dark {
+      background: #111214;
+      color: #fff;
+      border: none;
+    }
+
+    .card.dark h2 { color: #c9a05f; }
+    .card.dark p,
+    .card.dark li { color: rgba(255, 255, 255, .82); }
+
+    ul {
+      display: grid;
+      gap: 1.8mm;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .check li::before {
+      content: "・";
+      color: #b9222d;
+      font-weight: 900;
+    }
+
+    .note {
+      position: relative;
+      z-index: 1;
+      margin-top: 6mm;
+      padding: 4.5mm 5mm;
+      background: rgba(185, 34, 45, .08);
+      border-left: 1.5mm solid #b9222d;
+      border-radius: 1.5mm;
+    }
+
+    .note h2 {
+      margin: 0 0 1.5mm;
+      font-size: 13px;
+    }
+
+    .note p {
+      margin: 0;
+      color: #3f3f3f;
+      font-size: 9.5px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3mm;
+    }
+
+    .flow .card {
+      min-height: 31mm;
+      padding: 4mm;
+    }
+
+    .footer {
+      position: absolute;
+      left: 13mm;
+      right: 13mm;
+      bottom: 9mm;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      color: #555;
+      font-size: 8.8px;
+    }
+
+    .footer strong { color: #111; letter-spacing: .08em; }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <header class="hero">
+      <div>
+        <img class="logo" src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+        <p class="eyebrow">ADMIN OPERATION MANUAL</p>
+        <h1>予約管理の<br />基本操作</h1>
+        <p>管理画面で予約枠を確認し、会員予約・未登録予約・キャンセル・枠メモを管理します。会員さん側に見えるのは空き数のみです。</p>
+      </div>
+      <div class="page-no">01</div>
+    </header>
+
+    <main class="section">
+      <h2 class="section-title"><span class="bar"></span>毎日の基本操作</h2>
+      <div class="steps">
+        <article class="step">
+          <div class="num">1</div>
+          <div>
+            <h2>管理画面へログイン</h2>
+            <p>管理者専用URLを開き、管理IDとパスワードでログインします。ログイン前は予約表・会員情報は表示されません。</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="num">2</div>
+          <div>
+            <h2>予約枠を選択</h2>
+            <p>週表示から対象の日時をタップします。選択した枠の予約人数、予約済み会員、追加候補、枠メモが表示されます。</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="num">3</div>
+          <div>
+            <h2>会員を追加</h2>
+            <p>会員検索で名前または会員コードを入力し、対象会員の「追加」を押します。準会員は月間上限、休会中は予約不可です。</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="num">4</div>
+          <div>
+            <h2>未登録の名前で追加</h2>
+            <p>体験・ビジターなど会員登録前の方は「未登録の名前で追加」から名前だけで枠に入れます。</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="num">5</div>
+          <div>
+            <h2>予約削除・枠メモ</h2>
+            <p>予約済み一覧の削除ボタンで管理者側からいつでも削除できます。枠メモは入力後、自動でD1に保存されます。</p>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <section class="section grid-2">
+      <div class="card dark">
+        <h2>重要ルール</h2>
+        <ul>
+          <li>1枠の定員は6名です。</li>
+          <li>18:00枠は作成しません。</li>
+          <li>同じ会員は同じ枠に重複予約できません。</li>
+          <li>管理者側の削除は締切に関係なく可能です。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>反映確認</h2>
+        <p>追加・削除後は予約済み一覧と人数表示が変わります。通信エラーが出た場合は、再読み込みして予約表に反映されているか確認してください。</p>
+      </div>
+    </section>
+
+    <section class="note">
+      <h2>同時予約への対策</h2>
+      <p>同じ枠へ7件同時に予約が入っても、6件だけ確定し、7件目は満席エラーになります。同じ会員の二重タップも1件だけ確定します。</p>
+    </section>
+
+    <footer class="footer">
+      <strong>DŌJŌ JAPAN</strong>
+      <span>管理者専用マニュアル / 予約管理 基本操作</span>
+    </footer>
+  </section>
+
+  <section class="page">
+    <header class="hero">
+      <div>
+        <img class="logo" src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+        <p class="eyebrow">MEMBER REGISTRATION</p>
+        <h1>会員登録と<br />LINE案内</h1>
+        <p>会員登録はスタッフ側で行います。登録後、公式LINEのトークで会員さんへ予約URLとPINを案内します。</p>
+      </div>
+      <div class="page-no">02</div>
+    </header>
+
+    <main class="section">
+      <h2 class="section-title"><span class="bar"></span>会員登録から案内送信まで</h2>
+      <div class="flow">
+        <article class="card">
+          <h2>1. 会員管理</h2>
+          <p>管理画面右上の「会員管理」を開きます。会員一覧には「編集」「案内」「予約一覧」が表示されます。</p>
+        </article>
+        <article class="card">
+          <h2>2. 会員情報入力</h2>
+          <p>会員コード、表示名、会員種別、ステータス、電話番号下4桁、誕生日MMDDを入力します。</p>
+        </article>
+        <article class="card">
+          <h2>3. 保存</h2>
+          <p>「保存」を押して登録します。特別追加枠は今月だけ有効です。休会予定日はその日以降に自動休会となります。</p>
+        </article>
+        <article class="card">
+          <h2>4. 案内</h2>
+          <p>対象会員の「案内」を押すと、PINを再発行し、LINEで送る案内文がコピーされます。</p>
+        </article>
+      </div>
+    </main>
+
+    <section class="section grid-2">
+      <div class="card dark">
+        <h2>LINEで送る流れ</h2>
+        <ul>
+          <li>会員さんが公式LINEを友だち追加</li>
+          <li>会員さんがお名前をDOJOへ送信</li>
+          <li>スタッフが会員管理で対象会員を確認</li>
+          <li>「案内」を押してコピーされた文面を返信</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>案内時の注意</h2>
+        <ul class="check">
+          <li>送信相手を間違えない。</li>
+          <li>PINは最新のものだけを案内する。</li>
+          <li>休会中・削除済み会員には案内を送らない。</li>
+          <li>ログインできない場合は「案内」を再発行する。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title"><span class="bar"></span>編集画面で行う操作</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h2>休会・再開・削除</h2>
+          <p>一覧からは操作せず、対象会員の「編集」を開いてから行います。削除しても過去の予約履歴は残ります。</p>
+        </div>
+        <div class="card">
+          <h2>予約一覧</h2>
+          <p>会員一覧の「予約一覧」から、その会員の現在の予約を確認できます。問い合わせ対応時に使います。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="note">
+      <h2>会員さんへの説明</h2>
+      <p>初回だけPINを入力し、「この端末で次回から入力を省略」にチェックしてもらうと、次回から公式LINEメニューの予約ボタンで入りやすくなります。</p>
+    </section>
+
+    <footer class="footer">
+      <strong>DŌJŌ JAPAN</strong>
+      <span>管理者専用マニュアル / 会員登録とLINE案内</span>
+    </footer>
+  </section>
+</body>
+</html>

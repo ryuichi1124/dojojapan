@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>予約管理 | DŌJŌ JAPAN</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+<link rel="stylesheet" href="../assets/css/staff-reservations.css" />
+</head>
+<body class="auth-locked">
+<section class="auth-gate" id="authGate" aria-labelledby="authTitle">
+  <form class="auth-card" id="authForm">
+    <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    <div>
+      <p class="eyebrow">STAFF ONLY</p>
+      <h1 id="authTitle">予約管理ログイン</h1>
+    </div>
+    <p class="auth-error" id="authError" aria-live="polite"></p>
+    <div class="field">
+      <label for="adminUserInput">管理ID</label>
+      <input id="adminUserInput" type="text" autocomplete="username" required />
+    </div>
+    <div class="field">
+      <label for="adminPasswordInput">パスワード</label>
+      <input id="adminPasswordInput" type="password" autocomplete="current-password" required />
+    </div>
+    <button class="text-btn auth-submit" type="submit" id="authSubmit">ログイン</button>
+  </form>
+</section>
+
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand" aria-label="DŌJŌ JAPAN">
+      <img src="../assets/img/logo/dojo_japan_logo_white.svg" alt="DŌJŌ JAPAN" />
+    </div>
+    <div class="topbar__meta">
+      <span id="todayLabel"></span>
+      <span class="save-state" id="saveState">保存済み</span>
+      <button class="logout-btn topbar-reload-btn" type="button" id="reloadButton">再読み込み</button>
+      <button class="logout-btn" type="button" id="logoutButton">ログアウト</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="workspace" aria-label="予約タイムテーブル">
+      <div class="quick-toolbar" aria-label="管理操作">
+        <button class="text-btn" type="button" id="openMemberManage">会員管理</button>
+        <button class="text-btn" type="button" id="openBusinessManage">営業管理</button>
+        <button class="text-btn quick-toolbar__primary" type="button" id="openMemberRegister">会員登録</button>
+        <button class="text-btn text-btn--small" type="button" id="ngCheckButton">NGチェック</button>
+      </div>
+
+      <section class="line-booking-panel" id="lineBookingPanel" hidden aria-label="LINE仮予約" role="button" tabindex="0">
+        <div class="line-booking-panel__head">
+          <div>
+            <p class="eyebrow">LINE REQUESTS</p>
+            <h2 id="lineBookingHeadline">初回体験・ビジター予約が入っています</h2>
+          </div>
+          <span id="lineBookingCount">0件</span>
+        </div>
+        <p class="line-booking-panel__notice">承認すると通常予約に追加されます。承認・キャンセル後は返信用メッセージをコピーします。</p>
+        <div class="line-booking-list" id="lineBookingList"></div>
+      </section>
+
+      <div class="toolbar">
+        <div class="toolbar__group">
+          <button class="icon-btn" type="button" id="prevWeek" aria-label="前週">‹</button>
+          <button class="text-btn" type="button" id="thisWeek">今週</button>
+          <button class="icon-btn" type="button" id="nextWeek" aria-label="翌週">›</button>
+        </div>
+        <div>
+          <h1>予約管理</h1>
+          <p id="weekLabel"></p>
+        </div>
+        <div class="toolbar__group toolbar__group--right">
+          <button class="text-btn view-toggle is-active" type="button" id="weekViewButton">週間</button>
+          <button class="text-btn view-toggle" type="button" id="monthViewButton">月間</button>
+        </div>
+      </div>
+
+      <div class="timetable-wrap">
+        <div class="timetable" id="timetable" aria-label="週間予約表"></div>
+      </div>
+      <div class="month-view" id="monthView" hidden>
+        <div class="month-calendar" id="monthCalendar" aria-label="月間カレンダー"></div>
+        <div class="month-day-panel">
+          <div class="month-day-panel__head">
+            <h2 id="monthDayTitle">日付を選択</h2>
+            <p id="monthDayMeta"></p>
+          </div>
+          <div class="month-day-slots" id="monthDaySlots" aria-label="日別予約枠"></div>
+        </div>
+      </div>
+    </section>
+    <div class="reservation-backdrop" id="reservationBackdrop" aria-hidden="true"></div>
+    <aside class="side-panel reservation-modal" id="reservationModal" aria-label="予約入力" aria-hidden="true">
+      <div class="panel-head">
+        <p class="eyebrow">SELECTED</p>
+        <h2 id="selectedTitle">枠を選択</h2>
+        <p id="selectedMeta">タイムテーブルをタップ</p>
+        <button class="modal-close" type="button" id="closeReservationModal" aria-label="閉じる">×</button>
+      </div>
+
+      <div class="capacity-meter" aria-label="定員">
+        <div class="capacity-meter__track">
+          <span id="capacityFill"></span>
+        </div>
+        <p id="capacityText">0 / 6</p>
+      </div>
+
+      <button class="edit-member-btn trainer-edit-btn" type="button" id="trainerEditButton">担当編集</button>
+
+      <div class="selected-list">
+        <div class="selected-list__head">
+          <h3>予約済み</h3>
+          <span id="selectedCount">0名</span>
+        </div>
+        <ul id="reservationList"></ul>
+      </div>
+
+      <div class="member-picker">
+        <div class="field">
+          <label for="memberSearch">会員を追加</label>
+          <input id="memberSearch" type="search" autocomplete="off" placeholder="名前・ふりがな・会員コード" />
+        </div>
+
+        <div class="filter-tags" id="memberGradeFilters" aria-label="会員グレードで絞り込み">
+          <button class="filter-tag is-active" type="button" data-grade="all">全員</button>
+          <button class="filter-tag" type="button" data-grade="prime">正会員</button>
+          <button class="filter-tag" type="button" data-grade="semi8">月8</button>
+          <button class="filter-tag" type="button" data-grade="semi4">月4</button>
+          <button class="filter-tag" type="button" data-grade="semi2">月2</button>
+        </div>
+
+        <div class="member-list" id="memberList" aria-label="会員一覧"></div>
+      </div>
+
+      <div class="quick-add">
+        <div class="field">
+          <label for="manualNameInput">未登録の名前で追加</label>
+          <input id="manualNameInput" type="text" autocomplete="off" placeholder="例: 体験 太郎" />
+        </div>
+        <button class="text-btn quick-add__button" type="button" id="manualAddButton">名前で追加</button>
+      </div>
+
+      <div class="field">
+        <label for="sessionMemo">枠メモ</label>
+        <textarea id="sessionMemo" rows="3" placeholder="例: 体験対応あり"></textarea>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="business-manage-modal" id="businessManageModal" aria-hidden="true">
+  <div class="reservation-backdrop" id="businessManageBackdrop" aria-hidden="true"></div>
+  <section class="side-panel business-manage-panel" aria-label="営業管理">
+    <div class="panel-head">
+      <p class="eyebrow">BUSINESS</p>
+      <h2>営業管理</h2>
+      <p>日付と時間帯を選ぶと予約不可になります</p>
+      <button class="modal-close" type="button" id="closeBusinessManage" aria-label="閉じる">×</button>
+    </div>
+
+    <form class="business-form" id="businessForm">
+      <div class="field">
+        <label for="businessDateInput">日付</label>
+        <input id="businessDateInput" type="date" required />
+      </div>
+      <div class="field">
+        <label for="businessPeriodInput">時間帯</label>
+        <select id="businessPeriodInput">
+          <option value="morning">午前（7:00-12:00）</option>
+          <option value="afternoon">午後（12:00-18:00）</option>
+          <option value="full">全日（7:00-18:00）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="businessReasonInput">メモ</label>
+        <input id="businessReasonInput" type="text" autocomplete="off" placeholder="例: イベント・休館" />
+      </div>
+      <button class="text-btn business-submit" type="submit">予約不可にする</button>
+    </form>
+
+    <div class="selected-list">
+      <div class="selected-list__head">
+        <h3>予約不可日</h3>
+        <span id="businessClosureCount">固定2件</span>
+      </div>
+      <div class="business-closure-list" id="businessClosureList"></div>
+    </div>
+  </section>
+</div>
+
+<div class="member-register-modal" id="memberRegisterModal" aria-hidden="true">
+  <div class="reservation-backdrop" id="memberRegisterBackdrop" aria-hidden="true"></div>
+  <section class="side-panel member-register-panel" aria-label="会員登録">
+    <div class="panel-head">
+      <p class="eyebrow">NEW MEMBER</p>
+      <h2>会員登録</h2>
+      <p>上から順番に入力してください</p>
+      <button class="modal-close" type="button" id="closeMemberRegister" aria-label="閉じる">×</button>
+    </div>
+
+    <form class="register-wizard" id="memberRegisterForm">
+      <section class="register-step">
+        <span>1</span>
+        <div>
+          <h3>会員番号とお名前</h3>
+          <div class="field">
+            <label for="registerMemberCodeInput">会員コード</label>
+            <input id="registerMemberCodeInput" type="text" inputmode="numeric" autocomplete="off" required />
+          </div>
+          <div class="field">
+            <label for="registerDisplayNameInput">お名前</label>
+            <input id="registerDisplayNameInput" type="text" autocomplete="off" placeholder="山田 太郎" required />
+          </div>
+          <div class="field">
+            <label for="registerMemberKanaInput">ふりがな</label>
+            <input id="registerMemberKanaInput" type="text" autocomplete="off" placeholder="やまだ たろう" />
+          </div>
+        </div>
+      </section>
+
+      <section class="register-step">
+        <span>2</span>
+        <div>
+          <h3>会員プラン</h3>
+          <div class="field">
+            <label for="registerMemberTypeInput">会員種別</label>
+            <select id="registerMemberTypeInput">
+              <option value="semi4">準会員 月4</option>
+              <option value="semi8">準会員 月8</option>
+              <option value="semi2">準会員 月2</option>
+              <option value="prime">正会員（無制限）</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <button class="text-btn register-submit" type="submit" id="memberRegisterSubmit">登録して案内文を作成</button>
+    </form>
+
+    <section class="register-complete" id="memberRegisterComplete" hidden>
+      <h3>会員登録が完了しました</h3>
+      <p>LINE / Instagram / メールなどで、下記のご案内を会員さんにお送りください。</p>
+      <textarea id="memberRegisterGuideText" rows="15" readonly></textarea>
+      <button class="text-btn register-submit" type="button" id="copyMemberRegisterGuide">案内文をコピー</button>
+      <button class="edit-member-btn" type="button" id="registerAnotherMember">続けて登録する</button>
+    </section>
+  </section>
+</div>
+
+<div class="member-manage-modal" id="memberManageModal" aria-hidden="true">
+  <div class="reservation-backdrop" id="memberManageBackdrop" aria-hidden="true"></div>
+  <section class="side-panel member-manage-panel" aria-label="会員管理">
+    <div class="panel-head">
+      <p class="eyebrow">MEMBERS</p>
+      <h2 id="memberFormTitle">会員管理</h2>
+      <p>会員情報・ステータスを管理</p>
+      <button class="modal-close" type="button" id="closeMemberManage" aria-label="閉じる">×</button>
+    </div>
+
+    <form class="member-form" id="memberForm" hidden>
+      <input type="hidden" id="editingMemberCode" />
+      <div class="field">
+        <label for="memberCodeInput">会員コード</label>
+        <input id="memberCodeInput" type="text" inputmode="numeric" autocomplete="off" placeholder="12345" required />
+      </div>
+      <div class="field">
+        <label for="displayNameInput">表示名</label>
+        <input id="displayNameInput" type="text" autocomplete="off" placeholder="山田 太郎" required />
+      </div>
+      <div class="field">
+        <label for="memberKanaInput">ふりがな</label>
+        <input id="memberKanaInput" type="text" autocomplete="off" placeholder="やまだ たろう" />
+      </div>
+      <div class="field">
+        <label for="memberTypeInput">会員種別</label>
+        <select id="memberTypeInput">
+          <option value="prime">正会員（無制限）</option>
+          <option value="semi8">準会員 月8</option>
+          <option value="semi4">準会員 月4</option>
+          <option value="semi2">準会員 月2</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="memberStatusInput">ステータス</label>
+        <select id="memberStatusInput">
+          <option value="active">入会中</option>
+          <option value="paused">休会中</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="quotaExtraInput">特別追加枠（今月のみ）</label>
+        <input id="quotaExtraInput" type="number" inputmode="numeric" min="0" max="99" placeholder="0" />
+      </div>
+      <div class="field">
+        <label for="pauseOnInput">休会予定日</label>
+        <input id="pauseOnInput" type="date" />
+      </div>
+      <div class="field">
+        <label for="phoneLast4Input">電話番号下4桁</label>
+        <input id="phoneLast4Input" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="1234" />
+      </div>
+      <div class="field">
+        <label for="birthMmddInput">誕生日 MMDD</label>
+        <input id="birthMmddInput" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="0501" />
+      </div>
+      <div class="field">
+        <label for="ngMembersInput">NG会員コード</label>
+        <textarea id="ngMembersInput" rows="3" placeholder="例: DJ-003 DJ-014"></textarea>
+      </div>
+      <div class="member-auth-state" id="memberAuthState" hidden></div>
+      <button class="text-btn member-form__submit" type="submit">保存</button>
+      <div class="member-edit-actions" id="memberEditActions" hidden>
+        <button class="edit-member-btn" type="button" id="memberLoginInfoAction">ログイン情報を再案内</button>
+        <button class="edit-member-btn" type="button" id="memberStatusAction">休会</button>
+        <button class="edit-member-btn edit-member-btn--danger" type="button" id="memberDeleteAction">削除</button>
+      </div>
+    </form>
+
+    <div class="selected-list">
+      <div class="selected-list__head">
+        <h3>登録済み会員</h3>
+        <span id="memberManageCount">0名</span>
+      </div>
+      <div class="filter-tags filter-tags--inside" id="manageGradeFilters" aria-label="会員管理のグレード絞り込み">
+        <button class="filter-tag is-active" type="button" data-grade="all">全員</button>
+        <button class="filter-tag" type="button" data-grade="prime">正会員</button>
+        <button class="filter-tag" type="button" data-grade="semi8">月8</button>
+        <button class="filter-tag" type="button" data-grade="semi4">月4</button>
+        <button class="filter-tag" type="button" data-grade="semi2">月2</button>
+      </div>
+      <div class="manage-member-list" id="manageMemberList"></div>
+    </div>
+  </section>
+</div>
+
+<div class="confirm-modal" id="confirmModal" aria-hidden="true">
+  <div class="confirm-modal__backdrop" id="confirmBackdrop"></div>
+  <section class="confirm-modal__panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <p class="eyebrow">CONFIRM</p>
+    <h2 id="confirmTitle">確認</h2>
+    <p id="confirmMessage"></p>
+    <div class="confirm-modal__extra" id="confirmExtra"></div>
+    <div class="confirm-modal__actions">
+      <button class="text-btn" type="button" id="cancelConfirm">戻る</button>
+      <button class="text-btn text-btn--danger" type="button" id="runConfirm">実行</button>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/js/staff-reservations.js"></script>
+</body>
+</html>
