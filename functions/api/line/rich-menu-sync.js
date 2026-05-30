@@ -1,6 +1,8 @@
 const LINE_API_BASE = 'https://api.line.me';
 const LINE_DATA_BASE = 'https://api-data.line.me';
 const DEFAULT_IMAGE_PATH = '/assets/line/dojo-member-richmenu.jpg';
+const ADMIN_AUTH_FAIL_LIMIT = 5;
+const ADMIN_AUTH_LOCK_SECONDS = 15 * 60;
 const MENU_CONFIGS = {
   member: {
     alias: 'dojo-member',
@@ -40,7 +42,9 @@ const MENU_CONFIGS = {
 
 export async function onRequestPost({ request, env }) {
   try {
-    if (!authorize(request, env)) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
+    const auth = await authorize(request, env);
+    if (auth.locked) return json({ ok: false, error: 'TOO_MANY_ATTEMPTS' }, 429, { 'retry-after': String(ADMIN_AUTH_LOCK_SECONDS) });
+    if (!auth.ok) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
     if (!env.LINE_CHANNEL_ACCESS_TOKEN) return json({ ok: false, error: 'LINE_TOKEN_NOT_CONFIGURED' }, 503);
     const input = await readJson(request);
     const menuKey = normalizeMenuKey(input.menuKey);
@@ -75,7 +79,9 @@ export async function onRequestPost({ request, env }) {
 
 export async function onRequestGet({ request, env }) {
   try {
-    if (!authorize(request, env)) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
+    const auth = await authorize(request, env);
+    if (auth.locked) return json({ ok: false, error: 'TOO_MANY_ATTEMPTS' }, 429, { 'retry-after': String(ADMIN_AUTH_LOCK_SECONDS) });
+    if (!auth.ok) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
     if (!env.LINE_CHANNEL_ACCESS_TOKEN) return json({ ok: false, error: 'LINE_TOKEN_NOT_CONFIGURED' }, 503);
     const menus = {};
     for (const menuKey of Object.keys(MENU_CONFIGS)) {
@@ -272,15 +278,54 @@ function lineHeaders(env, contentType) {
   };
 }
 
-function authorize(request, env) {
-  if (!env.RESERVATION_ADMIN_USER || !env.RESERVATION_ADMIN_PASSWORD) return false;
-  return request.headers.get('x-admin-user') === env.RESERVATION_ADMIN_USER &&
+async function authorize(request, env) {
+  if (!env.RESERVATION_ADMIN_USER || !env.RESERVATION_ADMIN_PASSWORD) return { ok: false };
+  if (await isAdminAuthLocked(request, env)) return { ok: false, locked: true };
+
+  const ok = request.headers.get('x-admin-user') === env.RESERVATION_ADMIN_USER &&
     request.headers.get('x-admin-password') === env.RESERVATION_ADMIN_PASSWORD;
+  if (ok) {
+    await clearAdminAuthFailures(request, env);
+    return { ok: true };
+  }
+
+  const locked = await recordAdminAuthFailure(request, env);
+  return { ok: false, locked };
 }
 
-function json(data, status = 200) {
+async function isAdminAuthLocked(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return false;
+  const count = Number(await env.LINE_BOT_SESSIONS.get(adminAuthFailureKey(request))) || 0;
+  return count >= ADMIN_AUTH_FAIL_LIMIT;
+}
+
+async function recordAdminAuthFailure(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return false;
+  const key = adminAuthFailureKey(request);
+  const count = (Number(await env.LINE_BOT_SESSIONS.get(key)) || 0) + 1;
+  await env.LINE_BOT_SESSIONS.put(key, String(count), { expirationTtl: ADMIN_AUTH_LOCK_SECONDS });
+  return count >= ADMIN_AUTH_FAIL_LIMIT;
+}
+
+async function clearAdminAuthFailures(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return;
+  await env.LINE_BOT_SESSIONS.delete(adminAuthFailureKey(request));
+}
+
+function adminAuthFailureKey(request) {
+  return `admin-auth-fail:${clientIp(request)}`;
+}
+
+function clientIp(request) {
+  const cfIp = request.headers.get('cf-connecting-ip');
+  if (cfIp) return cfIp;
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  return forwarded.split(',')[0].trim() || 'unknown';
+}
+
+function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'content-type': 'application/json; charset=utf-8' },
+    headers: { 'content-type': 'application/json; charset=utf-8', ...headers },
   });
 }

@@ -11,13 +11,16 @@ const TYPE_QUOTA = {
 
 const MEMBER_STATUSES = new Set(['active', 'paused']);
 const RESERVATION_KIND = new Set(['regular', 'personal', 'referral']);
+const ADMIN_AUTH_FAIL_LIMIT = 5;
+const ADMIN_AUTH_LOCK_SECONDS = 15 * 60;
 
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api\/reservations\/?/, '').replace(/\/$/, '') || 'bootstrap';
 
-  const auth = authorize(request, env);
+  const auth = await authorize(request, env);
+  if (auth.locked) return json({ ok: false, error: 'TOO_MANY_ATTEMPTS' }, 429, { 'retry-after': String(ADMIN_AUTH_LOCK_SECONDS) });
   if (!auth.ok) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
 
   if (!env.RESERVATIONS_DB) {
@@ -94,17 +97,25 @@ async function memberHistory(url, env) {
   });
 }
 
-function authorize(request, env) {
+async function authorize(request, env) {
   if (!env.RESERVATION_ADMIN_USER || !env.RESERVATION_ADMIN_PASSWORD) return { ok: false };
 
+  if (await isAdminAuthLocked(request, env)) return { ok: false, locked: true };
+
   const credentials = getCredentials(request);
-  return {
-    ok: Boolean(
-      credentials &&
-        credentials.username === env.RESERVATION_ADMIN_USER &&
-        credentials.password === env.RESERVATION_ADMIN_PASSWORD,
-    ),
-  };
+  const ok = Boolean(
+    credentials &&
+      credentials.username === env.RESERVATION_ADMIN_USER &&
+      credentials.password === env.RESERVATION_ADMIN_PASSWORD,
+  );
+
+  if (ok) {
+    await clearAdminAuthFailures(request, env);
+    return { ok: true };
+  }
+
+  const locked = await recordAdminAuthFailure(request, env);
+  return { ok: false, locked };
 }
 
 function getCredentials(request) {
@@ -131,6 +142,36 @@ function parseBasicAuth(value) {
   } catch (_) {
     return null;
   }
+}
+
+async function isAdminAuthLocked(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return false;
+  const count = Number(await env.LINE_BOT_SESSIONS.get(adminAuthFailureKey(request))) || 0;
+  return count >= ADMIN_AUTH_FAIL_LIMIT;
+}
+
+async function recordAdminAuthFailure(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return false;
+  const key = adminAuthFailureKey(request);
+  const count = (Number(await env.LINE_BOT_SESSIONS.get(key)) || 0) + 1;
+  await env.LINE_BOT_SESSIONS.put(key, String(count), { expirationTtl: ADMIN_AUTH_LOCK_SECONDS });
+  return count >= ADMIN_AUTH_FAIL_LIMIT;
+}
+
+async function clearAdminAuthFailures(request, env) {
+  if (!env.LINE_BOT_SESSIONS) return;
+  await env.LINE_BOT_SESSIONS.delete(adminAuthFailureKey(request));
+}
+
+function adminAuthFailureKey(request) {
+  return `admin-auth-fail:${clientIp(request)}`;
+}
+
+function clientIp(request) {
+  const cfIp = request.headers.get('cf-connecting-ip');
+  if (cfIp) return cfIp;
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  return forwarded.split(',')[0].trim() || 'unknown';
 }
 
 async function bootstrap(env) {
@@ -926,13 +967,14 @@ async function hashPin(pin, salt) {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
-function json(data, status = 200) {
+function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       'content-type': 'application/json; charset=utf-8',
       'cache-control': 'no-store, no-cache, must-revalidate, private',
       'pragma': 'no-cache',
+      ...headers,
     },
   });
 }
