@@ -741,7 +741,20 @@
 </script>
 
 <script src="assets/js/main.js?v=202605160100" defer></script>
-<script src="assets/js/chatbot.js?v=202605301345" defer></script>
+<script>
+(function(){
+  var loaded=false,pending=false;
+  function load(){
+    if(loaded)return;loaded=true;
+    var s=document.createElement("script");
+    s.src="assets/js/chatbot.js?v=202605301345";
+    s.onload=function(){if(pending){var btn=document.getElementById("chatbotToggle");if(btn)btn.click();}};
+    document.body.appendChild(s);
+  }
+  var btn=document.getElementById("chatbotToggle");
+  if(btn){btn.addEventListener("click",function(e){if(!loaded){e.preventDefault();pending=true;load();}});}
+})();
+</script>
 <script src="assets/js/analytics.js?v=202605160100" defer></script>
 </body>
 </html>

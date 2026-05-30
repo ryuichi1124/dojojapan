@@ -1179,7 +1179,7 @@ button{font:inherit}
 </script>
 <script src="assets/js/main.js?v=202605160100" defer></script>
 <script src="assets/js/analytics.js?v=202605160100" defer></script>
-<!-- Chatbot — lazy load on first interaction or after 3s -->
+<!-- Chatbot: load only when opened -->
 <script>
 (function(){
   var loaded=false, pending=false;
@@ -1202,10 +1202,6 @@ button{font:inherit}
       if(!loaded){ e.preventDefault(); pending=true; load(); }
     });
   }
-  ['scroll','click','touchstart','keydown'].forEach(function(ev){
-    addEventListener(ev,load,{once:true,passive:true});
-  });
-  setTimeout(load,3000);
 })();
 </script>
 </body>
