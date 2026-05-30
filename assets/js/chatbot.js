@@ -17,8 +17,8 @@
 
      Visitor info collection: stepName → stepPeople → stepDate → stepTime
        - People: 1〜6
-       - Date:   next 30 business days, Sundays excluded
-       - Time:   7:00〜17:30, 30-min slots
+       - Date:   reservation-system availability, Sundays/closed periods excluded
+       - Time:   7:00〜18:00, hourly slots
 
      stepBeforeBook:
        - For trial/visitor flow: shows order summary (per-person × people = total)
@@ -144,7 +144,7 @@
       peopleSuffix: '名',
       dateQ: '初回体験・ビジター予約は翌日以降で承ります。\nご来所希望日をお選びください。\n（営業日: 月〜土）\nお急ぎの場合や当日予約のご相談は、営業時間内にお電話（092-753-3029）または Instagram DM でご連絡ください。',
       chooseDate: '日付を選択',
-      timeQ: 'ご来所希望時間をお選びください。\n（営業時間: 7:00〜21:00／日曜完全予約制）',
+      timeQ: 'ご来所希望時間をお選びください。\n（最終枠: 17:00〜18:00）',
       chooseTime: '時間を選択',
       submit: '送信',
       disclaimerNotice: '※ 初回体験・ビジター予約は翌日以降で承ります。お急ぎの場合や当日予約のご相談は、営業時間内にお電話（092-753-3029）または Instagram DM でご連絡ください。ご予約状況によりご希望に添えない場合がございます。',
@@ -220,7 +220,7 @@
       peopleSuffix: ' person(s)',
       dateQ: 'Please choose your preferred visit date.\n(Business days: Mon–Sat)',
       chooseDate: 'Choose a date',
-      timeQ: 'Please choose your preferred visit time.\n(Hours: 7:00–21:00 / Sun by appointment)',
+      timeQ: 'Please choose your preferred visit time.\n(Last slot: 17:00–18:00)',
       chooseTime: 'Choose a time',
       submit: 'Send',
       disclaimerNotice: '* We may not be able to accommodate your preferred date/time depending on availability. Please continue the conversation via Instagram DM.',
@@ -296,7 +296,7 @@
       peopleSuffix: '명',
       dateQ: '방문 희망일을 선택해 주세요.\n(영업일: 월~토)',
       chooseDate: '날짜 선택',
-      timeQ: '방문 희망 시간을 선택해 주세요.\n(영업시간: 7:00~21:00 / 일요일은 예약제)',
+      timeQ: '방문 희망 시간을 선택해 주세요.\n(마지막 시간대: 17:00~18:00)',
       chooseTime: '시간 선택',
       submit: '전송',
       disclaimerNotice: '※ 예약 상황에 따라 희망 일시에 맞춰드리지 못할 수 있습니다. 자세한 내용은 Instagram DM으로 안내해 드립니다.',
@@ -372,7 +372,7 @@
       peopleSuffix: '人',
       dateQ: '请选择希望到访日期。\n（营业日：周一〜周六）',
       chooseDate: '选择日期',
-      timeQ: '请选择希望到访时间。\n（营业时间：7:00〜21:00／周日仅预约）',
+      timeQ: '请选择希望到访时间。\n（最晚时段：17:00〜18:00）',
       chooseTime: '选择时间',
       submit: '发送',
       disclaimerNotice: '※ 视预约情况，我们可能无法配合您希望的日期与时间。详情请通过 Instagram DM 联系。',
@@ -420,7 +420,7 @@
     return `${monNames[d.getMonth()]} ${day}, ${y} (${dowEn})`;
   };
 
-  // Next 30 days, excluding Sundays (closed). Returns ISO YYYY-MM-DD.
+  // Fallback only. The live options come from /api/chatbot/availability.
   const generateDateOptions = (locale) => {
     const opts = [];
     const today = new Date();
@@ -435,16 +435,48 @@
     return opts;
   };
 
-  // 7:00 → 17:30 in 30-min slots
+  // Fallback only. 7:00 → 18:00 in hourly slots.
   const generateTimeOptions = () => {
     const opts = [];
-    for (let mins = 7*60; mins <= 20*60 + 30; mins += 30) {
-      const h = Math.floor(mins / 60);
-      const m = mins % 60;
-      const t = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    for (let h = 7; h < 18; h += 1) {
+      const t = `${String(h).padStart(2,'0')}:00-${String(h + 1).padStart(2,'0')}:00`;
       opts.push({ value: t, label: t });
     }
     return opts;
+  };
+
+  const fetchAvailability = async (params) => {
+    const qs = new URLSearchParams(params);
+    const res = await fetch(`/api/chatbot/availability?${qs.toString()}`, { headers: { accept: 'application/json' } });
+    if (!res.ok) throw new Error('availability_failed');
+    const data = await res.json();
+    if (!data || !data.ok) throw new Error('availability_failed');
+    return data;
+  };
+
+  const availabilityDateOptions = async (locale, people) => {
+    try {
+      const data = await fetchAvailability({ people: String(Math.max(1, people || 1)) });
+      const options = (data.dates || []).map((item) => {
+        const value = item.value || item.date;
+        const d = parseISO(value);
+        return { value, label: d ? formatDateLabel(d, locale) : value };
+      }).filter((item) => item.value);
+      if (options.length) return options;
+    } catch (_) {}
+    return generateDateOptions(locale);
+  };
+
+  const availabilityTimeOptions = async (date, people) => {
+    try {
+      const data = await fetchAvailability({ date, people: String(Math.max(1, people || 1)) });
+      const options = (data.times || []).map((item) => ({
+        value: item.value || item.time,
+        label: item.label || item.time || item.value,
+      })).filter((item) => item.value);
+      if (options.length) return options;
+    } catch (_) {}
+    return generateTimeOptions();
   };
 
   // 1〜6名
@@ -860,10 +892,11 @@
 
   const stepDate = async () => {
     await addMessage($t('dateQ'));
+    const options = await availabilityDateOptions(lang, state.people);
     showFormInput({
       type: 'select',
       placeholder: $t('chooseDate'),
-      options: generateDateOptions(lang),
+      options,
       displayValue: (v) => {
         const d = parseISO(v);
         return d ? formatDateLabel(d, lang) : v;
@@ -874,10 +907,11 @@
 
   const stepTime = async () => {
     await addMessage($t('timeQ'));
+    const options = await availabilityTimeOptions(state.date, state.people);
     showFormInput({
       type: 'select',
       placeholder: $t('chooseTime'),
-      options: generateTimeOptions(),
+      options,
       next: (v) => { state.time = v; stepBeforeBook(); },
     });
   };

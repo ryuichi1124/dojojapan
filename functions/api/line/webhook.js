@@ -400,12 +400,17 @@ async function availableDateCandidates(env, people) {
   const dates = [];
   const start = addDays(jstToday(), 1);
   const end = addDays(start, CANDIDATE_DAYS - 1);
-  const counts = await confirmedCounts(env, toDateKey(start), toDateKey(end));
+  const [counts, closures] = await Promise.all([
+    confirmedCounts(env, toDateKey(start), toDateKey(end)),
+    closureMap(env, toDateKey(start), toDateKey(end)),
+  ]);
   for (let index = 0; index < CANDIDATE_DAYS && dates.length < MAX_DATE_CANDIDATES; index += 1) {
     const date = addDays(start, index);
-    if (date.getDay() === 0) continue;
     const dateKey = toDateKey(date);
-    const hasOpenSlot = hours().some((hour) => remainingFor(counts, `${dateKey}-${pad(hour)}`) >= people);
+    const hasOpenSlot = hours().some((hour) => {
+      const sessionId = `${dateKey}-${pad(hour)}`;
+      return !isClosed(sessionId, closures) && remainingFor(counts, sessionId) >= people;
+    });
     if (hasOpenSlot) dates.push({ date: dateKey, label: formatDateLabel(dateKey) });
   }
   return dates;
@@ -413,13 +418,16 @@ async function availableDateCandidates(env, people) {
 
 async function availableTimeCandidates(env, dateKey, people) {
   if (!env.RESERVATIONS_DB) return [];
-  const counts = await confirmedCounts(env, dateKey, dateKey);
+  const [counts, closures] = await Promise.all([
+    confirmedCounts(env, dateKey, dateKey),
+    closureMap(env, dateKey, dateKey),
+  ]);
   return hours()
     .map((hour) => {
       const remaining = remainingFor(counts, `${dateKey}-${pad(hour)}`);
-      return { hour, remaining };
+      return { hour, remaining, sessionId: `${dateKey}-${pad(hour)}` };
     })
-    .filter((slot) => slot.remaining >= people)
+    .filter((slot) => !isClosed(slot.sessionId, closures) && slot.remaining >= people)
     .map((slot) => ({
       time: `${pad(slot.hour)}:00-${pad(slot.hour + 1)}:00`,
       label: `${pad(slot.hour)}:00 ${availabilityLabel(slot.remaining)}`,
@@ -438,6 +446,28 @@ async function confirmedCounts(env, startDateKey, endDateKey) {
      group by session_id`,
   ).bind(`${startDateKey}-00`, `${endDateKey}-23`).all();
   return Object.fromEntries((rows.results || []).map((row) => [row.sessionId, Number(row.units || 0)]));
+}
+
+async function closureMap(env, startDateKey, endDateKey) {
+  const rows = await env.RESERVATIONS_DB.prepare(
+    `select date_key as dateKey, period
+     from business_closures
+     where date_key between ?1 and ?2`,
+  ).bind(startDateKey, endDateKey).all();
+  const map = {};
+  for (const row of rows.results || []) {
+    if (!map[row.dateKey]) map[row.dateKey] = new Set();
+    map[row.dateKey].add(row.period);
+  }
+  return map;
+}
+
+function isClosed(sessionId, closures) {
+  if (isRecurringSunday(sessionId)) return true;
+  if (isRecurringFirstSaturdayMorning(sessionId)) return true;
+  const session = parseSessionId(sessionId);
+  const periods = closures[session.dateKey];
+  return Boolean(periods && (periods.has('full') || periods.has(closurePeriodForHour(session.hour))));
 }
 
 function remainingFor(counts, sessionId) {
@@ -469,6 +499,30 @@ function toDateKey(date) {
 function parseDateKey(value) {
   const text = String(value || '');
   return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : '';
+}
+
+function parseSessionId(sessionId) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})-(\d{2})$/.exec(String(sessionId || ''));
+  if (!match) return { dateKey: '', hour: 0 };
+  return { dateKey: `${match[1]}-${match[2]}-${match[3]}`, hour: Number(match[4]) };
+}
+
+function closurePeriodForHour(hour) {
+  return Number(hour) < 12 ? 'morning' : 'afternoon';
+}
+
+function isRecurringFirstSaturdayMorning(sessionId) {
+  const session = parseSessionId(sessionId);
+  if (session.hour >= 12) return false;
+  const [year, month, day] = session.dateKey.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCDay() === 6 && day <= 7;
+}
+
+function isRecurringSunday(sessionId) {
+  const session = parseSessionId(sessionId);
+  const [year, month, day] = session.dateKey.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day)).getUTCDay() === 0;
 }
 
 function formatDateLabel(dateKey) {
