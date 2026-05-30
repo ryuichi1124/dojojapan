@@ -30,20 +30,30 @@ export async function onRequestPost({ request, env }) {
 
   const endpoint = env.DOJO_MAIL_ENDPOINT || DEFAULT_MAIL_ENDPOINT;
   const to = env.CHATBOT_COPY_NOTIFY_TO || DEFAULT_NOTIFY_TO;
-  const subject = `公式サイト チャットボットコピー ${label(payload?.intent)} ${payload?.name || ''}`.trim();
+  const subject = `公式サイトから${label(payload?.intent)}の相談がありました`;
   const body = [
-    '公式サイトのチャットボットで案内文がコピーされました。',
+    '公式サイトのチャットボットで、お客様が案内文をコピーしました。',
+    'Instagram DMなどで連絡される可能性があります。',
     '',
-    `日時: ${new Date().toISOString()}`,
-    `ページ: ${payload?.page || '未取得'}`,
-    `言語: ${payload?.lang || '未取得'}`,
-    `内容: ${label(payload?.intent)}`,
-    `プラン: ${payload?.plan || '未選択'}`,
-    `人数: ${payload?.people || '未取得'}`,
-    `名前: ${payload?.name || '未入力'}`,
+    '------------------------------',
+    'お客様情報',
+    '------------------------------',
+    `受付日時: ${formatJstDateTime(new Date())}`,
+    `お名前: ${payload?.name || '未入力'}`,
+    `相談内容: ${label(payload?.intent)}`,
+    `プラン: ${planLabel(payload?.plan)}`,
+    `人数: ${payload?.people || '未入力'}`,
+    `言語: ${languageLabel(payload?.lang)}`,
     '',
-    '--- コピー内容 ---',
+    '------------------------------',
+    'お客様がコピーした内容',
+    '------------------------------',
     text,
+    '',
+    '------------------------------',
+    '確認用',
+    '------------------------------',
+    payload?.page || 'ページURL未取得',
   ].join('\n');
 
   try {
@@ -83,6 +93,33 @@ function label(intent) {
   if (intent === 'member') return '入会相談';
   if (intent === 'tour') return '施設見学';
   return intent || '未選択';
+}
+
+function planLabel(plan) {
+  if (plan === 'visitor') return 'ビジター利用';
+  if (plan === 'member') return '月会員';
+  if (plan === 'prime') return '正会員';
+  return '未選択';
+}
+
+function languageLabel(lang) {
+  if (lang === 'ja') return '日本語';
+  if (lang === 'en') return '英語';
+  if (lang === 'ko') return '韓国語';
+  if (lang === 'zh') return '中国語';
+  return lang || '未取得';
+}
+
+function formatJstDateTime(date) {
+  return new Intl.DateTimeFormat('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date).replace(/\//g, '-');
 }
 
 function isAllowedOrigin(origin) {
