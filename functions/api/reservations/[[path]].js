@@ -474,7 +474,7 @@ async function bookReservation(request, env) {
     reservation.quotaExemptReason || null,
     reservation.guestName || null,
     reservation.guestResident || null,
-    reservation.guestCount || null,
+    reservation.guestCount || 0,
   ).run();
 
   if (Number(result?.meta?.changes || 0) !== 1) {

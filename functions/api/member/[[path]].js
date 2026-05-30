@@ -526,7 +526,7 @@ async function createMemberReservation(env, member, sessionId, excludeReservatio
     reservation.quotaExemptReason || null,
     reservation.guestName || null,
     reservation.guestResident || null,
-    reservation.guestCount || null,
+    reservation.guestCount || 0,
   ).run();
   if (Number(result?.meta?.changes || 0) !== 1) {
     if (await isSessionClosed(env, sessionId)) throw new Error('SESSION_CLOSED');
