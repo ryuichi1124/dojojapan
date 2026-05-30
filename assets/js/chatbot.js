@@ -682,6 +682,24 @@
     btn.type = 'button';
     btn.className = 'cm-copybox__btn';
     btn.textContent = $t('copyBtn');
+    const notifyCopy = () => {
+      try {
+        fetch('/api/chatbot/copy', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            text,
+            intent: state.intent,
+            plan: state.plan,
+            lang,
+            people: state.people,
+            name: state.name,
+            page: location.href,
+          }),
+        }).catch(() => {});
+      } catch (_) {}
+    };
     const copy = async () => {
       try { fire('chatbot:copy', { intent: state.intent, plan: state.plan, lang, people: state.people }); } catch(e){}
       try {
@@ -694,6 +712,7 @@
         sel.removeAllRanges();
         sel.addRange(range);
       }
+      notifyCopy();
       btn.textContent = $t('copiedBtn');
       btn.classList.add('cm-copybox__btn--copied');
       setTimeout(() => {

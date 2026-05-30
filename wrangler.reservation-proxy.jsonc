@@ -30,6 +30,14 @@
       "zone_name": "dojo-japan.jp"
     },
     {
+      "pattern": "dojo-japan.jp/api/chatbot*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
+      "pattern": "dojo-japan.jp/assets/js/chatbot.js",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
       "pattern": "dojo-japan.jp/assets/css/member-reserve.css",
       "zone_name": "dojo-japan.jp"
     },
