@@ -30,23 +30,32 @@ export async function onRequestPost({ request, env }) {
 
   const endpoint = env.DOJO_MAIL_ENDPOINT || DEFAULT_MAIL_ENDPOINT;
   const to = env.CHATBOT_COPY_NOTIFY_TO || DEFAULT_NOTIFY_TO;
-  const subject = `公式サイトから${label(payload?.intent)}の相談がありました`;
+  const subject = `公式サイトで${label(payload?.intent)}の案内文がコピーされました`;
+  const customerLines = [
+    `受付日時: ${formatJstDateTime(new Date())}`,
+    `お名前: ${payload?.name || '未入力'}`,
+    `内容: ${label(payload?.intent)}`,
+  ];
+  const plan = planLabel(payload?.plan);
+  if (plan) customerLines.push(`プラン: ${plan}`);
+  customerLines.push(
+    `人数: ${payload?.people || '未入力'}`,
+    `言語: ${languageLabel(payload?.lang)}`,
+  );
+
   const body = [
-    '公式サイトのチャットボットで、お客様が案内文をコピーしました。',
-    'Instagram DMなどで連絡される可能性があります。',
+    '公式サイトのチャットボットで、お客様が問い合わせ用の文章をコピーしました。',
+    '',
+    'この時点では予約確定ではありません。',
+    'Instagram DMなどで連絡が届いた際に、下記の内容を確認してご案内ください。',
     '',
     '------------------------------',
     'お客様情報',
     '------------------------------',
-    `受付日時: ${formatJstDateTime(new Date())}`,
-    `お名前: ${payload?.name || '未入力'}`,
-    `相談内容: ${label(payload?.intent)}`,
-    `プラン: ${planLabel(payload?.plan)}`,
-    `人数: ${payload?.people || '未入力'}`,
-    `言語: ${languageLabel(payload?.lang)}`,
+    ...customerLines,
     '',
     '------------------------------',
-    'お客様がコピーした内容',
+    'コピーされた問い合わせ文',
     '------------------------------',
     text,
     '',
@@ -99,7 +108,7 @@ function planLabel(plan) {
   if (plan === 'visitor') return 'ビジター利用';
   if (plan === 'member') return '月会員';
   if (plan === 'prime') return '正会員';
-  return '未選択';
+  return '';
 }
 
 function languageLabel(lang) {

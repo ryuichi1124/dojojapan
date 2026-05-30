@@ -6,6 +6,10 @@
   "account_id": "1e99f5782b6bc64ff9afd44d92ec3e91",
   "routes": [
     {
+      "pattern": "dojo-japan.jp/*",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
       "pattern": "dojo-japan.jp/dj-member-rsv-8f3k2q*",
       "zone_name": "dojo-japan.jp"
     },
