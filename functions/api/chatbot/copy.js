@@ -1,8 +1,8 @@
 const DEFAULT_MAIL_ENDPOINT = 'https://crossbeams.xsrv.jp/mail/dojo-reservation-mail.php';
 const DEFAULT_NOTIFY_TO = 'ichi.design1111@gmail.com';
 const MAX_TEXT_LENGTH = 4000;
-const RATE_LIMIT_SECONDS = 60 * 60;
-const RATE_LIMIT_MAX = 8;
+const RATE_LIMIT_SECONDS = 10 * 60;
+const RATE_LIMIT_MAX = 30;
 
 export async function onRequestPost({ request, env }) {
   if (!env.DOJO_MAIL_SECRET) {
@@ -24,7 +24,7 @@ export async function onRequestPost({ request, env }) {
   const text = sanitizeText(payload?.text || '');
   if (!text) return json({ ok: false, error: 'empty_text' }, 400);
 
-  const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
+  const ip = clientIp(request);
   const rateLimited = await isRateLimited(env, ip);
   if (rateLimited) return json({ ok: false, error: 'rate_limited' }, 429);
 
@@ -151,4 +151,11 @@ async function isRateLimited(env, ip) {
   if (current >= RATE_LIMIT_MAX) return true;
   await env.LINE_BOT_SESSIONS.put(key, String(current + 1), { expirationTtl: RATE_LIMIT_SECONDS });
   return false;
+}
+
+function clientIp(request) {
+  const cfIp = request.headers.get('cf-connecting-ip');
+  if (cfIp) return cfIp;
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  return forwarded.split(',')[0].trim() || 'unknown';
 }
