@@ -558,8 +558,8 @@ async function approveLineBookingRequest(request, env) {
   let result;
   try {
     result = await env.RESERVATIONS_DB.prepare(
-      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, line_booking_request_id)
-     select ?1, ?2, ?3, ?4, ?5, null, 'confirmed', 'staff', datetime('now'), 'regular', ?6, ?7, ?11
+      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, line_booking_request_id, guest_count)
+     select ?1, ?2, ?3, ?4, ?5, null, 'confirmed', 'staff', datetime('now'), 'regular', ?6, ?7, ?11, 0
      where (
        select coalesce(sum(coalesce(capacity_units, 1)), 0)
        from reservations
