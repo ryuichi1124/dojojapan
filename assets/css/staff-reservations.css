@@ -1678,6 +1678,11 @@ button {
   margin-top: 14px;
 }
 
+.line-reply-copybox {
+  display: grid;
+  gap: 10px;
+}
+
 .line-reply-copy {
   width: 100%;
   max-width: 100%;
@@ -1687,10 +1692,26 @@ button {
   border-radius: 8px;
   padding: 12px;
   background: #fff;
-  color: var(--ink);
+  color: #111318;
   font: inherit;
   line-height: 1.65;
   box-sizing: border-box;
+}
+
+.line-reply-copy::selection {
+  color: #fff;
+  background: var(--red);
+}
+
+.line-reply-copy-button {
+  width: 100%;
+  min-height: 46px;
+}
+
+.line-reply-copy-button.is-copied {
+  border-color: rgba(54, 192, 132, .5);
+  background: rgba(54, 192, 132, .16);
+  color: #8af0bd;
 }
 
 .history-actions {

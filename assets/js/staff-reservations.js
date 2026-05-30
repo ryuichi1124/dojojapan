@@ -214,6 +214,21 @@
     els.confirmBackdrop.addEventListener("click", closeConfirm);
     els.cancelConfirm.addEventListener("click", closeConfirm);
     els.runConfirm.addEventListener("click", runPendingAction);
+    els.confirmExtra.addEventListener("click", function (event) {
+      var copyButton = event.target.closest("[data-copy-line-reply]");
+      if (!copyButton) return;
+
+      var textarea = els.confirmExtra.querySelector(".line-reply-copy");
+      if (!textarea) return;
+
+      copyText(textarea.value);
+      copyButton.textContent = "コピーしました";
+      copyButton.classList.add("is-copied");
+      setTimeout(function () {
+        copyButton.textContent = "文章をコピー";
+        copyButton.classList.remove("is-copied");
+      }, 1800);
+    });
     els.businessManageBackdrop.addEventListener("click", closeBusinessManage);
     els.closeBusinessManage.addEventListener("click", closeBusinessManage);
     els.businessForm.addEventListener("submit", submitBusinessForm);
@@ -870,11 +885,14 @@
 
   function showLineBookingReplyGuide(text, title) {
     if (!text) return;
-    copyText(text);
     openConfirm({
       title: title,
-      message: "申込者へのLINE通知は自動送信していません。\n下記メッセージをコピーしました。公式LINEのチャット画面でご返答ください。",
-      extra: '<textarea class="line-reply-copy" readonly rows="8">' + escapeHtml(text) + '</textarea>',
+      message: "申込者へのLINE通知は自動送信していません。\n下記メッセージをコピーして、公式LINEのチャット画面でご返答ください。",
+      extra:
+        '<div class="line-reply-copybox">' +
+        '<textarea class="line-reply-copy" readonly rows="8">' + escapeHtml(text) + '</textarea>' +
+        '<button class="text-btn line-reply-copy-button" type="button" data-copy-line-reply>文章をコピー</button>' +
+        '</div>',
       notice: true
     });
   }
@@ -1653,7 +1671,23 @@
   function copyText(text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).catch(function () {});
+      return;
     }
+
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+    } catch (error) {
+      console.warn("Copy failed", error);
+    }
+    document.body.removeChild(textarea);
   }
 
   function bindGradeFilters(container, stateKey, renderFn) {
