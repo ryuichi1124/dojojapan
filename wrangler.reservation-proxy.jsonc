@@ -34,7 +34,7 @@
       "zone_name": "dojo-japan.jp"
     },
     {
-      "pattern": "dojo-japan.jp/assets/js/chatbot.js",
+      "pattern": "dojo-japan.jp/assets/js/chatbot.js*",
       "zone_name": "dojo-japan.jp"
     },
     {
