@@ -41,7 +41,7 @@
 
   const root    = document.getElementById('chatbot');
   if (!root) return;
-  const toggle  = document.getElementById('chatbotToggle');
+  const toggle  = document.getElementById('dojoChatbotToggle');
   const panel   = document.getElementById('chatbotPanel');
   const msgList = document.getElementById('chatbotMessages');
   const actions = document.getElementById('chatbotActions');
