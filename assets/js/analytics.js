@@ -1,4 +1,5 @@
 /* DŌJŌ JAPAN — GA4 conversion tracking
+   build: 20260531-direct-instagram
    ─────────────────────────────────────
    Conversion-worthy events (mark as コンバージョン in GA4 admin):
      - phone_click          : 電話番号タップ（日本語ユーザーの主 CV）
