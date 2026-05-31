@@ -145,14 +145,13 @@
   }
 
   function currentImagePath() {
-    return els.imagePathInput.value.trim() || fallbackImagePath(state.menuKey);
+    return els.imagePathInput.value.trim() || "/assets/line/dojo-member-richmenu.jpg";
   }
 
   function renderMenu() {
     var menu = state.menus[state.menuKey] || {};
     var labels = menu.labels || fallbackLabels(state.menuKey);
     var links = menu.links || {};
-    els.richMenuPreview.setAttribute("data-menu-key", state.menuKey);
     Array.prototype.forEach.call(document.querySelectorAll(".segmented button[data-menu-key]"), function (button) {
       button.classList.toggle("is-active", button.getAttribute("data-menu-key") === state.menuKey);
     });
@@ -167,7 +166,7 @@
     els.secondaryUrlInput.value = links.secondaryUrl || "";
     els.instagramUrlInput.value = links.instagramUrl || "";
     els.officialUrlInput.value = links.officialUrl || "";
-    els.imagePathInput.value = menu.imagePath || (menu.image && menu.image.path) || fallbackImagePath(state.menuKey);
+    els.imagePathInput.value = menu.imagePath || (menu.image && menu.image.path) || "/assets/line/dojo-member-richmenu.jpg";
     updateImagePreview();
     els.imageMeta.textContent = imageMetaText(menu.image);
     els.richMenuMeta.textContent = (menu.alias || "") + (menu.richMenuId ? " / 現在のID: " + menu.richMenuId : " / 現在のメニュー未取得");
@@ -187,13 +186,9 @@
 
   function fallbackLabels(menuKey) {
     if (menuKey === "guest") {
-      return { primary: "初回体験", secondary: "ビジター利用", instagram: "公式Instagram", official: "アクセス" };
+      return { primary: "初回体験", secondary: "ビジター利用", instagram: "公式Instagram", official: "DOJO公式サイト" };
     }
     return { primary: "予約", secondary: "予約キャンセル・確認", instagram: "公式Instagram", official: "DOJO公式サイト" };
-  }
-
-  function fallbackImagePath(menuKey) {
-    return menuKey === "guest" ? "/assets/line/dojo-guest-richmenu.jpg" : "/assets/line/dojo-member-richmenu.jpg";
   }
 
   function labelText(menu, key) {

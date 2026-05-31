@@ -236,24 +236,6 @@ button { color: inherit; cursor: pointer; }
   width: 50%;
   height: 41.1%;
 }
-.rich-preview[data-menu-key="guest"] .rich-preview__area--primary {
-  top: 17.79%;
-  height: 27.4%;
-}
-.rich-preview[data-menu-key="guest"] .rich-preview__area--secondary {
-  top: 17.79%;
-  height: 27.4%;
-}
-.rich-preview[data-menu-key="guest"] .rich-preview__area--official {
-  left: 0;
-  top: 72.6%;
-  height: 27.4%;
-}
-.rich-preview[data-menu-key="guest"] .rich-preview__area--instagram {
-  left: 50%;
-  top: 72.6%;
-  height: 27.4%;
-}
 .note { margin: 0; color: var(--muted); font-size: 12px; }
 .note code { color: var(--gold); }
 .confirm-modal {

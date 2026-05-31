@@ -1,14 +1,13 @@
 const LINE_API_BASE = 'https://api.line.me';
 const LINE_DATA_BASE = 'https://api-data.line.me';
-const MEMBER_IMAGE_PATH = '/assets/line/dojo-member-richmenu.jpg';
-const GUEST_IMAGE_PATH = '/assets/line/dojo-guest-richmenu.jpg';
+const DEFAULT_IMAGE_PATH = '/assets/line/dojo-member-richmenu.jpg';
 const ADMIN_AUTH_FAIL_LIMIT = 5;
 const ADMIN_AUTH_LOCK_SECONDS = 15 * 60;
 const MENU_CONFIGS = {
   member: {
     alias: 'dojo-member',
     name: 'DOJO JAPAN member rich menu',
-    imagePath: MEMBER_IMAGE_PATH,
+    imagePath: DEFAULT_IMAGE_PATH,
     labels: {
       primary: '予約',
       secondary: '予約キャンセル・確認',
@@ -25,21 +24,18 @@ const MENU_CONFIGS = {
   guest: {
     alias: 'dojo-guest',
     name: 'DOJO JAPAN guest rich menu',
-    imagePath: GUEST_IMAGE_PATH,
+    imagePath: DEFAULT_IMAGE_PATH,
     labels: {
       primary: '初回体験',
       secondary: 'ビジター利用',
       instagram: '公式Instagram',
-      official: 'アクセス',
+      official: 'DOJO公式サイト',
     },
     links: {
       primaryUrl: 'https://dojo-japan.jp/?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu#trial',
       secondaryUrl: 'https://dojo-japan.jp/pricing?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu#visitor',
-      pricingUrl: 'https://dojo-japan.jp/pricing?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu',
-      faqUrl: 'https://dojo-japan.jp/faq?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu',
-      accessUrl: 'https://dojo-japan.jp/access?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu',
       instagramUrl: 'https://www.instagram.com/dojo_japan/',
-      officialUrl: 'https://dojo-japan.jp/access?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu',
+      officialUrl: 'https://dojo-japan.jp/?utm_source=line&utm_medium=richmenu&utm_campaign=guest_menu',
     },
   },
 };
@@ -103,7 +99,6 @@ export async function onRequestGet({ request, env }) {
 
 function buildMenu(menuKey, links) {
   const config = MENU_CONFIGS[menuKey];
-  const contentAreas = menuKey === 'guest' ? guestContentAreas(config, links) : memberContentAreas(config, links);
   return {
     size: { width: 2500, height: 1686 },
     selected: false,
@@ -118,59 +113,24 @@ function buildMenu(menuKey, links) {
         bounds: { x: 1250, y: 0, width: 1250, height: 260 },
         action: { type: 'richmenuswitch', label: '初めて・非会員の方', richMenuAliasId: 'dojo-guest', data: 'switch=guest' },
       },
-      ...contentAreas,
+      {
+        bounds: { x: 0, y: 300, width: 1250, height: 693 },
+        action: { type: 'uri', label: config.labels.primary, uri: links.primaryUrl },
+      },
+      {
+        bounds: { x: 1250, y: 300, width: 1250, height: 693 },
+        action: { type: 'uri', label: config.labels.secondary, uri: links.secondaryUrl },
+      },
+      {
+        bounds: { x: 0, y: 993, width: 1250, height: 693 },
+        action: { type: 'uri', label: config.labels.instagram, uri: links.instagramUrl },
+      },
+      {
+        bounds: { x: 1250, y: 993, width: 1250, height: 693 },
+        action: { type: 'uri', label: config.labels.official, uri: links.officialUrl },
+      },
     ],
   };
-}
-
-function memberContentAreas(config, links) {
-  return [
-    {
-      bounds: { x: 0, y: 300, width: 1250, height: 693 },
-      action: { type: 'uri', label: config.labels.primary, uri: links.primaryUrl },
-    },
-    {
-      bounds: { x: 1250, y: 300, width: 1250, height: 693 },
-      action: { type: 'uri', label: config.labels.secondary, uri: links.secondaryUrl },
-    },
-    {
-      bounds: { x: 0, y: 993, width: 1250, height: 693 },
-      action: { type: 'uri', label: config.labels.instagram, uri: links.instagramUrl },
-    },
-    {
-      bounds: { x: 1250, y: 993, width: 1250, height: 693 },
-      action: { type: 'uri', label: config.labels.official, uri: links.officialUrl },
-    },
-  ];
-}
-
-function guestContentAreas(config, links) {
-  return [
-    {
-      bounds: { x: 0, y: 300, width: 1250, height: 462 },
-      action: { type: 'uri', label: config.labels.primary, uri: links.primaryUrl },
-    },
-    {
-      bounds: { x: 1250, y: 300, width: 1250, height: 462 },
-      action: { type: 'uri', label: config.labels.secondary, uri: links.secondaryUrl },
-    },
-    {
-      bounds: { x: 0, y: 762, width: 1250, height: 462 },
-      action: { type: 'uri', label: '料金プラン', uri: links.pricingUrl || links.secondaryUrl },
-    },
-    {
-      bounds: { x: 1250, y: 762, width: 1250, height: 462 },
-      action: { type: 'uri', label: '持ち物・FAQ', uri: links.faqUrl || links.officialUrl },
-    },
-    {
-      bounds: { x: 0, y: 1224, width: 1250, height: 462 },
-      action: { type: 'uri', label: 'アクセス', uri: links.accessUrl || links.officialUrl },
-    },
-    {
-      bounds: { x: 1250, y: 1224, width: 1250, height: 462 },
-      action: { type: 'uri', label: config.labels.instagram, uri: links.instagramUrl },
-    },
-  ];
 }
 
 async function getCurrentMenu(env, menuKey) {
@@ -237,9 +197,6 @@ function extractLinks(menuKey, areas) {
     if (action.type !== 'uri') continue;
     if (action.label === config.labels.primary) links.primaryUrl = action.uri || links.primaryUrl;
     if (action.label === config.labels.secondary) links.secondaryUrl = action.uri || links.secondaryUrl;
-    if (action.label === '料金プラン') links.pricingUrl = action.uri || links.pricingUrl;
-    if (action.label === '持ち物・FAQ') links.faqUrl = action.uri || links.faqUrl;
-    if (action.label === 'アクセス') links.accessUrl = action.uri || links.accessUrl;
     if (action.label === config.labels.instagram) links.instagramUrl = action.uri || links.instagramUrl;
     if (action.label === config.labels.official) links.officialUrl = action.uri || links.officialUrl;
   }
@@ -251,9 +208,6 @@ function normalizeLinks(menuKey, input) {
   return {
     primaryUrl: normalizeUrl(input.primaryUrl || input.reservationUrl, fallback.primaryUrl),
     secondaryUrl: normalizeUrl(input.secondaryUrl || input.confirmUrl, fallback.secondaryUrl),
-    pricingUrl: normalizeUrl(input.pricingUrl, fallback.pricingUrl),
-    faqUrl: normalizeUrl(input.faqUrl, fallback.faqUrl),
-    accessUrl: normalizeUrl(input.accessUrl, fallback.accessUrl),
     instagramUrl: normalizeUrl(input.instagramUrl, fallback.instagramUrl),
     officialUrl: normalizeUrl(input.officialUrl, fallback.officialUrl),
   };
@@ -271,7 +225,7 @@ function normalizeUrl(value, fallback) {
 }
 
 function normalizeImagePath(value) {
-  const path = String(value || MEMBER_IMAGE_PATH).trim();
+  const path = String(value || DEFAULT_IMAGE_PATH).trim();
   if (!/^\/assets\/line\/[a-zA-Z0-9._-]+\.(jpg|jpeg|png)$/i.test(path)) throw new Error('INVALID_IMAGE_PATH');
   return path;
 }
