@@ -41,11 +41,12 @@
 
   const root    = document.getElementById('chatbot');
   if (!root) return;
-  const toggle  = document.getElementById('dojoChatbotToggle');
+  const toggle  = document.getElementById('dojoChatbotToggle') || document.getElementById('chatbotToggle');
   const panel   = document.getElementById('chatbotPanel');
   const msgList = document.getElementById('chatbotMessages');
   const actions = document.getElementById('chatbotActions');
   const statusEl = document.getElementById('chatbotStatus');
+  if (!toggle || !panel || !msgList || !actions || !statusEl) return;
 
   // Resolve relative base for in-site links
   const base = (() => /\/trainer\//.test(location.pathname) ? '../' : './')();
