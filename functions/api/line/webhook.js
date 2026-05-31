@@ -8,6 +8,7 @@ const END_HOUR = 18;
 const CANDIDATE_DAYS = 14;
 const MAX_DATE_CANDIDATES = 7;
 const DAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+const LINE_WEBHOOK_BUILD = '2026-05-31-line-name-keyboard-v1';
 
 const PRICE = {
   trial: 0,
@@ -744,5 +745,10 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestGet() {
-  return json({ ok: true, service: 'dojo-japan-line-webhook' });
+  return json({
+    ok: true,
+    service: 'dojo-japan-line-webhook',
+    build: LINE_WEBHOOK_BUILD,
+    namePromptPreview: T.nameQ,
+  });
 }
