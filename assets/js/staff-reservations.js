@@ -1259,10 +1259,11 @@
       var quota = manageQuotaLabel(member);
       var accessState = member.bookingToken ? "URL発行済み" : "URL未発行";
       var status = memberStatusOf(member);
+      var displayStatus = manageMemberStatusOf(member);
       var paused = status === "paused";
       var kana = member.memberKana ? escapeHtml(member.memberKana) + ' / ' : "";
       return '<div class="manage-member-item' + (paused ? ' is-paused' : '') + '">' +
-        '<span><b>' + escapeHtml(member.displayName) + '<em class="member-status member-status--' + status + '">' + memberStatusLabel(status) + '</em></b><small>' + kana + escapeHtml(member.memberCode) + ' / ' + memberTypeLabel(member.memberType) + ' / ' + quota + ' / ' + accessState + '</small></span>' +
+        '<span><b>' + escapeHtml(member.displayName) + '<em class="member-status member-status--' + displayStatus + '">' + memberStatusLabel(displayStatus) + '</em></b><small>' + kana + escapeHtml(member.memberCode) + ' / ' + memberTypeLabel(member.memberType) + ' / ' + quota + ' / ' + accessState + '</small></span>' +
         '<div class="manage-member-actions">' +
         '<button class="edit-member-btn" type="button" data-action="edit" data-member-code="' + escapeHtml(member.memberCode) + '">編集</button>' +
         '<button class="edit-member-btn" type="button" data-action="reservations" data-member-code="' + escapeHtml(member.memberCode) + '">予約一覧</button>' +
@@ -1739,9 +1740,16 @@
   }
 
   function memberStatusLabel(status) {
+    if (status === "unauthenticated") return "未認証";
     if (status === "paused") return "休会中";
     if (status === "deleted") return "削除済み";
     return "入会中";
+  }
+
+  function manageMemberStatusOf(member) {
+    var status = memberStatusOf(member);
+    if (status !== "active") return status;
+    return member.lastAuthenticatedAt ? status : "unauthenticated";
   }
 
   function closeReservationModal() {

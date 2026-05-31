@@ -209,9 +209,11 @@ async function bootstrap(env) {
       'select session_id as sessionId, trainer_id as trainerId, trainer_label as trainerLabel, updated_at as updatedAt from session_trainer_overrides',
     ).all(),
     env.RESERVATIONS_DB.prepare(
-      `select member_code as memberCode, count(*) as activeSessionCount, max(created_at) as lastAuthenticatedAt
+      `select member_code as memberCode,
+              sum(case when expires_at > datetime('now') then 1 else 0 end) as activeSessionCount,
+              max(created_at) as lastAuthenticatedAt
        from member_sessions
-       where revoked_at is null and expires_at > datetime('now')
+       where revoked_at is null
        group by member_code`,
     ).all(),
   ]);

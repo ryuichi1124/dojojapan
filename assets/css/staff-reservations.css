@@ -1432,6 +1432,11 @@ button {
   color: #e7c17f;
 }
 
+.member-status--unauthenticated {
+  background: rgba(201, 21, 42, .14);
+  color: #ff6f7f;
+}
+
 .member-btn:disabled {
   cursor: not-allowed;
   opacity: .45;
