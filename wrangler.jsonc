@@ -3,6 +3,9 @@
   "name": "dojojapan",
   "compatibility_date": "2025-01-01",
   "pages_build_output_dir": ".",
+  "assets": {
+    "directory": "."
+  },
   "kv_namespaces": [
     {
       "binding": "LINE_BOT_SESSIONS",
