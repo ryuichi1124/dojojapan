@@ -8,12 +8,19 @@
 
 # Build / config
 wrangler.jsonc
+wrangler.reservation-proxy.jsonc
 wrangler.toml
 package.json
 package-lock.json
 yarn.lock
 node_modules
 node_modules/**
+functions
+functions/**
+migrations
+migrations/**
+.wrangler
+.wrangler/**
 
 # Documentation
 README.md
@@ -39,6 +46,7 @@ Thumbs.db
 .env
 .env.local
 .env.*
+.dev.vars
 
 # Build / QA artifacts
 _qa/**
