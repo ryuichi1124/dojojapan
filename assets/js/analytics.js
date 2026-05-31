@@ -1,10 +1,8 @@
 /* DŌJŌ JAPAN — GA4 conversion tracking
-   build: 20260531-direct-instagram
    ─────────────────────────────────────
    Conversion-worthy events (mark as コンバージョン in GA4 admin):
      - phone_click          : 電話番号タップ（日本語ユーザーの主 CV）
-     - instagram_click      : Instagram DM 遷移
-     - chatbot_complete     : チャットボット最終ステップ（Instagram DM 開く）
+     - chatbot_complete     : チャットボット最終ステップ
      - cta_trial_click      : 無料体験 CTA クリック
      - terms_pdf_open       : 利用規約 PDF or page open
    Engagement events:
@@ -34,20 +32,7 @@
     });
   }, { capture: true });
 
-  // ---- 2. Instagram DM click (CV)
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href*="instagram.com/dojo_japan"]');
-    if (!a) return;
-    const inChatbot = !!a.closest('.chatbot');
-    send('instagram_click', {
-      event_category: 'contact',
-      event_label: inChatbot ? 'chatbot_dm' : 'page_dm',
-      page_path: location.pathname,
-      link_text: cleanText(a.textContent),
-    });
-  }, { capture: true });
-
-  // ---- 3. Free trial CTA click (CV)
+  // ---- 2. Free trial CTA click (CV)
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -66,7 +51,7 @@
     });
   }, { capture: true });
 
-  // ---- 4. Pricing & Trainer page nav clicks (engagement)
+  // ---- 3. Pricing & Trainer page nav clicks (engagement)
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -84,7 +69,7 @@
     }
   }, { capture: true });
 
-  // ---- 5. Chatbot lifecycle events (dispatched from chatbot.js)
+  // ---- 4. Chatbot lifecycle events (dispatched from chatbot.js)
   window.addEventListener('chatbot:open', () => {
     send('chatbot_open', { event_category: 'chatbot', page_path: location.pathname });
   });
@@ -109,7 +94,7 @@
       language: e.detail?.lang,
     });
   });
-  // ★ Conversion: user reaches the IG DM step (chatbot fully completed)
+  // Conversion: user reaches the final chatbot step
   window.addEventListener('chatbot:complete', (e) => {
     send('chatbot_complete', {
       event_category: 'conversion',
@@ -120,13 +105,11 @@
     });
   });
 
-  // ---- 6. Outbound link tracking (for SNS/social check)
+  // ---- 5. Outbound link tracking
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[target="_blank"]');
     if (!a) return;
     const href = a.getAttribute('href') || '';
-    // Skip already-tracked
-    if (/instagram\.com\/dojo_japan/.test(href)) return;
     if (/^tel:/.test(href)) return;
     send('outbound_click', {
       event_category: 'outbound',
@@ -135,7 +118,7 @@
     });
   }, { capture: true });
 
-  // ---- 7. Scroll depth (engagement signal — fired once per page)
+  // ---- 6. Scroll depth (engagement signal — fired once per page)
   let scrollHits = { 25: false, 50: false, 75: false, 100: false };
   let scrollTimer = null;
   window.addEventListener('scroll', () => {
