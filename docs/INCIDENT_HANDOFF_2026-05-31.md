@@ -153,3 +153,28 @@ docs/RESERVATION_FIX_LOG_2026-05-31.md
 ```
 
 これは既存の未追跡ファイルとして扱い、依頼なく削除・巻き込みコミットしない。
+
+## 2026-06-01 追記
+
+ユーザーから「ここまでをmdに保存しておいて」と再依頼があったため、この引き継ぎ文書自体を継続保存先として扱う。
+
+2026-06-01時点の保存状態:
+
+- `docs/INCIDENT_HANDOFF_2026-05-31.md` に当日の混線原因、構成、修正内容、検証方法を保存済み
+- `site/AGENTS.md` からこの文書を必読として参照済み
+- プロジェクトルート `../AGENTS.md` からもこの文書を必読として参照済み
+- Codex memory `~/.codex/memories/dojo-japan-system-boundaries.md` にも必読文書として保存済み
+
+直近の重要コミット:
+
+```text
+484e45d Document incident handoff
+9339d38 Show unauthenticated members in admin list
+391c6d6 Document verified production architecture
+```
+
+注意:
+
+- `484e45d Document incident handoff` はローカルコミット済みだが、この時点ではユーザー確認なしに `git push` していない。
+- `git push`、Cloudflare deploy、LINE API操作、D1 write/migration は、引き続き事前確認なしに実行しない。
+- 未追跡の `docs/RESERVATION_FIX_LOG_2026-05-31.md` は、依頼なく削除・巻き込みコミットしない。
