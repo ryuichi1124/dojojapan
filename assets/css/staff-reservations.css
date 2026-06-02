@@ -821,7 +821,9 @@ button {
   max-height: calc(100dvh - 34px);
   margin: 0 auto;
   overflow: auto;
-  padding: 22px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 22px 22px calc(22px + env(safe-area-inset-bottom));
   border: 1px solid var(--line-strong);
   border-bottom: 0;
   border-radius: 14px 14px 0 0;
@@ -1634,7 +1636,8 @@ button {
   z-index: 60;
   display: grid;
   place-items: end center;
-  padding: 16px;
+  overflow: hidden;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
   visibility: hidden;
   pointer-events: none;
 }
@@ -1654,6 +1657,10 @@ button {
   position: relative;
   z-index: 1;
   width: min(440px, 100%);
+  max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: 18px;
   border: 1px solid var(--line-strong);
   border-radius: 12px;
@@ -1819,7 +1826,7 @@ button {
     max-height: none;
     width: 100%;
     max-width: 100%;
-    padding: 16px;
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
     border-radius: 12px 12px 0 0;
   }
 
