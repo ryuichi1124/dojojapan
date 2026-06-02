@@ -7,17 +7,27 @@
 .gitattributes
 
 # Build / config
+.assetsignore
+.dev.vars
+.wrangler
+.wrangler/**
+.htaccess
+AGENTS.md
+INDEXNOW_README.md
 wrangler.jsonc
 wrangler.toml
+wrangler.*.jsonc
 package.json
 package-lock.json
 yarn.lock
 node_modules
 node_modules/**
 
-# Documentation
+# Documentation / internal notes
 README.md
 *.md
+docs
+docs/**
 
 # OS junk
 .DS_Store
@@ -42,6 +52,10 @@ Thumbs.db
 
 # Build / QA artifacts
 _qa/**
+test/**
+tools/**
+workers/**
+migrations/**
 assets/img/gym/_backup/**
 assets/img/gym/_pre_compress/**
 assets/movies/_backup_original/**
