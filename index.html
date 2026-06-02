@@ -48,6 +48,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <!-- Preload critical visuals (WebP) -->
 <link rel="preload" as="image" href="assets/movies/poster_yahiro_hero.webp" type="image/webp" fetchpriority="high" />
+<link rel="preload" as="video" href="assets/movies/dojo_yahiro_hero.mp4" type="video/mp4" media="(min-width: 769px)" />
+<link rel="preload" as="video" href="assets/movies/dojo_yahiro_hero_mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
 <link rel="preload" as="image" href="assets/img/trainers/01_yahiro_shiro_photo.webp" type="image/webp" />
 <!-- Critical CSS (above-the-fold) — inline for instant first paint -->
 <style>
@@ -177,7 +179,7 @@ button{font:inherit}
     <source srcset="assets/movies/poster_yahiro_hero.webp" type="image/webp" />
     <img src="assets/movies/poster_yahiro_hero.jpg" alt="" decoding="async" fetchpriority="high" />
   </picture>
-  <video class="hero__video" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" poster="assets/movies/poster_yahiro_hero.webp" aria-hidden="true" tabindex="-1" data-src="assets/movies/dojo_yahiro_hero.mp4" data-src-mobile="assets/movies/dojo_yahiro_hero_mobile.mp4"></video>
+  <video class="hero__video" muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" poster="assets/movies/poster_yahiro_hero.webp" aria-hidden="true" tabindex="-1" data-src="assets/movies/dojo_yahiro_hero.mp4" data-src-mobile="assets/movies/dojo_yahiro_hero_mobile.mp4"></video>
   <div class="hero__bg" aria-hidden="true"></div>
   <div class="hero__inner">
     <h1 class="visually-hidden">DŌJŌ JAPAN — NEO JAPANESE</h1>
@@ -1177,7 +1179,7 @@ button{font:inherit}
   });
 })();
 </script>
-<script src="assets/js/main.js?v=202605160100" defer></script>
+<script src="assets/js/main.js?v=20260602-hero-video-preload" defer></script>
 <script src="assets/js/analytics.js?v=20260531-no-instagram-handling" defer></script>
 <!-- Chatbot: load only when opened -->
 <script>

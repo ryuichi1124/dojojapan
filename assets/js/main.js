@@ -152,10 +152,11 @@
     document.querySelectorAll('.reveal:not(.is-in)').forEach(el => el.classList.add('is-in'));
   }, 2500);
 
-  /* ---------- Hero video: lazy load after first paint ----------
+  /* ---------- Hero video: preload during TOP preloader ----------
      The <video> ships without <source> (data-src holds the URL).
-     We inject the source AFTER window.load so the 8 MB MP4 never
-     competes with the LCP. Poster image is shown in the meantime. */
+     Inject the source as soon as this deferred script runs, so loading
+     starts while the intro preloader is still visible. Poster remains as
+     the fallback until the video is actually playing. */
   const heroVid = document.querySelector('.hero__video');
   if (heroVid) {
     // iOS Safari requires explicit muted + playsinline before play()
@@ -184,27 +185,13 @@
       heroVid.load();
     };
 
-    // Pull the MP4 only after the page is fully idle.
-    // Use requestIdleCallback when available (1.2s deadline), fallback to a
-    // 1500ms post-load timeout. First user interaction also triggers loading.
     let activated = false;
     const activateOnce = () => {
       if (activated) return;
       activated = true;
       activateHeroVideo();
     };
-    const scheduleActivate = () => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(activateOnce, { timeout: 2000 });
-      } else {
-        setTimeout(activateOnce, 1500);
-      }
-    };
-    if (document.readyState === 'complete') {
-      scheduleActivate();
-    } else {
-      window.addEventListener('load', scheduleActivate, { once: true });
-    }
+    activateOnce();
     // Also activate on first user interaction (covers slow-network cases)
     ['touchstart','click','scroll'].forEach(ev =>
       document.addEventListener(ev, activateOnce, { once: true, passive: true })
