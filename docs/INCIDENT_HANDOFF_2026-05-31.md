@@ -133,6 +133,30 @@ npx wrangler pages deploy . --project-name=dojojapan --branch=main --commit-hash
 - Pages deploy時に `wrangler.jsonc` の `pages_build_output_dir` 警告が出ても、静的assetsとFunctions bundleのアップロード自体は完了する
 - 完了後はデプロイURLだけでなく `https://dojo-japan.jp/...` の本番URLで確認する
 
+## 2026-06-02 追記: 本番相当テストURLを挟む運用
+
+ユーザー方針:
+
+次回以降は、いきなり本番URLへ反映して確認するのではなく、本番と同じ構成に近い確認用URLをもう一つ作り、そこで最終確認してから本番へ実装する。
+
+標準フロー:
+
+1. 作業対象が公式サイト、予約管理、会員予約、LINE/APIのどれかを先に切り分ける
+2. 本番と同じコード・同じCloudflare構成に近い確認用URLへ反映する
+3. 確認用URLで表示、動作、JS/CSS反映、ログ、API応答を確認する
+4. 予約系の場合は、D1の書き込みや既存予約データへ影響しないことを特に確認する
+5. 問題なければ本番へ反映する
+6. 本番反映後に本番URLで最終確認する
+7. 万が一問題があれば、直前コミットまたは直前デプロイへ戻せる状態を維持する
+
+注意:
+
+- `dojojapan.pages.dev` は予約/管理画面側で使うことがあるため、公式サイトの確認用URLとして無条件に使わない
+- 公式サイト通常ページは `dojojapan` Worker static assets、本番ドメインは `dojo-japan.jp`
+- 予約/LINE/APIは `dojo-reservation-proxy` 経由でPagesへ流れるため、確認対象URLを間違えない
+- 確認用URLを作る場合も、D1 migration/write、LINE API変更、Cloudflare deploy、git push は事前確認を取る
+- 完了報告では「確認用URLで確認済み」「本番URLで確認済み」を分けて報告する
+
 ## 完了報告前チェック
 
 最低限、次を確認してから完了報告すること。
