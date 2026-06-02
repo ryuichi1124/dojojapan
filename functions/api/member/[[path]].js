@@ -11,26 +11,44 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api\/member\/?/, '').replace(/\/$/, '') || 'me';
+  const logInput = request.method === 'POST' ? await readJsonSafe(request.clone()) : {};
 
   if (!env.RESERVATIONS_DB) return json({ ok: false, error: 'D1_NOT_CONFIGURED' }, 503);
 
+  let member = null;
   try {
-    if (request.method === 'POST' && path === 'auth/login') return await login(request, env);
-    if (request.method === 'POST' && path === 'auth/logout') return await logout(request, env);
+    if (request.method === 'POST' && path === 'auth/login') {
+      const response = await login(request, env);
+      const loginData = await response.clone().json().catch(() => null);
+      const loginMember = loginData?.member || (logInput.memberCode ? { memberCode: logInput.memberCode } : null);
+      await recordMemberOperationalLogSafe(env, request, path, response.ok ? 'success' : 'error', response.ok ? null : new Error(response.status === 401 ? 'UNAUTHORIZED' : 'API_ERROR'), logInput, loginMember);
+      return response;
+    }
+    if (request.method === 'POST' && path === 'auth/logout') {
+      const response = await logout(request, env);
+      await recordMemberOperationalLogSafe(env, request, path, 'success', null, logInput, null);
+      return response;
+    }
 
-    const member = await authorizeMember(request, env);
+    member = await authorizeMember(request, env);
     if (!member) return json({ ok: false, error: 'UNAUTHORIZED' }, 401);
 
-    if (request.method === 'GET' && path === 'me') return await memberMe(member);
-    if (request.method === 'GET' && path === 'reservations') return await memberReservations(member, env);
-    if (request.method === 'GET' && path === 'reservations/history') return await memberHistory(request, member, env);
-    if (request.method === 'GET' && path === 'availability') return await availability(request, member, env);
-    if (request.method === 'POST' && path === 'profile') return await updateProfile(request, member, env);
-    if (request.method === 'POST' && path === 'reservations/book') return await book(request, member, env);
-    if (request.method === 'POST' && path === 'reservations/cancel') return await cancel(request, member, env);
-    if (request.method === 'POST' && path === 'reservations/change') return await change(request, member, env);
-    return json({ ok: false, error: 'NOT_FOUND' }, 404);
+    let response;
+    if (request.method === 'GET' && path === 'me') response = await memberMe(member);
+    else if (request.method === 'GET' && path === 'reservations') response = await memberReservations(member, env);
+    else if (request.method === 'GET' && path === 'reservations/history') response = await memberHistory(request, member, env);
+    else if (request.method === 'GET' && path === 'availability') response = await availability(request, member, env);
+    else if (request.method === 'POST' && path === 'profile') response = await updateProfile(request, member, env);
+    else if (request.method === 'POST' && path === 'reservations/book') response = await book(request, member, env);
+    else if (request.method === 'POST' && path === 'reservations/cancel') response = await cancel(request, member, env);
+    else if (request.method === 'POST' && path === 'reservations/change') response = await change(request, member, env);
+    else {
+      return json({ ok: false, error: 'NOT_FOUND' }, 404);
+    }
+    await recordMemberOperationalLogSafe(env, request, path, 'success', null, logInput, member);
+    return response;
   } catch (error) {
+    await recordMemberOperationalLogSafe(env, request, path, 'error', error, logInput, member);
     return json({ ok: false, error: error.message || 'SERVER_ERROR' }, 400);
   }
 }
@@ -818,6 +836,54 @@ async function readJson(request) {
   } catch (_) {
     throw new Error('INVALID_JSON');
   }
+}
+
+async function readJsonSafe(request) {
+  try {
+    return await readJson(request);
+  } catch (_) {
+    return {};
+  }
+}
+
+async function recordMemberOperationalLogSafe(env, request, operation, status, error, input = {}, member = null) {
+  if (!env.RESERVATIONS_DB || request.method !== 'POST') return;
+  try {
+    const memberCode = normalizeMemberCode(member?.memberCode || input.memberCode);
+    const metadata = memberLogMetadata(operation, input);
+    await env.RESERVATIONS_DB.prepare(
+      `insert into operational_logs(id, area, actor_type, actor_id, operation, status, member_code, reservation_id, session_id, error_code, metadata_json, user_agent)
+       values (?1, 'member', 'member', ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
+    ).bind(
+      crypto.randomUUID(),
+      memberCode || null,
+      operation,
+      status,
+      memberCode || null,
+      safeLogText(input.id, 120),
+      safeLogText(input.sessionId || input.toSessionId, 80),
+      error ? safeLogText(error.message || 'SERVER_ERROR', 120) : null,
+      JSON.stringify(metadata).slice(0, 2000),
+      safeLogText(request.headers.get('user-agent'), 300),
+    ).run();
+  } catch (logError) {
+    console.warn('member operational log failed:', logError?.message || logError);
+  }
+}
+
+function memberLogMetadata(operation, input = {}) {
+  const metadata = {};
+  for (const key of ['memberCode', 'reservationKind', 'sessionId', 'toSessionId', 'id']) {
+    if (input[key] !== undefined && input[key] !== null && input[key] !== '') metadata[key] = safeLogText(input[key], 120);
+  }
+  if (operation === 'auth/login') metadata.login = true;
+  if (operation === 'profile') metadata.profileUpdated = true;
+  return metadata;
+}
+
+function safeLogText(value, maxLength = 120) {
+  if (value === undefined || value === null) return null;
+  return String(value).slice(0, maxLength);
 }
 
 function json(data, status = 200, headers = {}) {

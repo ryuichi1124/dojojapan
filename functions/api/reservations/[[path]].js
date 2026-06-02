@@ -18,6 +18,7 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api\/reservations\/?/, '').replace(/\/$/, '') || 'bootstrap';
+  const logInput = request.method === 'POST' ? await readJsonSafe(request.clone()) : {};
 
   const auth = await authorize(request, env);
   if (auth.locked) return json({ ok: false, error: 'TOO_MANY_ATTEMPTS' }, 429, { 'retry-after': String(ADMIN_AUTH_LOCK_SECONDS) });
@@ -28,24 +29,30 @@ export async function onRequest(context) {
   }
 
   try {
-    if (request.method === 'GET' && path === 'bootstrap') return await bootstrap(env);
-    if (request.method === 'GET' && path === 'member-history') return await memberHistory(url, env);
-    if (request.method === 'POST' && path === 'member') return await upsertMember(request, env);
-    if (request.method === 'POST' && path === 'member-status') return await updateMemberStatus(request, env);
-    if (request.method === 'POST' && path === 'member-delete') return await deleteMember(request, env);
-    if (request.method === 'POST' && path === 'member-access') return await saveMemberAccess(request, env);
-    if (request.method === 'POST' && path === 'member-pin-reset') return await resetMemberPin(request, env);
-    if (request.method === 'POST' && path === 'book') return await bookReservation(request, env);
-    if (request.method === 'POST' && path === 'cancel') return await cancelReservation(request, env);
-    if (request.method === 'POST' && path === 'line-booking-approve') return await approveLineBookingRequest(request, env);
-    if (request.method === 'POST' && path === 'line-booking-cancel') return await cancelLineBookingRequest(request, env);
-    if (request.method === 'POST' && path === 'memo') return await saveMemo(request, env);
-    if (request.method === 'POST' && path === 'business-closure') return await saveBusinessClosure(request, env);
-    if (request.method === 'POST' && path === 'business-closure-delete') return await deleteBusinessClosure(request, env);
-    if (request.method === 'POST' && path === 'trainer-override') return await saveTrainerOverride(request, env);
-    if (request.method === 'POST' && path === 'trainer-override-delete') return await deleteTrainerOverride(request, env);
-    return json({ ok: false, error: 'NOT_FOUND' }, 404);
+    let response;
+    if (request.method === 'GET' && path === 'bootstrap') response = await bootstrap(env);
+    else if (request.method === 'GET' && path === 'member-history') response = await memberHistory(url, env);
+    else if (request.method === 'POST' && path === 'member') response = await upsertMember(request, env);
+    else if (request.method === 'POST' && path === 'member-status') response = await updateMemberStatus(request, env);
+    else if (request.method === 'POST' && path === 'member-delete') response = await deleteMember(request, env);
+    else if (request.method === 'POST' && path === 'member-access') response = await saveMemberAccess(request, env);
+    else if (request.method === 'POST' && path === 'member-pin-reset') response = await resetMemberPin(request, env);
+    else if (request.method === 'POST' && path === 'book') response = await bookReservation(request, env);
+    else if (request.method === 'POST' && path === 'cancel') response = await cancelReservation(request, env);
+    else if (request.method === 'POST' && path === 'line-booking-approve') response = await approveLineBookingRequest(request, env);
+    else if (request.method === 'POST' && path === 'line-booking-cancel') response = await cancelLineBookingRequest(request, env);
+    else if (request.method === 'POST' && path === 'memo') response = await saveMemo(request, env);
+    else if (request.method === 'POST' && path === 'business-closure') response = await saveBusinessClosure(request, env);
+    else if (request.method === 'POST' && path === 'business-closure-delete') response = await deleteBusinessClosure(request, env);
+    else if (request.method === 'POST' && path === 'trainer-override') response = await saveTrainerOverride(request, env);
+    else if (request.method === 'POST' && path === 'trainer-override-delete') response = await deleteTrainerOverride(request, env);
+    else {
+      return json({ ok: false, error: 'NOT_FOUND' }, 404);
+    }
+    await recordAdminOperationalLogSafe(env, request, path, 'success', null, logInput);
+    return response;
   } catch (error) {
+    await recordAdminOperationalLogSafe(env, request, path, 'error', error, logInput);
     return json({ ok: false, error: error.message || 'SERVER_ERROR' }, 400);
   }
 }
@@ -967,6 +974,53 @@ async function hashPin(pin, salt) {
   const data = new TextEncoder().encode(`${salt}:${pin}`);
   const digest = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function readJsonSafe(request) {
+  try {
+    return await readJson(request);
+  } catch (_) {
+    return {};
+  }
+}
+
+async function recordAdminOperationalLogSafe(env, request, operation, status, error, input = {}) {
+  if (!env.RESERVATIONS_DB || request.method !== 'POST') return;
+  try {
+    const metadata = adminLogMetadata(operation, input);
+    await env.RESERVATIONS_DB.prepare(
+      `insert into operational_logs(id, area, actor_type, actor_id, operation, status, member_code, reservation_id, session_id, error_code, metadata_json, user_agent)
+       values (?1, 'admin', 'admin', null, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)`,
+    ).bind(
+      crypto.randomUUID(),
+      operation,
+      status,
+      normalizeMemberCode(input.memberCode),
+      safeLogText(input.id, 120),
+      safeLogText(input.sessionId || input.toSessionId, 80),
+      error ? safeLogText(error.message || 'SERVER_ERROR', 120) : null,
+      JSON.stringify(metadata).slice(0, 2000),
+      safeLogText(request.headers.get('user-agent'), 300),
+    ).run();
+  } catch (logError) {
+    console.warn('admin operational log failed:', logError?.message || logError);
+  }
+}
+
+function adminLogMetadata(operation, input = {}) {
+  const metadata = {};
+  for (const key of ['memberCode', 'memberStatus', 'memberType', 'reservationKind', 'sessionId', 'toSessionId', 'id', 'dateKey', 'period']) {
+    if (input[key] !== undefined && input[key] !== null && input[key] !== '') metadata[key] = safeLogText(input[key], 120);
+  }
+  if (operation === 'member-pin-reset') metadata.pinReset = true;
+  if (operation === 'member-access') metadata.accessUpdated = true;
+  if (operation === 'memo') metadata.memoUpdated = true;
+  return metadata;
+}
+
+function safeLogText(value, maxLength = 120) {
+  if (value === undefined || value === null) return null;
+  return String(value).slice(0, maxLength);
 }
 
 function json(data, status = 200, headers = {}) {
