@@ -541,7 +541,7 @@
       if (state.memberGradeFilter !== "all" && member.memberType !== state.memberGradeFilter) return false;
       if (!query) return true;
       return memberMatchesQuery(member, query);
-    }).slice(0, 10).forEach(function (member) {
+    }).forEach(function (member) {
       var alreadyBooked = reservations.some(function (reservation) {
         return reservation.memberCode === member.memberCode;
       });
