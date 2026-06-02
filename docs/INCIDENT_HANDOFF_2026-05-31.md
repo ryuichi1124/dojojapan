@@ -178,3 +178,227 @@ docs/RESERVATION_FIX_LOG_2026-05-31.md
 - `484e45d Document incident handoff` はローカルコミット済みだが、この時点ではユーザー確認なしに `git push` していない。
 - `git push`、Cloudflare deploy、LINE API操作、D1 write/migration は、引き続き事前確認なしに実行しない。
 - 未追跡の `docs/RESERVATION_FIX_LOG_2026-05-31.md` は、依頼なく削除・巻き込みコミットしない。
+
+## 2026-06-02 追記: 予約システム operational logging
+
+ユーザーから、管理スタッフ/会員側で問題が起きたときに後から原因を追えるよう、予約システムの管理者側・会員側の両方にログを残したいという依頼があった。
+
+### 本番反映済みコミット
+
+```text
+b672842 Add reservation operational logging
+```
+
+変更ファイル:
+
+```text
+functions/api/member/[[path]].js
+functions/api/reservations/[[path]].js
+migrations/0020_operational_logs.sql
+```
+
+### D1 migration
+
+本番D1 `RESERVATIONS_DB` に、既存テーブルを変更せず新規テーブルのみ追加した。
+
+```sql
+create table if not exists operational_logs (
+  id text primary key,
+  area text not null check (area in ('admin', 'member')),
+  actor_type text not null,
+  actor_id text,
+  operation text not null,
+  status text not null check (status in ('success', 'error')),
+  member_code text,
+  reservation_id text,
+  session_id text,
+  error_code text,
+  metadata_json text,
+  user_agent text,
+  created_at text not null default (datetime('now'))
+);
+
+create index if not exists operational_logs_created_idx
+  on operational_logs(created_at);
+
+create index if not exists operational_logs_member_idx
+  on operational_logs(member_code, created_at);
+
+create index if not exists operational_logs_area_operation_idx
+  on operational_logs(area, operation, created_at);
+```
+
+本番migration結果:
+
+```text
+npx wrangler d1 migrations apply reservations-db --remote
+0020_operational_logs.sql ✅
+Executed 5 commands in 0.92ms
+```
+
+重要:
+
+- 既存の `members`, `reservations`, `member_sessions` などには `ALTER` していない。
+- 既存予約データ・会員データは変更していない。
+- `operational_logs` は追加テーブルなので、旧コードに戻しても参照されず動作影響はない。
+
+### Pages deploy
+
+本番Pages deploy:
+
+```text
+npx wrangler pages deploy . --project-name=dojojapan --branch=main --commit-hash=b672842 --commit-message='Add reservation operational logging'
+Deploy URL: https://a422bb9b.dojojapan.pages.dev
+```
+
+### ログ対象
+
+高頻度のGET系は記録しない。POST系の重要操作だけ記録する。
+
+管理者側:
+
+- `member`
+- `member-status`
+- `member-delete`
+- `member-access`
+- `member-pin-reset`
+- `book`
+- `cancel`
+- `line-booking-approve`
+- `line-booking-cancel`
+- `memo`
+- `business-closure`
+- `business-closure-delete`
+- `trainer-override`
+- `trainer-override-delete`
+
+会員側:
+
+- `auth/login`
+- `auth/logout`
+- `profile`
+- `reservations/book`
+- `reservations/cancel`
+- `reservations/change`
+
+### 保存しない情報
+
+安全優先で、以下は保存しない。
+
+- 管理者パスワード
+- 会員PIN
+- booking token / session token の生値
+- コピー本文
+- 電話番号下4桁・誕生日など本人確認値の本文
+
+ログに保存する主な項目:
+
+- `area`: `admin` / `member`
+- `operation`
+- `status`: `success` / `error`
+- `member_code`
+- `reservation_id`
+- `session_id`
+- `error_code`
+- `metadata_json`
+- `user_agent`
+- `created_at`
+
+### 既存動作への影響確認
+
+本番反映前に、本番コミット `ee6a4c5` のクリーンコピーを `/private/tmp/dojo-japan-prod-baseline` に作成し、ローカルD1へ既存migration `0001` から `0019` を適用した。
+
+本番基準のローカルスモークテスト:
+
+```text
+admin page: 200 OK
+member page: 200 OK
+admin bootstrap: 200 OK
+admin member-pin-reset: 200 OK
+member login: 200 OK
+member me: 200 OK
+admin book: 200 OK
+member reservations: 200 OK
+```
+
+その後、ログ実装と `0020_operational_logs.sql` をローカル環境に適用して同じスモークテストを実行。最初に会員APIで `readJsonSafe` / `recordMemberOperationalLogSafe` 未定義による500を検出し、修正後に再テストした。
+
+修正後のローカルスモークテスト:
+
+```text
+admin page: 200 OK
+member page: 200 OK
+admin bootstrap: 200 OK
+admin member-pin-reset: 200 OK
+member login: 200 OK
+member me: 200 OK
+admin book: 200 OK
+member reservations: 200 OK
+```
+
+ローカルD1のログ確認:
+
+```text
+admin / member-pin-reset / success / DJ-004
+member / auth/login / success / DJ-004
+admin / book / success / DJ-004 / 2026-06-03-10
+```
+
+PIN、管理者パスワード、booking token はログに含まれていないことを確認済み。
+
+構文確認:
+
+```text
+node --check functions/api/reservations/[[path]].js
+node --check functions/api/member/[[path]].js
+git diff --check
+```
+
+すべてOK。
+
+### 本番反映後確認
+
+本番反映直後に実施した非破壊確認:
+
+```text
+https://dojo-japan.jp/dj-ops-6271-kuroobi/ -> 200
+https://dojo-japan.jp/dj-member-rsv-8f3k2q/ -> 200
+https://dojo-japan.jp/api/reservations/bootstrap -> 未認証 401
+https://dojo-japan.jp/api/member/me -> 未認証 401
+select count(*) from operational_logs -> 0
+```
+
+その後、実運用で次の成功ログが記録されたことを確認:
+
+```text
+member / reservations/cancel / success / DJ-012
+admin / book / success / DJ-012 / 2026-06-20-17
+```
+
+この時点で `error_code` はどちらも `null`。エラーログは出ていない。
+
+### ロールバック方針
+
+万一、ログ実装後にAPIエラーや表示影響が出た場合:
+
+1. Pagesコードだけ `ee6a4c5` 相当へ戻す。
+2. D1の `operational_logs` テーブルは急いで削除しない。
+3. 予約/会員データには触らない。
+
+理由:
+
+- 旧コードは `operational_logs` を参照しないため、テーブルが残っていても動作影響はない。
+- 本番稼働中に `DROP TABLE` などを急いで実行する方がリスクが高い。
+
+ロールバック用の基準コミット:
+
+```text
+ee6a4c5 Fix admin modal scrolling
+```
+
+### 運用メモ
+
+- 成功ログは重要操作だけ残す。空き枠取得・会員一覧取得・ページ表示など高頻度GETは残さない。
+- トラブル調査時は、まず `operational_logs` を `member_code`, `operation`, `created_at`, `status`, `error_code` で絞る。
+- 保存期間は将来的に90日から180日程度で削除運用を検討する。
+- ログ保存に失敗しても、本来の予約・ログイン・キャンセル処理を止めない設計にしている。
