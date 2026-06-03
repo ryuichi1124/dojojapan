@@ -4,6 +4,8 @@ const END_HOUR = 18;
 const BOOK_DEADLINE_HOURS = 1;
 const PERSONAL_BOOK_DEADLINE_HOURS = 6;
 const CHANGE_DEADLINE_HOURS = 3;
+const CANCEL_DEADLINE_HOURS = 3;
+const PERSONAL_CANCEL_DEADLINE_HOURS = 24;
 const SESSION_DAYS = 90;
 const SESSION_COOKIE = 'dojo_member_session';
 
@@ -405,8 +407,9 @@ async function cancel(request, member, env) {
   const id = String(input.id || '');
   const reservation = await getOwnConfirmedReservation(env, member, id);
   if (!reservation) throw new Error('RESERVATION_NOT_FOUND');
-  if (isSameJstDate(reservation.sessionId)) throw new Error('SAME_DAY_CANCEL_NOT_ALLOWED');
-  if (!isBeforeDeadline(reservation.sessionId)) throw new Error('DEADLINE_PASSED');
+  if (!isBeforeCancelDeadline(reservation.sessionId, reservation.reservationKind)) {
+    throw new Error(reservation.reservationKind === 'personal' ? 'PERSONAL_CANCEL_DEADLINE_PASSED' : 'CANCEL_DEADLINE_PASSED');
+  }
 
   const result = await env.RESERVATIONS_DB.prepare(
     "update reservations set status = 'cancelled', cancelled_at = datetime('now') where id = ?1 and member_code = ?2 and status = 'confirmed'",
@@ -644,15 +647,16 @@ function isBeforeDeadline(sessionId) {
   return date.getTime() - Date.now() >= CHANGE_DEADLINE_HOURS * 60 * 60 * 1000;
 }
 
+function isBeforeCancelDeadline(sessionId, reservationKind = 'regular') {
+  const date = sessionDate(sessionId);
+  const hours = reservationKind === 'personal' ? PERSONAL_CANCEL_DEADLINE_HOURS : CANCEL_DEADLINE_HOURS;
+  return Boolean(date && date.getTime() - Date.now() >= hours * 60 * 60 * 1000);
+}
+
 function isBeforeBookDeadline(sessionId, reservationKind = 'regular') {
   const date = sessionDate(sessionId);
   const hours = reservationKind === 'personal' ? PERSONAL_BOOK_DEADLINE_HOURS : BOOK_DEADLINE_HOURS;
   return Boolean(date && date.getTime() - Date.now() >= hours * 60 * 60 * 1000);
-}
-
-function isSameJstDate(sessionId) {
-  const match = /^(\d{4})-(\d{2})-(\d{2})-\d{2}$/.exec(sessionId);
-  return Boolean(match && `${match[1]}-${match[2]}-${match[3]}` === currentJstDateKey());
 }
 
 function sessionDate(sessionId) {

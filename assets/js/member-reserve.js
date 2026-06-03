@@ -307,19 +307,23 @@
     }
     els.reservationList.innerHTML = active.map(function (reservation) {
       var changeable = isBeforeDeadline(reservation.sessionId);
+      var cancelable = isBeforeCancelDeadline(reservation);
       var kindLabel = reservation.reservationKind === "personal"
         ? "パーソナル予約 / 別途3000円"
         : reservation.reservationKind === "referral" ? "紹介同伴 / 回数消費なし" : "予約済み";
       var trainer = trainerForReservation(reservation);
       var canChange = changeable && reservation.reservationKind !== "referral";
-      return '<article class="reservation-card">' +
-        '<div class="reservation-card__top"><span><b>' + sessionLabel(reservation.sessionId) + '</b><small>' + (changeable ? kindLabel : kindLabel + " / 変更締切後") + '</small><em>' + escapeHtml(trainer.label) + '</em></span></div>' +
-        (changeable ?
-          '<div class="reservation-actions">' +
+      var actions = "";
+      if (canChange || cancelable) {
+        actions = '<div class="reservation-actions">' +
           (canChange ? '<button type="button" data-action="change" data-id="' + escapeHtml(reservation.id) + '">変更</button>' : '') +
-          '<button type="button" data-action="cancel" data-id="' + escapeHtml(reservation.id) + '">キャンセル</button>' +
-          '</div>' :
-          '<p class="reservation-note">開始3時間前を過ぎているため、変更・キャンセルは公式LINEでご連絡ください。</p>') +
+          (cancelable ? '<button type="button" data-action="cancel" data-id="' + escapeHtml(reservation.id) + '">キャンセル</button>' : '') +
+          '</div>';
+      }
+      return '<article class="reservation-card">' +
+        '<div class="reservation-card__top"><span><b>' + sessionLabel(reservation.sessionId) + '</b><small>' + kindLabel + reservationDeadlineLabel(reservation, changeable, cancelable) + '</small><em>' + escapeHtml(trainer.label) + '</em></span></div>' +
+        actions +
+        reservationDeadlineNote(reservation, changeable, cancelable) +
         '</article>';
     }).join("");
     Array.prototype.forEach.call(els.reservationList.querySelectorAll("button"), function (button) {
@@ -329,6 +333,21 @@
         if (button.getAttribute("data-action") === "change") startChange(id);
       });
     });
+  }
+
+  function reservationDeadlineLabel(reservation, changeable, cancelable) {
+    var labels = [];
+    if (!changeable && reservation.reservationKind !== "referral") labels.push("変更締切後");
+    if (!cancelable) labels.push(reservation.reservationKind === "personal" ? "キャンセル前日締切後" : "キャンセル締切後");
+    return labels.length ? " / " + labels.join(" / ") : "";
+  }
+
+  function reservationDeadlineNote(reservation, changeable, cancelable) {
+    if (changeable || cancelable) return "";
+    if (reservation.reservationKind === "personal") {
+      return '<p class="reservation-note">パーソナル予約のキャンセルは前日までです。変更・キャンセルが必要な場合は公式LINEでご連絡ください。</p>';
+    }
+    return '<p class="reservation-note">開始3時間前を過ぎているため、変更・キャンセルは公式LINEでご連絡ください。</p>';
   }
 
   function renderMonthlySummary() {
@@ -567,7 +586,7 @@
   function requestBook(sessionId, reservationKind) {
     reservationKind = reservationKind === "personal" ? "personal" : "regular";
     var personalText = reservationKind === "personal" ? "\n\nパーソナル予約です。別途料金3000円がかかります。またこの枠は満席となります。" : "";
-    var caution = isBeforeDeadline(sessionId) ? "" : "\n\n開始3時間前を過ぎているため、この予約はあとから変更・キャンセルできません。必要な場合は公式LINEでご連絡ください。";
+    var caution = postBookingDeadlineNote(sessionId, reservationKind);
     if (reservationKind === "personal" && !isBeforeBookDeadline(sessionId, 6)) {
       showError(new Error("PERSONAL_BOOK_DEADLINE_PASSED"));
       return;
@@ -652,7 +671,8 @@
   }
 
   function requestChange(id, toSessionId) {
-    var caution = isBeforeDeadline(toSessionId) ? "" : "\n\n変更先は開始3時間前を過ぎているため、変更後は会員画面から変更・キャンセルできません。必要な場合は公式LINEでご連絡ください。";
+    var reservationKind = state.changeReservationKind === "personal" ? "personal" : "regular";
+    var caution = postBookingDeadlineNote(toSessionId, reservationKind);
     openConfirm({
       title: "予約を変更しますか",
       message: sessionLabel(toSessionId) + " に変更します。" + caution,
@@ -742,7 +762,9 @@
 
   function errorMessage(error) {
     var message = error && error.message ? error.message : "";
-    if (message === "DEADLINE_PASSED") return "開始3時間前を過ぎているため、変更・キャンセルは公式LINEでご連絡ください。";
+    if (message === "DEADLINE_PASSED") return "開始3時間前を過ぎているため、変更は公式LINEでご連絡ください。";
+    if (message === "CANCEL_DEADLINE_PASSED") return "キャンセルは開始3時間前まで可能です。公式LINEでご連絡ください。";
+    if (message === "PERSONAL_CANCEL_DEADLINE_PASSED") return "パーソナル予約のキャンセルは前日まで可能です。公式LINEでご連絡ください。";
     if (message === "SAME_DAY_CANCEL_NOT_ALLOWED") return "当日のキャンセルは会員画面からはできません。公式LINEでご連絡ください。";
     if (message === "PERSONAL_BOOK_DEADLINE_PASSED") return "パーソナル予約は開始6時間前まで可能です。別の枠を選んでください。";
     if (message === "BOOK_DEADLINE_PASSED") return "予約は開始1時間前まで可能です。別の枠を選んでください。";
@@ -884,6 +906,26 @@
     var session = parseSessionId(sessionId);
     if (!session) return false;
     return sessionStartTime(session).getTime() - Date.now() >= 3 * 60 * 60 * 1000;
+  }
+
+  function isBeforeCancelDeadline(reservation) {
+    var session = parseSessionId(reservation ? reservation.sessionId : "");
+    if (!session) return false;
+    var hours = reservation && reservation.reservationKind === "personal" ? 24 : 3;
+    return sessionStartTime(session).getTime() - Date.now() >= hours * 60 * 60 * 1000;
+  }
+
+  function postBookingDeadlineNote(sessionId, reservationKind) {
+    var canChange = isBeforeDeadline(sessionId);
+    var canCancel = isBeforeCancelDeadline({
+      sessionId: sessionId,
+      reservationKind: reservationKind
+    });
+    if (canChange && canCancel) return "";
+    if (reservationKind === "personal" && !canCancel) {
+      return "\n\nパーソナル予約のキャンセル締切（前日）を過ぎているため、予約後のキャンセルは公式LINEでご連絡ください。";
+    }
+    return "\n\n開始3時間前を過ぎているため、この予約はあとから変更・キャンセルできません。必要な場合は公式LINEでご連絡ください。";
   }
 
   function isBeforeBookDeadline(sessionId, hours) {
