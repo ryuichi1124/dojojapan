@@ -42,6 +42,10 @@
       "zone_name": "dojo-japan.jp"
     },
     {
+      "pattern": "dojo-japan.jp/assets/js/member-reserve.cancel-notice.js",
+      "zone_name": "dojo-japan.jp"
+    },
+    {
       "pattern": "dojo-japan.jp/assets/css/line-menu-admin.css",
       "zone_name": "dojo-japan.jp"
     },
