@@ -471,9 +471,12 @@
       var disabled = state.changeReservationId ? !canReserveKind(slot, changeKind) : !slot.available;
       var trainer = trainerForSlot(slot);
       var periodClass = slot.hour < 12 ? " is-morning" : " is-afternoon";
-      var availabilityLabel = slot.closed ? "予約不可" : slot.ownReservation ? "予約済み" : remaining <= 0 ? "満席" : "残り" + remaining;
+      var ended = isSlotEnded(slot);
+      var availabilityLabel = ended ? "終了しました" : slot.closed ? "予約不可" : slot.ownReservation ? "予約済み" : remaining <= 0 ? "満席" : "残り" + remaining;
       var actions = "";
-      if (slot.ownReservation) {
+      if (ended) {
+        actions = '<button type="button" disabled>終了しました</button>';
+      } else if (slot.ownReservation) {
         actions = '<button type="button" disabled>予約済み</button>';
       } else if (slot.closed) {
         actions = '<button type="button" disabled>予約不可</button>';
@@ -488,7 +491,7 @@
           '<button type="button" data-session-id="' + escapeHtml(slot.sessionId) + '" data-kind="regular"' + (!slot.available ? " disabled" : "") + '>通常レッスン予約する</button>' +
           '<button class="slot-card__personal" type="button" data-session-id="' + escapeHtml(slot.sessionId) + '" data-kind="personal"' + (slot.personalAvailable ? "" : " disabled") + '>パーソナル予約</button>';
       }
-      return '<article class="slot-card' + periodClass + (slot.closed ? ' is-closed' : '') + (disabled ? ' is-disabled' : '') + '">' +
+      return '<article class="slot-card' + periodClass + (ended || slot.closed ? ' is-closed' : '') + (disabled || ended ? ' is-disabled' : '') + '">' +
         '<div class="slot-card__top"><span><b>' + timeLabel(slot.hour) + '</b><small>' + availabilityLabel + '</small><em>' + escapeHtml(trainer.label) + '</em></span></div>' +
         '<div class="slot-card__actions">' + actions + '</div>' +
         '</article>';
@@ -918,6 +921,12 @@
     var session = parseSessionId(sessionId);
     if (!session) return false;
     return sessionStartTime(session).getTime() - Date.now() >= 3 * 60 * 60 * 1000;
+  }
+
+  function isSlotEnded(slot) {
+    var session = parseSessionId(slot ? slot.sessionId : "");
+    if (!session) return false;
+    return sessionStartTime(session).getTime() + 60 * 60 * 1000 <= Date.now();
   }
 
   function isBeforeCancelDeadline(reservation) {
