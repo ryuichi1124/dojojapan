@@ -313,13 +313,10 @@
         : reservation.reservationKind === "referral" ? "紹介同伴 / 回数消費なし" : "予約済み";
       var trainer = trainerForReservation(reservation);
       var canChange = changeable && reservation.reservationKind !== "referral";
-      var actions = "";
-      if (canChange || cancelable) {
-        actions = '<div class="reservation-actions">' +
-          (canChange ? '<button type="button" data-action="change" data-id="' + escapeHtml(reservation.id) + '">変更</button>' : '') +
-          (cancelable ? '<button type="button" data-action="cancel" data-id="' + escapeHtml(reservation.id) + '">キャンセル</button>' : '') +
-          '</div>';
-      }
+      var actions = '<div class="reservation-actions">' +
+        (canChange ? '<button type="button" data-action="change" data-id="' + escapeHtml(reservation.id) + '">変更</button>' : '') +
+        '<button type="button" data-action="cancel" data-id="' + escapeHtml(reservation.id) + '">キャンセル</button>' +
+        '</div>';
       return '<article class="reservation-card">' +
         '<div class="reservation-card__top"><span><b>' + sessionLabel(reservation.sessionId) + '</b><small>' + kindLabel + reservationDeadlineLabel(reservation, changeable, cancelable) + '</small><em>' + escapeHtml(trainer.label) + '</em></span></div>' +
         actions +
@@ -586,7 +583,7 @@
   function requestBook(sessionId, reservationKind) {
     reservationKind = reservationKind === "personal" ? "personal" : "regular";
     var personalText = reservationKind === "personal" ? "\n\nパーソナル予約です。別途料金3000円がかかります。またこの枠は満席となります。" : "";
-    var caution = postBookingDeadlineNote(sessionId, reservationKind);
+    var caution = bookingCancelCaution(reservationKind) + postBookingDeadlineNote(sessionId, reservationKind);
     if (reservationKind === "personal" && !isBeforeBookDeadline(sessionId, 6)) {
       showError(new Error("PERSONAL_BOOK_DEADLINE_PASSED"));
       return;
@@ -672,7 +669,7 @@
 
   function requestChange(id, toSessionId) {
     var reservationKind = state.changeReservationKind === "personal" ? "personal" : "regular";
-    var caution = postBookingDeadlineNote(toSessionId, reservationKind);
+    var caution = bookingCancelCaution(reservationKind) + postBookingDeadlineNote(toSessionId, reservationKind);
     openConfirm({
       title: "予約を変更しますか",
       message: sessionLabel(toSessionId) + " に変更します。" + caution,
@@ -687,12 +684,27 @@
   }
 
   function requestCancel(id) {
+    var reservation = state.reservations.find(function (item) {
+      return item.id === id;
+    });
+    if (!isBeforeCancelDeadline(reservation)) {
+      showCancelDeadlinePassed();
+      return;
+    }
     openConfirm({
       title: "キャンセルしますか",
       message: "この予約をキャンセルします。",
       run: function () {
         apiPost("reservations/cancel", { id: id }).then(loadAll).catch(showError);
       }
+    });
+  }
+
+  function showCancelDeadlinePassed() {
+    openConfirm({
+      title: "キャンセルできません",
+      message: "キャンセル可能時間を過ぎています。緊急の場合はスタッフへご連絡くださいませ。",
+      run: function () {}
     });
   }
 
@@ -926,6 +938,12 @@
       return "\n\nパーソナル予約のキャンセル締切（前日）を過ぎているため、予約後のキャンセルは公式LINEでご連絡ください。";
     }
     return "\n\n開始3時間前を過ぎているため、この予約はあとから変更・キャンセルできません。必要な場合は公式LINEでご連絡ください。";
+  }
+
+  function bookingCancelCaution(reservationKind) {
+    return reservationKind === "personal"
+      ? "\n\n※前日を超えるとキャンセルが出来ませんのでご注意ください。"
+      : "\n\n※開始3時間前を超えるとキャンセルが出来ませんのでご注意ください。";
   }
 
   function isBeforeBookDeadline(sessionId, hours) {
