@@ -51,6 +51,17 @@
         <button class="text-btn text-btn--small" type="button" id="ngCheckButton">NGチェック</button>
       </div>
 
+      <section class="owner-revenue-panel" id="ownerRevenuePanel" hidden aria-label="売上集計">
+        <div class="owner-revenue-panel__head">
+          <div>
+            <p class="eyebrow">OWNER REPORT</p>
+            <h2>売上集計</h2>
+          </div>
+          <input id="revenueMonthInput" type="month" />
+        </div>
+        <div class="owner-revenue-grid" id="ownerRevenueGrid"></div>
+      </section>
+
       <section class="line-booking-panel" id="lineBookingPanel" hidden aria-label="LINE仮予約" role="button" tabindex="0">
         <div class="line-booking-panel__head">
           <div>
@@ -131,6 +142,7 @@
           <button class="filter-tag" type="button" data-grade="semi8">月8</button>
           <button class="filter-tag" type="button" data-grade="semi4">月4</button>
           <button class="filter-tag" type="button" data-grade="semi2">月2</button>
+          <button class="filter-tag" type="button" data-grade="special">特別</button>
         </div>
 
         <div class="member-list" id="memberList" aria-label="会員一覧"></div>
@@ -141,6 +153,19 @@
           <label for="manualNameInput">未登録の名前で追加</label>
           <input id="manualNameInput" type="text" autocomplete="off" placeholder="例: 体験 太郎" />
         </div>
+        <div class="field">
+          <label for="manualBillingInput">区分</label>
+          <select id="manualBillingInput">
+            <option value="trial">初回無料体験（0円）</option>
+            <option value="visitor_first">ビジター1回目（3,000円）</option>
+            <option value="visitor_repeat">ビジター2回目以降（5,000円）</option>
+            <option value="manual">その他（0円）</option>
+          </select>
+        </div>
+        <label class="check-field">
+          <input id="manualDogiRentalInput" type="checkbox" />
+          <span>道着レンタル +2,000円</span>
+        </label>
         <button class="text-btn quick-add__button" type="button" id="manualAddButton">名前で追加</button>
       </div>
 
@@ -233,7 +258,18 @@
               <option value="semi8">準会員 月8</option>
               <option value="semi2">準会員 月2</option>
               <option value="prime">正会員（無制限）</option>
+              <option value="special">特別会員</option>
             </select>
+          </div>
+          <div class="special-plan-fields" id="registerSpecialPlanFields" hidden>
+            <div class="field">
+              <label for="registerMonthlyQuotaInput">月回数</label>
+              <input id="registerMonthlyQuotaInput" type="number" inputmode="numeric" min="0" max="99" placeholder="例: 6" />
+            </div>
+            <div class="field">
+              <label for="registerMonthlyFeeInput">月額</label>
+              <input id="registerMonthlyFeeInput" type="number" inputmode="numeric" min="0" step="1000" placeholder="例: 12000" />
+            </div>
           </div>
         </div>
       </section>
@@ -282,7 +318,18 @@
           <option value="semi8">準会員 月8</option>
           <option value="semi4">準会員 月4</option>
           <option value="semi2">準会員 月2</option>
+          <option value="special">特別会員</option>
         </select>
+      </div>
+      <div class="special-plan-fields" id="memberSpecialPlanFields" hidden>
+        <div class="field">
+          <label for="memberMonthlyQuotaInput">特別会員 月回数</label>
+          <input id="memberMonthlyQuotaInput" type="number" inputmode="numeric" min="0" max="99" placeholder="例: 6" />
+        </div>
+        <div class="field">
+          <label for="memberMonthlyFeeInput">特別会員 月額</label>
+          <input id="memberMonthlyFeeInput" type="number" inputmode="numeric" min="0" step="1000" placeholder="例: 12000" />
+        </div>
       </div>
       <div class="field">
         <label for="memberStatusInput">ステータス</label>
@@ -331,6 +378,7 @@
         <button class="filter-tag" type="button" data-grade="semi8">月8</button>
         <button class="filter-tag" type="button" data-grade="semi4">月4</button>
         <button class="filter-tag" type="button" data-grade="semi2">月2</button>
+        <button class="filter-tag" type="button" data-grade="special">特別</button>
       </div>
       <div class="manage-member-list" id="manageMemberList"></div>
     </div>

@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dojojapan-staging",
+  "compatibility_date": "2025-01-01",
+  "pages_build_output_dir": ".",
+  "kv_namespaces": [
+    {
+      "binding": "LINE_BOT_SESSIONS",
+      "id": "4331936a8ed043b0bc524848fbe2ecbe"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "RESERVATIONS_DB",
+      "database_name": "reservations-db-staging",
+      "database_id": "002ee028-e24e-4144-aab5-2730cc2935ef"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

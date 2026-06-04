@@ -17,6 +17,101 @@
   --font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
 }
 
+.owner-revenue-panel {
+  margin: 0 0 18px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(8,10,14,.78);
+  border-radius: 8px;
+}
+
+.owner-revenue-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.owner-revenue-panel__head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.owner-revenue-panel__head input {
+  min-width: 150px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+.owner-revenue-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.owner-revenue-card {
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  border-radius: 8px;
+}
+
+.owner-revenue-card small,
+.owner-revenue-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.owner-revenue-card b {
+  display: block;
+  margin: 6px 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+.owner-revenue-card--total {
+  border-color: rgba(201,21,42,.45);
+  background: rgba(201,21,42,.12);
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.special-plan-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .owner-revenue-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .owner-revenue-panel__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .special-plan-fields,
+  .owner-revenue-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -1564,7 +1659,7 @@ button {
 
 .reservation-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 34px;
+  grid-template-columns: minmax(0, 1fr) auto 34px;
   gap: 8px;
   align-items: center;
   padding: 10px 12px;
@@ -1616,6 +1711,38 @@ button {
 
 .reservation-quota-note {
   color: var(--muted);
+}
+
+.reservation-edit-btn {
+  min-width: 52px;
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .04);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.billing-edit-form {
+  display: grid;
+  gap: 12px;
+}
+
+.billing-edit-form .field {
+  gap: 8px;
+  margin: 0;
+}
+
+.billing-edit-rental {
+  margin-top: 0;
+}
+
+.billing-edit-note {
+  margin: 0 !important;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .remove-btn {

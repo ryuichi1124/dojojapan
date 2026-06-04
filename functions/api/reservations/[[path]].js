@@ -7,6 +7,20 @@ const TYPE_QUOTA = {
   semi8: 8,
   semi4: 4,
   semi2: 2,
+  special: 0,
+};
+
+const MONTHLY_FEES = {
+  prime: 33000,
+  semi8: 19000,
+  semi4: 15000,
+  semi2: 10000,
+};
+
+const MANUAL_BILLING = {
+  trial: 0,
+  visitor_first: 3000,
+  visitor_repeat: 5000,
 };
 
 const MEMBER_STATUSES = new Set(['active', 'paused']);
@@ -30,7 +44,7 @@ export async function onRequest(context) {
 
   try {
     let response;
-    if (request.method === 'GET' && path === 'bootstrap') response = await bootstrap(env);
+    if (request.method === 'GET' && path === 'bootstrap') response = await bootstrap(env, auth);
     else if (request.method === 'GET' && path === 'member-history') response = await memberHistory(url, env);
     else if (request.method === 'POST' && path === 'member') response = await upsertMember(request, env);
     else if (request.method === 'POST' && path === 'member-status') response = await updateMemberStatus(request, env);
@@ -38,6 +52,7 @@ export async function onRequest(context) {
     else if (request.method === 'POST' && path === 'member-access') response = await saveMemberAccess(request, env);
     else if (request.method === 'POST' && path === 'member-pin-reset') response = await resetMemberPin(request, env);
     else if (request.method === 'POST' && path === 'book') response = await bookReservation(request, env);
+    else if (request.method === 'POST' && path === 'reservation-billing') response = await updateReservationBilling(request, env);
     else if (request.method === 'POST' && path === 'cancel') response = await cancelReservation(request, env);
     else if (request.method === 'POST' && path === 'line-booking-approve') response = await approveLineBookingRequest(request, env);
     else if (request.method === 'POST' && path === 'line-booking-cancel') response = await cancelLineBookingRequest(request, env);
@@ -68,7 +83,8 @@ async function memberHistory(url, env) {
   const [member, rows] = await Promise.all([
     env.RESERVATIONS_DB.prepare(
       `select member_code as memberCode, display_name as displayName, member_kana as memberKana, member_type as memberType,
-       monthly_quota as monthlyQuota, quota_extra as quotaExtra, quota_extra_month as quotaExtraMonth,
+       monthly_quota as monthlyQuota, monthly_fee_yen as monthlyFeeYen,
+       quota_extra as quotaExtra, quota_extra_month as quotaExtraMonth,
        active, status as memberStatus
        from members where member_code = ?1 and active = 1`,
     ).bind(memberCode).first(),
@@ -77,6 +93,7 @@ async function memberHistory(url, env) {
        member_type as memberType, monthly_quota as monthlyQuota, status, created_by as createdBy,
        created_at as createdAt, cancelled_at as cancelledAt,
        reservation_kind as reservationKind, capacity_units as capacityUnits, price_yen as priceYen,
+       billing_category as billingCategory, rental_yen as rentalYen,
        quota_exempt as quotaExempt, quota_exempt_reason as quotaExemptReason,
        guest_name as guestName, guest_resident as guestResident, guest_count as guestCount
        from reservations
@@ -105,24 +122,39 @@ async function memberHistory(url, env) {
 }
 
 async function authorize(request, env) {
-  if (!env.RESERVATION_ADMIN_USER || !env.RESERVATION_ADMIN_PASSWORD) return { ok: false };
+  if (!hasAnyAdminCredential(env)) return { ok: false };
 
   if (await isAdminAuthLocked(request, env)) return { ok: false, locked: true };
 
   const credentials = getCredentials(request);
-  const ok = Boolean(
-    credentials &&
-      credentials.username === env.RESERVATION_ADMIN_USER &&
-      credentials.password === env.RESERVATION_ADMIN_PASSWORD,
-  );
+  const role = adminCredentialRole(credentials, env);
+  const ok = Boolean(role);
 
   if (ok) {
     await clearAdminAuthFailures(request, env);
-    return { ok: true };
+    return { ok: true, role };
   }
 
   const locked = await recordAdminAuthFailure(request, env);
   return { ok: false, locked };
+}
+
+function hasAnyAdminCredential(env) {
+  return Boolean(
+    (env.RESERVATION_ADMIN_USER && env.RESERVATION_ADMIN_PASSWORD) ||
+      (env.RESERVATION_OWNER_USER && env.RESERVATION_OWNER_PASSWORD),
+  );
+}
+
+function adminCredentialRole(credentials, env) {
+  if (!credentials) return false;
+  if (matchesCredential(credentials, env.RESERVATION_OWNER_USER, env.RESERVATION_OWNER_PASSWORD)) return 'owner';
+  if (matchesCredential(credentials, env.RESERVATION_ADMIN_USER, env.RESERVATION_ADMIN_PASSWORD)) return 'admin';
+  return '';
+}
+
+function matchesCredential(credentials, username, password) {
+  return Boolean(username && password && credentials.username === username && credentials.password === password);
 }
 
 function getCredentials(request) {
@@ -181,11 +213,12 @@ function clientIp(request) {
   return forwarded.split(',')[0].trim() || 'unknown';
 }
 
-async function bootstrap(env) {
+async function bootstrap(env, auth) {
   const [members, reservations, lineBookingRequests, memos, ngPairs, businessClosures, trainerOverrides, activeSessions] = await Promise.all([
     env.RESERVATIONS_DB.prepare(
       `select member_code as memberCode, display_name as displayName, member_kana as memberKana, member_type as memberType,
-       monthly_quota as monthlyQuota, quota_extra as quotaExtra, quota_extra_month as quotaExtraMonth,
+       monthly_quota as monthlyQuota, monthly_fee_yen as monthlyFeeYen,
+       quota_extra as quotaExtra, quota_extra_month as quotaExtraMonth,
        active, status as memberStatus, booking_token as bookingToken,
        phone_last4 as phoneLast4, birth_mmdd as birthMmdd, pause_on as pauseOn, token_revoked_at as tokenRevokedAt,
        pin_updated_at as pinUpdatedAt
@@ -196,6 +229,7 @@ async function bootstrap(env) {
        member_type as memberType, monthly_quota as monthlyQuota, status, created_by as createdBy,
        created_at as createdAt, cancelled_at as cancelledAt,
        reservation_kind as reservationKind, capacity_units as capacityUnits, price_yen as priceYen,
+       billing_category as billingCategory, rental_yen as rentalYen,
        quota_exempt as quotaExempt, quota_exempt_reason as quotaExemptReason,
        guest_name as guestName, guest_resident as guestResident, guest_count as guestCount
        from reservations
@@ -236,6 +270,7 @@ async function bootstrap(env) {
 
   return json({
     ok: true,
+    adminRole: auth.role || 'admin',
     members: members.results.map((member) => normalizeMemberRow({
       ...member,
       ngMemberCodes: ngByMember.get(member.memberCode) || [],
@@ -258,6 +293,8 @@ async function upsertMember(request, env) {
   const memberKana = normalizeName(input.memberKana);
   const memberType = String(input.memberType || '');
   const memberStatus = normalizeMemberStatus(input.memberStatus || input.status || 'active');
+  const specialMonthlyQuota = normalizeInteger(input.monthlyQuota, 0, 99);
+  const monthlyFeeYen = monthlyFeeForMemberType(memberType, input.monthlyFeeYen);
   const quotaExtra = normalizeInteger(input.quotaExtra, 0, 99);
   const quotaExtraMonth = quotaExtra > 0 ? normalizeMonthKey(input.quotaExtraMonth) || currentJstMonthKey() : null;
   const phoneLast4 = normalizeDigits(input.phoneLast4, 4);
@@ -265,17 +302,19 @@ async function upsertMember(request, env) {
   const pauseOn = normalizeDateKey(input.pauseOn);
   const ngMemberCodes = normalizeMemberCodeList(input.ngMemberCodes).filter((code) => code !== memberCode);
   if (!memberCode || !displayName || !(memberType in TYPE_QUOTA) || !memberStatus) throw new Error('INVALID_MEMBER');
+  if (memberType === 'special' && (specialMonthlyQuota < 0 || monthlyFeeYen < 0)) throw new Error('INVALID_MEMBER');
 
-  const monthlyQuota = TYPE_QUOTA[memberType];
+  const monthlyQuota = memberType === 'special' ? specialMonthlyQuota : TYPE_QUOTA[memberType];
   const statements = [
     env.RESERVATIONS_DB.prepare(
-      `insert into members(member_code, display_name, member_kana, member_type, monthly_quota, quota_extra, quota_extra_month, active, status, phone_last4, birth_mmdd, pause_on, updated_at)
-       values (?1, ?2, ?3, ?4, ?5, ?6, ?7, 1, ?8, ?9, ?10, ?11, datetime('now'))
+      `insert into members(member_code, display_name, member_kana, member_type, monthly_quota, monthly_fee_yen, quota_extra, quota_extra_month, active, status, phone_last4, birth_mmdd, pause_on, updated_at)
+       values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 1, ?9, ?10, ?11, ?12, datetime('now'))
        on conflict(member_code) do update set
          display_name = excluded.display_name,
          member_kana = excluded.member_kana,
          member_type = excluded.member_type,
          monthly_quota = excluded.monthly_quota,
+         monthly_fee_yen = excluded.monthly_fee_yen,
          quota_extra = excluded.quota_extra,
          quota_extra_month = excluded.quota_extra_month,
          status = excluded.status,
@@ -284,7 +323,7 @@ async function upsertMember(request, env) {
          pause_on = excluded.pause_on,
          active = 1,
          updated_at = datetime('now')`,
-    ).bind(memberCode, displayName, memberKana || null, memberType, monthlyQuota, quotaExtra, quotaExtraMonth, memberStatus, phoneLast4 || null, birthMmdd || null, pauseOn || null),
+    ).bind(memberCode, displayName, memberKana || null, memberType, monthlyQuota, monthlyFeeYen, quotaExtra, quotaExtraMonth, memberStatus, phoneLast4 || null, birthMmdd || null, pauseOn || null),
     env.RESERVATIONS_DB.prepare(
       `update reservations
        set display_name = ?2, member_type = ?3, monthly_quota = ?4
@@ -403,6 +442,8 @@ async function bookReservation(request, env) {
   if (session.hour < START_HOUR || session.hour >= END_HOUR) throw new Error('INVALID_SESSION');
   if (await isSessionClosed(env, sessionId)) throw new Error('SESSION_CLOSED');
   const reservationKind = normalizeReservationKind(input.reservationKind);
+  const billingCategory = normalizeBillingCategory(input.billingCategory);
+  const rentalYen = normalizeInteger(input.rentalYen, 0, 20000);
   const referralGuestNames = normalizeGuestNames(input.guestNames || input.guestName);
   const referralGuestCount = reservationKind === 'referral' ? referralGuestNames.length : 0;
   const capacityUnits = reservationKind === 'personal' ? CAPACITY : reservationKind === 'referral' ? 1 + referralGuestCount : 1;
@@ -457,11 +498,14 @@ async function bookReservation(request, env) {
       guestName: referralGuestNames.join('、'),
       guestResident,
       guestCount: referralGuestCount,
+      billingCategory: reservationKind === 'personal' ? 'personal' : 'member',
+      rentalYen: 0,
     };
   } else {
     if (reservationKind === 'personal' || reservationKind === 'referral') throw new Error('MEMBER_REQUIRED');
     const displayName = normalizeName(input.displayName);
     if (!displayName) throw new Error('INVALID_NAME');
+    const manualPriceYen = manualBillingPrice(billingCategory) + rentalYen;
     reservation = {
       id: crypto.randomUUID(),
       sessionId,
@@ -475,13 +519,15 @@ async function bookReservation(request, env) {
       cancelledAt: null,
       reservationKind: 'regular',
       capacityUnits: 1,
-      priceYen: null,
+      priceYen: manualPriceYen,
+      billingCategory,
+      rentalYen,
     };
   }
 
   const result = await env.RESERVATIONS_DB.prepare(
-      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, quota_exempt, quota_exempt_reason, guest_name, guest_resident, guest_count)
-     select ?1, ?2, ?3, ?4, ?5, ?6, 'confirmed', 'staff', datetime('now'), ?7, ?8, ?9, ?16, ?17, ?18, ?19, ?20
+      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, quota_exempt, quota_exempt_reason, guest_name, guest_resident, guest_count, billing_category, rental_yen)
+     select ?1, ?2, ?3, ?4, ?5, ?6, 'confirmed', 'staff', datetime('now'), ?7, ?8, ?9, ?16, ?17, ?18, ?19, ?20, ?21, ?22
      where (
        select coalesce(sum(coalesce(capacity_units, 1)), 0)
        from reservations
@@ -525,6 +571,8 @@ async function bookReservation(request, env) {
     reservation.guestName || null,
     reservation.guestResident || null,
     reservation.guestCount || 0,
+    reservation.billingCategory || 'member',
+    reservation.rentalYen || 0,
   ).run();
 
   if (Number(result?.meta?.changes || 0) !== 1) {
@@ -556,6 +604,39 @@ async function cancelReservation(request, env) {
     "update reservations set status = 'cancelled', cancelled_at = datetime('now') where id = ?1 and status = 'confirmed'",
   ).bind(id).run();
   return json({ ok: true, deleted: false });
+}
+
+async function updateReservationBilling(request, env) {
+  const input = await readJson(request);
+  const id = String(input.id || '').trim();
+  if (!id) throw new Error('INVALID_RESERVATION');
+
+  const reservation = await env.RESERVATIONS_DB.prepare(
+    "select id, reservation_kind as reservationKind from reservations where id = ?1 and status = 'confirmed'",
+  ).bind(id).first();
+  if (!reservation) throw new Error('RESERVATION_NOT_FOUND');
+
+  const billingCategory = normalizeReservationBillingCategory(input.billingCategory, reservation.reservationKind);
+  const rentalYen = normalizeInteger(input.rentalYen, 0, 20000);
+  const priceYen = reservationBillingPrice(billingCategory) + rentalYen;
+
+  await env.RESERVATIONS_DB.prepare(
+    "update reservations set billing_category = ?2, price_yen = ?3, rental_yen = ?4 where id = ?1 and status = 'confirmed'",
+  ).bind(id, billingCategory, priceYen, rentalYen).run();
+
+  const updated = await env.RESERVATIONS_DB.prepare(
+    `select id, session_id as sessionId, member_code as memberCode, display_name as displayName,
+       member_type as memberType, monthly_quota as monthlyQuota, status, created_by as createdBy,
+       created_at as createdAt, cancelled_at as cancelledAt,
+       reservation_kind as reservationKind, capacity_units as capacityUnits, price_yen as priceYen,
+       billing_category as billingCategory, rental_yen as rentalYen,
+       quota_exempt as quotaExempt, quota_exempt_reason as quotaExemptReason,
+       guest_name as guestName, guest_resident as guestResident, guest_count as guestCount
+       from reservations
+       where id = ?1`,
+  ).bind(id).first();
+
+  return json({ ok: true, reservation: updated });
 }
 
 async function listPendingLineBookingRequests(env) {
@@ -608,8 +689,8 @@ async function approveLineBookingRequest(request, env) {
   let result;
   try {
     result = await env.RESERVATIONS_DB.prepare(
-      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, line_booking_request_id, guest_count)
-     select ?1, ?2, ?3, ?4, ?5, null, 'confirmed', 'staff', datetime('now'), 'regular', ?6, ?7, ?11, 0
+      `insert into reservations(id, session_id, member_code, display_name, member_type, monthly_quota, status, created_by, created_at, reservation_kind, capacity_units, price_yen, line_booking_request_id, guest_count, billing_category, rental_yen)
+     select ?1, ?2, ?3, ?4, ?5, null, 'confirmed', 'staff', datetime('now'), 'regular', ?6, ?7, ?11, 0, ?12, 0
      where (
        select coalesce(sum(coalesce(capacity_units, 1)), 0)
        from reservations
@@ -631,6 +712,7 @@ async function approveLineBookingRequest(request, env) {
       session.dateKey,
       closurePeriodForHour(session.hour),
       id,
+      lineRequest.plan === 'trial' ? 'trial' : lineRequest.visitorVisit === 'repeat' ? 'visitor_repeat' : 'visitor_first',
     ).run();
   } catch (error) {
     if (/unique|constraint/i.test(error?.message || '')) throw new Error('LINE_BOOKING_ALREADY_APPROVED');
@@ -889,6 +971,34 @@ function normalizeReservationKind(value) {
   return RESERVATION_KIND.has(kind) ? kind : 'regular';
 }
 
+function normalizeBillingCategory(value) {
+  const category = String(value || 'manual').trim();
+  return Object.prototype.hasOwnProperty.call(MANUAL_BILLING, category) ? category : 'manual';
+}
+
+function manualBillingPrice(category) {
+  return Object.prototype.hasOwnProperty.call(MANUAL_BILLING, category) ? MANUAL_BILLING[category] : 0;
+}
+
+function normalizeReservationBillingCategory(value, reservationKind) {
+  const category = String(value || '').trim();
+  if (category === 'member' || category === 'personal') return category;
+  if (Object.prototype.hasOwnProperty.call(MANUAL_BILLING, category)) return category;
+  if (reservationKind === 'personal') return 'personal';
+  return 'member';
+}
+
+function reservationBillingPrice(category) {
+  if (category === 'personal') return 3000;
+  if (category === 'member') return 0;
+  return manualBillingPrice(category);
+}
+
+function monthlyFeeForMemberType(memberType, value) {
+  if (memberType === 'special') return normalizeInteger(value, 0, 1000000);
+  return MONTHLY_FEES[memberType] ?? 0;
+}
+
 function normalizeClosurePeriod(value) {
   const period = String(value || '').trim();
   return ['morning', 'afternoon', 'full'].includes(period) ? period : '';
@@ -917,6 +1027,7 @@ function normalizeMemberRow(member) {
   const memberStatus = active ? effectiveMemberStatus(member) : 'deleted';
   return {
     ...member,
+    monthlyFeeYen: normalizeInteger(member.monthlyFeeYen, 0, 1000000),
     quotaExtra: normalizeInteger(member.quotaExtra, 0, 99),
     quotaExtraMonth: normalizeMonthKey(member.quotaExtraMonth),
     pauseOn: normalizeDateKey(member.pauseOn),

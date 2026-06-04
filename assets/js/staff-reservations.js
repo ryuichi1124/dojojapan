@@ -10,6 +10,14 @@
   var CAPACITY = 6;
   var START_HOUR = 7;
   var END_HOUR = 18;
+  var MONTHLY_FEES = { prime: 33000, semi8: 19000, semi4: 15000, semi2: 10000 };
+  var MANUAL_BILLING = {
+    trial: { label: "初回無料体験", price: 0 },
+    visitor_first: { label: "ビジター1回目", price: 3000 },
+    visitor_repeat: { label: "ビジター2回目以降", price: 5000 },
+    manual: { label: "その他", price: 0 }
+  };
+  var DOGI_RENTAL_YEN = 2000;
   var memoSaveTimer = 0;
   var memoSaveSequence = 0;
   var dayNames = ["日", "月", "火", "水", "木", "金", "土"];
@@ -39,6 +47,8 @@
     businessClosures: loadJson(BUSINESS_CLOSURES_KEY, []),
     trainerOverrides: loadJson(TRAINER_OVERRIDES_KEY, []),
     remote: false,
+    adminRole: "admin",
+    revenueMonth: currentMonthKey(),
     adminCredentials: loadSessionJson(ADMIN_CREDENTIALS_KEY, null),
     pendingAction: null,
     memberGradeFilter: "all",
@@ -71,6 +81,8 @@
     memberGradeFilters: document.getElementById("memberGradeFilters"),
     memberList: document.getElementById("memberList"),
     manualNameInput: document.getElementById("manualNameInput"),
+    manualBillingInput: document.getElementById("manualBillingInput"),
+    manualDogiRentalInput: document.getElementById("manualDogiRentalInput"),
     manualAddButton: document.getElementById("manualAddButton"),
     personalAddButton: document.getElementById("personalAddButton"),
     reservationList: document.getElementById("reservationList"),
@@ -88,6 +100,9 @@
     reloadButton: document.getElementById("reloadButton"),
     logoutButton: document.getElementById("logoutButton")
   };
+  els.ownerRevenuePanel = document.getElementById("ownerRevenuePanel");
+  els.revenueMonthInput = document.getElementById("revenueMonthInput");
+  els.ownerRevenueGrid = document.getElementById("ownerRevenueGrid");
 
   els.reservationModal = document.getElementById("reservationModal");
   els.reservationBackdrop = document.getElementById("reservationBackdrop");
@@ -116,6 +131,9 @@
   els.registerDisplayNameInput = document.getElementById("registerDisplayNameInput");
   els.registerMemberKanaInput = document.getElementById("registerMemberKanaInput");
   els.registerMemberTypeInput = document.getElementById("registerMemberTypeInput");
+  els.registerSpecialPlanFields = document.getElementById("registerSpecialPlanFields");
+  els.registerMonthlyQuotaInput = document.getElementById("registerMonthlyQuotaInput");
+  els.registerMonthlyFeeInput = document.getElementById("registerMonthlyFeeInput");
   els.registerPhoneLast4Input = document.getElementById("registerPhoneLast4Input");
   els.registerBirthMmddInput = document.getElementById("registerBirthMmddInput");
   els.memberRegisterSubmit = document.getElementById("memberRegisterSubmit");
@@ -137,6 +155,9 @@
   els.displayNameInput = document.getElementById("displayNameInput");
   els.memberKanaInput = document.getElementById("memberKanaInput");
   els.memberTypeInput = document.getElementById("memberTypeInput");
+  els.memberSpecialPlanFields = document.getElementById("memberSpecialPlanFields");
+  els.memberMonthlyQuotaInput = document.getElementById("memberMonthlyQuotaInput");
+  els.memberMonthlyFeeInput = document.getElementById("memberMonthlyFeeInput");
   els.memberStatusInput = document.getElementById("memberStatusInput");
   els.quotaExtraInput = document.getElementById("quotaExtraInput");
   els.pauseOnInput = document.getElementById("pauseOnInput");
@@ -205,6 +226,19 @@
 
     els.logoutButton.addEventListener("click", logout);
     els.reloadButton.addEventListener("click", loadRemoteData);
+    if (els.revenueMonthInput) {
+      els.revenueMonthInput.value = state.revenueMonth;
+      els.revenueMonthInput.addEventListener("change", function () {
+        state.revenueMonth = normalizeMonthKey(els.revenueMonthInput.value) || currentMonthKey();
+        renderOwnerRevenue();
+      });
+    }
+    if (els.registerMemberTypeInput) {
+      els.registerMemberTypeInput.addEventListener("change", updateRegisterSpecialFields);
+    }
+    if (els.memberTypeInput) {
+      els.memberTypeInput.addEventListener("change", updateMemberSpecialFields);
+    }
     els.ngCheckButton.addEventListener("click", runNgCheck);
     els.openMemberRegister.addEventListener("click", openMemberRegister);
     els.openBusinessManage.addEventListener("click", openBusinessManage);
@@ -289,6 +323,7 @@
     renderWeekLabel();
     renderViewMode();
     renderLineBookingRequests();
+    renderOwnerRevenue();
     if (state.viewMode === "month") renderMonthView();
     else renderTimetable();
     renderSelectedPanel();
@@ -343,6 +378,92 @@
         requestCancelLineBooking(button.getAttribute("data-line-booking-id"));
       });
     });
+  }
+
+  function renderOwnerRevenue() {
+    if (!els.ownerRevenuePanel || !els.ownerRevenueGrid) return;
+    var isOwner = state.adminRole === "owner";
+    els.ownerRevenuePanel.hidden = !isOwner;
+    if (!isOwner) {
+      els.ownerRevenueGrid.innerHTML = "";
+      return;
+    }
+    var monthKey = normalizeMonthKey(state.revenueMonth) || currentMonthKey();
+    state.revenueMonth = monthKey;
+    if (els.revenueMonthInput && els.revenueMonthInput.value !== monthKey) {
+      els.revenueMonthInput.value = monthKey;
+    }
+
+    var selected = parseSessionId(state.selectedSessionId);
+    var selectedDateKey = toDateKey(selected.date);
+    var membership = membershipRevenueSummary(monthKey);
+    var monthlyBookings = bookingRevenueSummary(function (reservation) {
+      return reservationMonthKey(reservation) === monthKey;
+    });
+    var dailyBookings = bookingRevenueSummary(function (reservation) {
+      return reservationDateKey(reservation) === selectedDateKey;
+    });
+    var monthlyTotal = membership.total + monthlyBookings.total;
+
+    els.ownerRevenueGrid.innerHTML =
+      '<article class="owner-revenue-card owner-revenue-card--total">' +
+        '<small>月報合計</small>' +
+        '<b>' + formatJPY(monthlyTotal) + '</b>' +
+        '<span>' + escapeHtml(formatMonthKey(monthKey)) + '</span>' +
+      '</article>' +
+      '<article class="owner-revenue-card">' +
+        '<small>会費見込み</small>' +
+        '<b>' + formatJPY(membership.total) + '</b>' +
+        '<span>' + escapeHtml(membership.detail) + '</span>' +
+      '</article>' +
+      '<article class="owner-revenue-card">' +
+        '<small>月間都度売上</small>' +
+        '<b>' + formatJPY(monthlyBookings.total) + '</b>' +
+        '<span>' + escapeHtml(monthlyBookings.detail) + '</span>' +
+      '</article>' +
+      '<article class="owner-revenue-card">' +
+        '<small>日報</small>' +
+        '<b>' + formatJPY(dailyBookings.total) + '</b>' +
+        '<span>' + escapeHtml(formatMonthDay(selected.date) + " / " + dailyBookings.detail) + '</span>' +
+      '</article>';
+  }
+
+  function membershipRevenueSummary(monthKey) {
+    var counts = {};
+    var total = 0;
+    state.members.forEach(function (member) {
+      if (memberStatusOf(member) === "deleted") return;
+      var fee = monthlyFeeForMember(member);
+      total += fee;
+      var label = memberTypeLabel(member.memberType);
+      if (!counts[label]) counts[label] = { count: 0, total: 0 };
+      counts[label].count += 1;
+      counts[label].total += fee;
+    });
+    var detail = Object.keys(counts).map(function (label) {
+      return label + " " + counts[label].count + "名";
+    }).join(" / ") || "対象なし";
+    return { total: total, detail: detail, monthKey: monthKey };
+  }
+
+  function bookingRevenueSummary(predicate) {
+    var counts = {};
+    var total = 0;
+    state.reservations.forEach(function (reservation) {
+      if (reservation.status === "cancelled") return;
+      if (!predicate(reservation)) return;
+      var price = normalizeInteger(reservation.priceYen, 0, 1000000);
+      if (!price) return;
+      total += price;
+      var label = billingCategoryLabel(reservation.billingCategory || billingCategoryForReservation(reservation));
+      if (!counts[label]) counts[label] = { count: 0, total: 0 };
+      counts[label].count += 1;
+      counts[label].total += price;
+    });
+    var detail = Object.keys(counts).map(function (label) {
+      return label + " " + counts[label].count + "件";
+    }).join(" / ") || "売上なし";
+    return { total: total, detail: detail };
   }
 
   function toggleLineBookingPanel() {
@@ -593,10 +714,16 @@
       var itemClass = reservation.reservationKind === "referral" ? " reservation-item--referral" : "";
       return '<li class="reservation-item' + itemClass + '">' +
         '<span><b>' + escapeHtml(reservation.displayName) + '</b><small>' + escapeHtml(reservation.memberCode) + ' / ' + memberTypeLabel(reservation.memberType) + detail + '</small></span>' +
+        '<button class="reservation-edit-btn" type="button" data-reservation-id="' + reservation.id + '" aria-label="請求区分を編集">編集</button>' +
         '<button class="remove-btn" type="button" data-reservation-id="' + reservation.id + '" aria-label="予約を削除">×</button>' +
         '</li>';
     }).join("");
 
+    Array.prototype.forEach.call(els.reservationList.querySelectorAll(".reservation-edit-btn"), function (button) {
+      button.addEventListener("click", function () {
+        requestEditReservationBilling(button.getAttribute("data-reservation-id"));
+      });
+    });
     Array.prototype.forEach.call(els.reservationList.querySelectorAll(".remove-btn"), function (button) {
       button.addEventListener("click", function () {
         requestCancelReservation(button.getAttribute("data-reservation-id"));
@@ -637,6 +764,45 @@
     });
   }
 
+  function requestEditReservationBilling(reservationId) {
+    var reservation = state.reservations.find(function (item) {
+      return item.id === reservationId;
+    });
+    if (!reservation) return;
+
+    var category = reservation.billingCategory || billingCategoryForReservation(reservation);
+    var rentalYen = normalizeInteger(reservation.rentalYen, 0, 20000);
+    openConfirm({
+      title: "請求区分を変更しますか",
+      message: reservation.displayName + " の売上区分を変更します。",
+      run: function () {
+        var select = els.confirmExtra.querySelector("[data-reservation-billing]");
+        var rental = els.confirmExtra.querySelector("[data-reservation-rental]");
+        var nextCategory = select ? select.value : category;
+        var nextRentalYen = rental && rental.checked ? DOGI_RENTAL_YEN : 0;
+        updateReservationBilling(reservationId, nextCategory, nextRentalYen);
+      },
+      extra:
+        '<div class="billing-edit-form">' +
+          '<label class="field">区分' +
+            '<select data-reservation-billing>' +
+              billingOption("member", "会員予約（0円）", category) +
+              billingOption("trial", "初回無料体験（0円）", category) +
+              billingOption("visitor_first", "ビジター1回目（3,000円）", category) +
+              billingOption("visitor_repeat", "ビジター2回目以降（5,000円）", category) +
+              billingOption("manual", "その他（0円）", category) +
+              billingOption("personal", "パーソナル（3,000円）", category) +
+            '</select>' +
+          '</label>' +
+          '<label class="check-field billing-edit-rental">' +
+            '<input data-reservation-rental type="checkbox"' + (rentalYen > 0 ? " checked" : "") + ' />' +
+            '<span>道着レンタル +2,000円</span>' +
+          '</label>' +
+          '<p class="billing-edit-note">予約枠・会員種別は変更せず、売上計算用の区分と金額だけを更新します。</p>' +
+        '</div>'
+    });
+  }
+
   function requestApproveLineBooking(requestId) {
     var request = findLineBookingRequest(requestId);
     if (!request) return;
@@ -670,12 +836,15 @@
     var session = parseSessionId(state.selectedSessionId);
     var reservations = getReservationsForSession(state.selectedSessionId);
     if (!displayName || sessionUnits(reservations) >= CAPACITY) return;
+    var billingCategory = manualBillingCategory();
+    var rentalYen = els.manualDogiRentalInput && els.manualDogiRentalInput.checked ? DOGI_RENTAL_YEN : 0;
+    var priceYen = manualBillingPrice(billingCategory) + rentalYen;
 
     openConfirm({
       title: "名前だけで予約を追加しますか",
-      message: formatMonthDay(session.date) + " " + pad(session.hour) + ":00-" + pad(session.hour + 1) + ":00 に " + displayName + " を追加します。会員登録は行いません。",
+      message: formatMonthDay(session.date) + " " + pad(session.hour) + ":00-" + pad(session.hour + 1) + ":00 に " + displayName + " を追加します。\n" + billingCategoryLabel(billingCategory) + " / " + formatJPY(priceYen),
       run: function () {
-        addManualReservation(displayName);
+        addManualReservation(displayName, billingCategory, rentalYen);
       }
     });
   }
@@ -803,14 +972,18 @@
     render();
   }
 
-  function addManualReservation(displayName) {
+  function addManualReservation(displayName, billingCategory, rentalYen) {
     var reservations = getReservationsForSession(state.selectedSessionId);
     if (!displayName || getClosureForSession(parseSessionId(state.selectedSessionId)) || sessionUnits(reservations) >= CAPACITY) return;
+    billingCategory = billingCategory || "manual";
+    rentalYen = normalizeInteger(rentalYen, 0, 20000);
+    var priceYen = manualBillingPrice(billingCategory) + rentalYen;
 
     if (state.remote) {
-      apiPost("book", { sessionId: state.selectedSessionId, displayName: displayName }).then(function (data) {
+      apiPost("book", { sessionId: state.selectedSessionId, displayName: displayName, billingCategory: billingCategory, rentalYen: rentalYen }).then(function (data) {
         state.reservations.push(normalizeReservation(data.reservation));
         els.manualNameInput.value = "";
+        if (els.manualDogiRentalInput) els.manualDogiRentalInput.checked = false;
         saveReservations();
         render();
       }).catch(showApiError);
@@ -830,10 +1003,13 @@
       cancelledAt: "",
       reservationKind: "regular",
       capacityUnits: 1,
-      priceYen: null
+      priceYen: priceYen,
+      billingCategory: billingCategory,
+      rentalYen: rentalYen
     });
 
     els.manualNameInput.value = "";
+    if (els.manualDogiRentalInput) els.manualDogiRentalInput.checked = false;
     saveReservations();
     render();
   }
@@ -851,6 +1027,39 @@
     removeReservation(reservationId);
     saveReservations();
     render();
+  }
+
+  function updateReservationBilling(reservationId, billingCategory, rentalYen) {
+    billingCategory = normalizeReservationBillingCategory(billingCategory);
+    rentalYen = normalizeInteger(rentalYen, 0, 20000);
+    var priceYen = reservationBillingPrice(billingCategory) + rentalYen;
+    var apply = function (reservation) {
+      replaceReservation(reservationId, normalizeReservation(reservation || {
+        id: reservationId,
+        billingCategory: billingCategory,
+        rentalYen: rentalYen,
+        priceYen: priceYen
+      }));
+      saveReservations();
+      render();
+    };
+
+    if (state.remote) {
+      apiPost("reservation-billing", { id: reservationId, billingCategory: billingCategory, rentalYen: rentalYen }).then(function (data) {
+        apply(data.reservation);
+      }).catch(showApiError);
+      return;
+    }
+
+    var current = state.reservations.find(function (reservation) {
+      return reservation.id === reservationId;
+    });
+    if (!current) return;
+    apply(Object.assign({}, current, {
+      billingCategory: billingCategory,
+      rentalYen: rentalYen,
+      priceYen: priceYen
+    }));
   }
 
   function approveLineBooking(requestId) {
@@ -903,6 +1112,12 @@
     });
   }
 
+  function replaceReservation(reservationId, nextReservation) {
+    state.reservations = state.reservations.map(function (reservation) {
+      return reservation.id === reservationId ? Object.assign({}, reservation, nextReservation) : reservation;
+    });
+  }
+
   function normalizeReservation(reservation) {
     return Object.assign({
       status: "confirmed",
@@ -912,12 +1127,26 @@
       reservationKind: "regular",
       capacityUnits: 1,
       priceYen: null,
+      billingCategory: "",
+      rentalYen: 0,
       quotaExempt: false,
       quotaExemptReason: "",
       guestName: "",
       guestResident: "",
       guestCount: 0
     }, reservation);
+  }
+
+  function updateRegisterSpecialFields() {
+    if (!els.registerSpecialPlanFields || !els.registerMemberTypeInput) return;
+    var special = els.registerMemberTypeInput.value === "special";
+    els.registerSpecialPlanFields.hidden = !special;
+  }
+
+  function updateMemberSpecialFields() {
+    if (!els.memberSpecialPlanFields || !els.memberTypeInput) return;
+    var special = els.memberTypeInput.value === "special";
+    els.memberSpecialPlanFields.hidden = !special;
   }
 
   function openReservationModal() {
@@ -1082,6 +1311,9 @@
     els.registerDisplayNameInput.value = "";
     els.registerMemberKanaInput.value = "";
     els.registerMemberTypeInput.value = "semi4";
+    if (els.registerMonthlyQuotaInput) els.registerMonthlyQuotaInput.value = "";
+    if (els.registerMonthlyFeeInput) els.registerMonthlyFeeInput.value = "";
+    updateRegisterSpecialFields();
     if (els.registerPhoneLast4Input) els.registerPhoneLast4Input.value = "";
     if (els.registerBirthMmddInput) els.registerBirthMmddInput.value = "";
     els.memberRegisterGuideText.value = "";
@@ -1095,12 +1327,15 @@
     var displayName = els.registerDisplayNameInput.value.trim();
     var memberKana = normalizeKanaInput(els.registerMemberKanaInput.value);
     var memberType = els.registerMemberTypeInput.value;
+    var monthlyQuota = memberType === "special" ? normalizeInteger(els.registerMonthlyQuotaInput.value, 0, 99) : quotaForMemberType(memberType);
+    var monthlyFeeYen = memberType === "special" ? normalizeInteger(els.registerMonthlyFeeInput.value, 0, 1000000) : monthlyFeeForType(memberType);
     var memberData = {
       memberCode: memberCode,
       displayName: displayName,
       memberKana: memberKana,
       memberType: memberType,
-      monthlyQuota: quotaForMemberType(memberType),
+      monthlyQuota: monthlyQuota,
+      monthlyFeeYen: monthlyFeeYen,
       quotaExtra: 0,
       quotaExtraMonth: "",
       memberStatus: "active",
@@ -1112,6 +1347,7 @@
     };
 
     if (!memberCode || !displayName) return;
+    if (memberType === "special" && monthlyFeeYen <= 0) return showApiError(new Error("特別会員の月額を入力してください。"));
     if (state.members.some(function (member) { return member.memberCode === memberCode && memberStatusOf(member) !== "deleted"; })) {
       openConfirm({
         title: "登録できません",
@@ -1190,6 +1426,9 @@
     els.displayNameInput.value = "";
     els.memberKanaInput.value = "";
     els.memberTypeInput.value = "semi4";
+    if (els.memberMonthlyQuotaInput) els.memberMonthlyQuotaInput.value = "";
+    if (els.memberMonthlyFeeInput) els.memberMonthlyFeeInput.value = "";
+    updateMemberSpecialFields();
     els.memberStatusInput.value = "active";
     els.quotaExtraInput.value = "";
     els.pauseOnInput.value = "";
@@ -1209,13 +1448,16 @@
     var memberKana = normalizeKanaInput(els.memberKanaInput.value);
     var memberType = els.memberTypeInput.value;
     var memberStatus = els.memberStatusInput.value === "paused" ? "paused" : "active";
+    var monthlyQuota = memberType === "special" ? normalizeInteger(els.memberMonthlyQuotaInput.value, 0, 99) : quotaForMemberType(memberType);
+    var monthlyFeeYen = memberType === "special" ? normalizeInteger(els.memberMonthlyFeeInput.value, 0, 1000000) : monthlyFeeForType(memberType);
     var quotaExtra = normalizeInteger(els.quotaExtraInput.value, 0, 99);
     var memberData = {
       memberCode: memberCode,
       displayName: displayName,
       memberKana: memberKana,
       memberType: memberType,
-      monthlyQuota: quotaForMemberType(memberType),
+      monthlyQuota: monthlyQuota,
+      monthlyFeeYen: monthlyFeeYen,
       quotaExtra: quotaExtra,
       quotaExtraMonth: quotaExtra > 0 ? currentMonthKey() : "",
       memberStatus: memberStatus,
@@ -1229,6 +1471,7 @@
     };
 
     if (!memberCode || !displayName) return;
+    if (memberType === "special" && monthlyFeeYen <= 0) return showApiError(new Error("特別会員の月額を入力してください。"));
 
     if (!editingCode && state.members.some(function (member) { return member.memberCode === memberCode; })) {
       openConfirm({
@@ -1256,7 +1499,7 @@
 
     els.memberManageCount.textContent = activeMembers.length + "名";
     els.manageMemberList.innerHTML = activeMembers.map(function (member) {
-      var quota = manageQuotaLabel(member);
+      var quota = manageQuotaLabel(member) + " / " + formatJPY(monthlyFeeForMember(member));
       var accessState = member.bookingToken ? "URL発行済み" : "URL未発行";
       var status = memberStatusOf(member);
       var displayStatus = manageMemberStatusOf(member);
@@ -1295,6 +1538,9 @@
     els.displayNameInput.value = member.displayName;
     els.memberKanaInput.value = member.memberKana || "";
     els.memberTypeInput.value = member.memberType;
+    if (els.memberMonthlyQuotaInput) els.memberMonthlyQuotaInput.value = member.memberType === "special" ? String(normalizeInteger(member.monthlyQuota, 0, 99)) : "";
+    if (els.memberMonthlyFeeInput) els.memberMonthlyFeeInput.value = member.memberType === "special" ? String(normalizeInteger(member.monthlyFeeYen, 0, 1000000)) : "";
+    updateMemberSpecialFields();
     els.memberStatusInput.value = memberStatusOf(member) === "paused" ? "paused" : "active";
     els.quotaExtraInput.value = normalizeMonthKey(member.quotaExtraMonth) === currentMonthKey() && member.quotaExtra ? String(member.quotaExtra) : "";
     els.pauseOnInput.value = normalizeDateKey(member.pauseOn);
@@ -1716,9 +1962,13 @@
 
   function normalizeMember(member) {
     var status = member.active === false ? "deleted" : member.memberStatus || "active";
+    var memberType = member.memberType || "semi4";
     return Object.assign({}, member, {
       active: status !== "deleted" && member.active !== false,
       memberStatus: status,
+      memberType: memberType,
+      monthlyQuota: member.monthlyQuota === null || member.monthlyQuota === undefined ? quotaForMemberType(memberType) : normalizeInteger(member.monthlyQuota, 0, 99),
+      monthlyFeeYen: normalizeInteger(member.monthlyFeeYen === undefined || member.monthlyFeeYen === null ? monthlyFeeForType(memberType) : member.monthlyFeeYen, 0, 1000000),
       memberKana: normalizeKanaInput(member.memberKana),
       quotaExtra: normalizeInteger(member.quotaExtra, 0, 99),
       quotaExtraMonth: normalizeMonthKey(member.quotaExtraMonth),
@@ -1787,8 +2037,8 @@
 
   function runPendingAction() {
     var action = state.pendingAction;
-    closeConfirm();
     if (typeof action === "function") action();
+    closeConfirm();
   }
 
   function getReservationsForSession(sessionId) {
@@ -1841,8 +2091,11 @@
     if (reservation.reservationKind === "referral") {
       return ' / <strong class="reservation-detail-kind">紹介同伴</strong><span class="reservation-guest-name">体験者: ' + escapeHtml(reservation.guestName || "未入力") + '</span><span class="reservation-quota-note">回数消費なし</span>';
     }
-    if (reservation.reservationKind !== "personal") return "";
-    return " / パーソナル予約 / 別途3000円 / 満席枠";
+    if (reservation.reservationKind === "personal") return " / パーソナル予約 / 別途3000円 / 満席枠";
+    if (reservation.memberCode === "MANUAL") {
+      return " / " + billingCategoryLabel(reservation.billingCategory || "manual") + " / " + formatJPY(reservation.priceYen || 0);
+    }
+    return "";
   }
 
   function findLineBookingRequest(requestId) {
@@ -2078,6 +2331,7 @@
     }).then(function (data) {
       if (!data.ok) throw new Error(data.error || "REMOTE_ERROR");
       state.remote = true;
+      state.adminRole = data.adminRole === "owner" ? "owner" : "admin";
       state.members = data.members.length ? data.members.map(normalizeMember) : state.members.map(normalizeMember);
       state.reservations = data.reservations || [];
       state.lineBookingRequests = data.lineBookingRequests || [];
@@ -2202,6 +2456,7 @@
   function logout() {
     clearAdminCredentials();
     state.remote = false;
+    state.adminRole = "admin";
     setSaveState("未接続", "error");
     showAuthGate("");
   }
@@ -2407,7 +2662,18 @@
     if (memberType === "semi8") return 8;
     if (memberType === "semi4") return 4;
     if (memberType === "semi2") return 2;
+    if (memberType === "special") return 0;
     return 4;
+  }
+
+  function monthlyFeeForType(memberType) {
+    return MONTHLY_FEES[memberType] || 0;
+  }
+
+  function monthlyFeeForMember(member) {
+    if (!member) return 0;
+    if (member.memberType === "special") return normalizeInteger(member.monthlyFeeYen, 0, 1000000);
+    return monthlyFeeForType(member.memberType);
   }
 
   function nextMemberCode() {
@@ -2429,8 +2695,58 @@
     if (memberType === "semi8") return "準会員 月8";
     if (memberType === "semi4") return "準会員 月4";
     if (memberType === "semi2") return "準会員 月2";
+    if (memberType === "special") return "特別会員";
     if (memberType === "manual") return "未登録";
     return "準会員";
+  }
+
+  function manualBillingCategory() {
+    var category = els.manualBillingInput ? els.manualBillingInput.value : "manual";
+    return MANUAL_BILLING[category] ? category : "manual";
+  }
+
+  function manualBillingPrice(category) {
+    return MANUAL_BILLING[category] ? MANUAL_BILLING[category].price : 0;
+  }
+
+  function normalizeReservationBillingCategory(category) {
+    if (category === "member" || category === "personal") return category;
+    return MANUAL_BILLING[category] ? category : "manual";
+  }
+
+  function reservationBillingPrice(category) {
+    if (category === "personal") return 3000;
+    if (category === "member") return 0;
+    return manualBillingPrice(category);
+  }
+
+  function billingCategoryLabel(category) {
+    if (MANUAL_BILLING[category]) return MANUAL_BILLING[category].label;
+    if (category === "personal") return "パーソナル";
+    if (category === "member") return "会員予約";
+    return "その他";
+  }
+
+  function billingCategoryForReservation(reservation) {
+    if (reservation.reservationKind === "personal") return "personal";
+    if (reservation.memberCode && reservation.memberCode !== "MANUAL") return "member";
+    return "manual";
+  }
+
+  function reservationDateKey(reservation) {
+    return String(reservation.sessionId || "").slice(0, 10);
+  }
+
+  function reservationMonthKey(reservation) {
+    return String(reservation.sessionId || "").slice(0, 7);
+  }
+
+  function formatJPY(value) {
+    return "¥" + normalizeInteger(value, 0, 100000000).toLocaleString("ja-JP");
+  }
+
+  function billingOption(value, label, current) {
+    return '<option value="' + value + '"' + (value === current ? " selected" : "") + '>' + label + '</option>';
   }
 
   function escapeHtml(value) {
