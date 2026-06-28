@@ -113,6 +113,68 @@
     });
   }
 
+  /* ---------- Trainer detail: hero video popup ---------- */
+  const trainerVideoButtons = document.querySelectorAll('[data-trainer-video-src]');
+  if (trainerVideoButtons.length) {
+    const modal = document.createElement('div');
+    modal.className = 'trainer-video-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = [
+      '<div class="trainer-video-modal__inner">',
+      '<button class="trainer-video-modal__close" type="button" aria-label="閉じる">',
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71L12 12l6.3 6.29-1.41 1.41L10.59 13.4 4.3 19.71 2.89 18.3 9.18 12 2.89 5.71 4.3 4.3l6.29 6.29 6.3-6.29z"/></svg>',
+      '</button>',
+      '<video class="trainer-video-modal__video" controls playsinline preload="metadata"></video>',
+      '</div>'
+    ].join('');
+    document.body.appendChild(modal);
+
+    const modalVideo = modal.querySelector('video');
+    const closeBtn = modal.querySelector('button');
+    let lastFocus = null;
+
+    const closeTrainerVideo = () => {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      try { modalVideo.pause(); } catch (_) {}
+      modalVideo.removeAttribute('src');
+      modalVideo.removeAttribute('poster');
+      modalVideo.load();
+      if (lastFocus) lastFocus.focus();
+    };
+
+    const openTrainerVideo = (btn) => {
+      const src = btn.dataset.trainerVideoSrc;
+      if (!src) return;
+      lastFocus = btn;
+      modalVideo.src = src;
+      if (btn.dataset.trainerVideoPoster) modalVideo.poster = btn.dataset.trainerVideoPoster;
+      modalVideo.setAttribute('aria-label', btn.dataset.trainerVideoTitle || 'Trainer movie');
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+      setTimeout(() => { try { modalVideo.play(); } catch (_) {} }, 80);
+    };
+
+    trainerVideoButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openTrainerVideo(btn);
+      });
+    });
+    closeBtn.addEventListener('click', closeTrainerVideo);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeTrainerVideo();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeTrainerVideo();
+    });
+  }
+
   /* ---------- GYM cells: highlight on scroll-in (SP visual cue) -------- */
   const gymCells = document.querySelectorAll('.gym__cell');
   if (gymCells.length) {
